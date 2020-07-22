@@ -1,0 +1,35 @@
+This app streams games, programs, or your full desktop from an NVIDIA GameStream-compatible PC on your local network or the Internet using NVIDIA GeForce Experience. Mouse, keyboard, and controller input is sent from your Android device to the PC.
+
+Streaming performance may vary based on your client device and network setup. HDR requires an HDR10-capable device, GTX 1000-series GPU, and HDR10-enabled game.
+
+'''Features'''
+* Open-source and completely free (no ads, IAPs, or "Pro")
+* Streams games purchased from any store
+* Works on your home network or over the Internet/LTE
+* Up to 4K 120 FPS HDR streaming with 7.1 surround sound
+* Keyboard and mouse support (best with Android 8.0 or later)
+* Stylus/S-Pen support
+* Supports PS3, PS4, Xbox 360, Xbox One, and Android gamepads
+* Force feedback support
+* Local co-op with up to 4 connected controllers
+* Mouse control via gamepad by long-pressing Start
+
+'''PC Requirements'''
+* NVIDIA GeForce GTX/RTX or NVIDIA Quadro GPU
+* Windows 7 or later
+* NVIDIA GeForce Experience or NVIDIA Quadro Experience installed
+
+'''Quick Setup Instructions'''
+# Make sure GeForce/Quadro Experience is open on your PC. Turn on GameStream in the SHIELD settings page.
+# Tap on the PC in Moonlight and type the PIN on your PC
+# Start streaming!
+
+To have a good experience, you need a mid to high-end wireless router with a good wireless connection to your Android device (5 GHz highly recommended) and a good connection from your PC to your router (Ethernet highly recommended).
+
+'''Detailed Setup Instructions'''
+See the full setup guide https://bit.ly/1skHFjN for:
+* Adding a PC manually (if your PC is not detected)
+* Streaming over the Internet or LTE
+* Using a controller connected directly to your PC
+* Streaming your full desktop
+* Adding custom apps to stream

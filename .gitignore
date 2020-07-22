@@ -1,7 +1,1 @@
-client_pc/*pro.user
-
-
-client_pc/**/.vs/
-client_pc/build/
-client_pc/config.tests/*/.qmake.stash
-client_pc/config.tests/*/Makefile
+.DS_Store
