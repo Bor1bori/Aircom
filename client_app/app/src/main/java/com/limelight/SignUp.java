@@ -35,7 +35,6 @@ public class SignUp extends Activity {
     private EditText mDay;
     private String gender;
     private String birthDate;
-    public boolean loggedIn = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,7 +123,6 @@ public class SignUp extends Activity {
                 Toast.makeText(SignUp.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
                 if (result.getCode() == 200) {
-                    loggedIn = true;
                     finish();
                 }
                 if (result.getCode() == 409) {
