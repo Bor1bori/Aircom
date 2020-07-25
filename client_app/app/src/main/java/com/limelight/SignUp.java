@@ -35,6 +35,7 @@ public class SignUp extends Activity {
     private EditText mDay;
     private String gender;
     private String birthDate;
+    public boolean loggedIn = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,7 +124,14 @@ public class SignUp extends Activity {
                 Toast.makeText(SignUp.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
                 if (result.getCode() == 200) {
+                    loggedIn = true;
                     finish();
+                }
+                if (result.getCode() == 409) {
+                    Toast.makeText(SignUp.this, "중복된 이메일", Toast.LENGTH_SHORT).show();
+                }
+                if (result.getCode() == 400) {
+                    Toast.makeText(SignUp.this, "잘못된 가입 정보 기입", Toast.LENGTH_SHORT).show();
                 }
             }
 
