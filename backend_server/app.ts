@@ -1,7 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import { sequelizeInit } from '@src/db/sequelize';
+import { sequelizeInit } from '@src/sequelize';
 
 import indexRouter from '@src/routes/index';
 
