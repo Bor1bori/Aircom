@@ -22,7 +22,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignUp extends Activity {
-    private EditText mName;
     private EditText mEmail;
     private EditText mPassword;
     private Button signUpButton;
@@ -41,8 +40,6 @@ public class SignUp extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-
-        mName = (EditText) findViewById(R.id.nameForSignUp);
         mEmail = (EditText) findViewById(R.id.emailForSignUp);
         mPassword = (EditText) findViewById(R.id.pwForSignUp);
         signUpButton = (Button) findViewById(R.id.signUpButton);
@@ -67,11 +64,9 @@ public class SignUp extends Activity {
     }
 
     private void trySignUp(){
-        mName.setError(null);
         mEmail.setError(null);
         mPassword.setError(null);
 
-        String name = mName.getText().toString();
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
@@ -100,17 +95,11 @@ public class SignUp extends Activity {
             cancel = true;
         }
 
-        // 이름의 유효성 검사
-        if (name.isEmpty()) {
-            mName.setError("이름을 입력해주세요.");
-            focusView = mName;
-            cancel = true;
-        }
 
         if (cancel) {
             focusView.requestFocus();
         } else {
-            startSignUp(new SignUpData(name, email, password, birthDate, gender));
+            startSignUp(new SignUpData(email, password, birthDate, gender));
         }
 
     }

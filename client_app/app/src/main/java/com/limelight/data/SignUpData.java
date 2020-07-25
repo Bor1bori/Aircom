@@ -3,8 +3,6 @@ package com.limelight.data;
 import com.google.gson.annotations.SerializedName;
 
 public class SignUpData {
-    @SerializedName("userName")
-    private String userName;
 
     @SerializedName("userEmail")
     private String userEmail;
@@ -18,8 +16,7 @@ public class SignUpData {
     @SerializedName("userGender")
     private String userGender;
 
-    public SignUpData(String userName, String userEmail, String userPwd, String userBD, String userGender) {
-        this.userName = userName;
+    public SignUpData(String userEmail, String userPwd, String userBD, String userGender) {
         this.userEmail = userEmail;
         this.userPwd = userPwd;
         this.userBD = userBD;

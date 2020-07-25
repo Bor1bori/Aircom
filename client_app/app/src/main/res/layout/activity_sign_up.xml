@@ -14,15 +14,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name"
+        android:text="@string/email"
         android:layout_marginBottom="-40dp"
-        android:layout_above="@id/nameForSignUp"
-        android:layout_alignLeft="@id/nameForSignUp"
-        android:layout_alignStart="@id/nameForSignUp"
+        android:layout_above="@id/emailForSignUp"
+        android:layout_alignLeft="@id/emailForSignUp"
+        android:layout_alignStart="@id/emailForSignUp"
         android:textSize="17dp">
     </TextView>
     <EditText
-        android:id="@+id/nameForSignUp"
+        android:id="@+id/emailForSignUp"
         android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_below="@id/signUpTextView"
@@ -36,26 +36,53 @@
         android:hint="이름을 입력하세요"
         android:textColorHint="#66565C64"
         android:textColor="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pw"
+        android:layout_marginBottom="-35dp"
+        android:layout_above="@id/pwForSignUp"
+        android:layout_alignLeft="@id/pwForSignUp"
+        android:layout_alignStart="@id/pwForSignUp"
+        android:textSize="17dp">
+    </TextView>
+    <EditText
+        android:id="@+id/pwForSignUp"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/emailForSignUp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/circulus_button"
+        android:layout_marginTop="35dp"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:hint="숫자, 영어 포함 8자리"
+        android:textColorHint="#66565C64"
+        android:textColor="#000000" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="성별"
         android:layout_marginBottom="-35dp"
         android:layout_above="@id/genderRadioGroup"
-        android:layout_alignLeft="@id/nameForSignUp"
-        android:layout_alignStart="@id/nameForSignUp"
+        android:layout_alignLeft="@id/emailForSignUp"
+        android:layout_alignStart="@id/emailForSignUp"
         android:textSize="17dp">별
     </TextView>
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/genderRadioGroup"
-        android:layout_below="@id/nameForSignUp"
+        android:layout_below="@id/pwForSignUp"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:layout_alignStart="@id/nameForSignUp"
+        android:layout_alignStart="@id/emailForSignUp"
         android:layout_marginTop="35dp"
-        android:layout_alignLeft="@id/nameForSignUp">
+        android:layout_alignLeft="@id/emailForSignUp">
         <RadioButton
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -83,8 +110,8 @@
         android:text="생년월일"
         android:layout_marginBottom="-35dp"
         android:layout_above="@id/dateOfBirth"
-        android:layout_alignLeft="@id/nameForSignUp"
-        android:layout_alignStart="@id/nameForSignUp"
+        android:layout_alignLeft="@id/emailForSignUp"
+        android:layout_alignStart="@id/emailForSignUp"
         android:textSize="17dp">
     </TextView>
     <LinearLayout
@@ -94,9 +121,9 @@
         android:layout_below="@id/genderRadioGroup"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:layout_alignStart="@id/nameForSignUp"
+        android:layout_alignStart="@id/emailForSignUp"
         android:layout_marginTop="35dp"
-        android:layout_alignLeft="@id/nameForSignUp">
+        android:layout_alignLeft="@id/emailForSignUp">
         <EditText
             android:layout_width="80dp"
             android:layout_height="40dp"
@@ -140,57 +167,7 @@
             android:gravity="end">
         </>
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email"
-        android:layout_marginBottom="-35dp"
-        android:layout_above="@id/emailForSignUp"
-        android:layout_alignLeft="@id/nameForSignUp"
-        android:layout_alignStart="@id/nameForSignUp"
-        android:textSize="17dp">
-    </TextView>
-    <EditText
-        android:id="@+id/emailForSignUp"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/dateOfBirth"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/circulus_button"
-        android:layout_marginTop="35dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="5dp"
-        android:hint="이메일을 입력하세요"
-        android:textColorHint="#66565C64"
-        android:textColor="#000000" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       android:text="@string/pw"
-        android:layout_marginBottom="-35dp"
-        android:layout_above="@id/pwForSignUp"
-        android:layout_alignLeft="@id/nameForSignUp"
-        android:layout_alignStart="@id/nameForSignUp"
-        android:textSize="17dp">
-    </TextView>
-    <EditText
-        android:id="@+id/pwForSignUp"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/emailForSignUp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/circulus_button"
-        android:layout_marginTop="35dp"
-        android:inputType="textPassword"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="5dp"
-        android:hint="숫자, 영어 포함 8자리"
-        android:textColorHint="#66565C64"
-        android:textColor="#000000" />
+
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="200dp"
@@ -198,7 +175,7 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:layout_below="@id/pwForSignUp"
+        android:layout_below="@id/dateOfBirth"
         android:background="@drawable/rounded_button"
         android:text="회원가입"
         android:textColor="#000000" />
