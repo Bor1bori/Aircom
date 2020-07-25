@@ -1,11 +1,28 @@
-import {Model, DataTypes, Sequelize} from "sequelize";
+import {
+    Sequelize,
+    Model,
+    DataTypes,
+    Optional
+} from "sequelize";
 
 /* user db first settings */
-export class User extends Model {
+export interface UserAttributes {
+    id: number;
+    email: string;
+    password: string;
+    birthdate: Date
+    gender: string;
+}
+
+interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+
+export class User extends Model<UserAttributes, UserCreationAttributes>
+    implements UserAttributes {
     public id!: number;
     public email!: string;
     public password!: string;
     public birthdate!: Date;
+    public gender!: string;
 }
 
 export const initUser = (sequelize: Sequelize) => {
@@ -27,6 +44,9 @@ export const initUser = (sequelize: Sequelize) => {
             type: DataTypes.DATE,
             allowNull: false,
         },
+        gender: {
+            type: DataTypes.ENUM('male', 'female', 'etc')
+        }
     }, {
         tableName: 'users',
         sequelize
