@@ -33,7 +33,7 @@
         android:paddingTop="5dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
-        android:hint="이름을 입력하세요"
+        android:hint="이메일을 입력하세요"
         android:textColorHint="#66565C64"
         android:textColor="#000000" />
 
@@ -165,7 +165,7 @@
             android:inputType="text"
             android:background="@drawable/circulus_button"
             android:gravity="end">
-        </>
+        </EditText>
     </LinearLayout>
 
     <Button
