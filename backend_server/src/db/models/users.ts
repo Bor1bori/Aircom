@@ -1,16 +1,15 @@
-import sequelize from "@src/sequelize";
-import {Model, DataTypes} from "sequelize";
+import {Model, DataTypes, Sequelize} from "sequelize";
 
 /* user db first settings */
-class User extends Model {
+export class User extends Model {
     public id!: number;
     public email!: string;
     public password!: string;
     public birthdate!: Date;
 }
 
-User.init(
-    {
+export const initUser = (sequelize: Sequelize) => {
+    User.init({
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
@@ -31,7 +30,5 @@ User.init(
     }, {
         tableName: 'users',
         sequelize
-    }
-);
-
-export default User;
+    });
+}
