@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 30
 
     defaultConfig {
@@ -106,11 +107,14 @@ android {
         }
     }
 
-    externalNativeBuild {
+    /*externalNativeBuild {
         ndkBuild {
             path "src/main/jni/Android.mk"
         }
-    }
+    }*/
+    ndkVersion '21.3.6528147'
+
+
 }
 
 dependencies {
@@ -120,4 +124,10 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.10'
     implementation 'com.squareup.okio:okio:1.17.5'
     implementation 'org.jmdns:jmdns:3.5.5'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    api 'com.google.code.gson:gson:2.8.2'
+    api 'com.squareup.retrofit2:converter-gson:2.4.0'
 }
+
+
