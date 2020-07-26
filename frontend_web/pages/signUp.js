@@ -31,7 +31,7 @@ class SignUp extends React.Component {
           type='password'
           value={this.state.pw}
           onChange={this.handleChange}
-          name="email"
+          name="pw"
         />
         <label>성별</label>
         <select name="gender">

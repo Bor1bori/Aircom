@@ -28,7 +28,7 @@ class SignIn extends React.Component {
           type="password"
           value={this.state.pw}
           onChange={this.handleChange}
-          name="email"
+          name="pw"
         />
           <button type="submit" onClick={this.handleClick}>로그인</button>
           <GoogleButton />
