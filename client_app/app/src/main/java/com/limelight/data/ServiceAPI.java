@@ -5,10 +5,10 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface ServiceAPI {
-    @POST("/user/login")
+    @POST("/auth/signin")
     Call<SignInResponse> userLogin(@Body SignInData data);
 
-    @POST("/user/register")
+    @POST("/auth/signup")
     Call<SignUpResponse> userJoin(@Body SignUpData data);
 
 }
