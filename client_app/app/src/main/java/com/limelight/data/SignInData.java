@@ -3,10 +3,10 @@ package com.limelight.data;
 import com.google.gson.annotations.SerializedName;
 
 public class SignInData {
-    @SerializedName("userEmail")
+    @SerializedName("email")
     String userEmail;
 
-    @SerializedName("userPwd")
+    @SerializedName("password")
     String userPwd;
 
     public SignInData(String userEmail, String userPwd) {
