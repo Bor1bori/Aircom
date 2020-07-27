@@ -1,13 +1,8 @@
-import { User, UserAttributes } from '@src/db/models/users';
+import { User } from '@src/db/models/users';
+import { SignupBody, SigninBody } from '@src/interfaces/auth';
 import { jwtSign } from '@src/utils/crypto';
 
-// TODO: Interface 따로 빼두기
-interface IUserSignin {
-  email: string;
-  password: string;
-}
-
-export async function signup(user: UserAttributes) {
+export async function signup(user: SignupBody) {
   const foundUser = await User.findOne({where: {email: user.email}});
   if (foundUser !== null) {
     return null;
@@ -17,7 +12,7 @@ export async function signup(user: UserAttributes) {
   }
 }
 
-export async function signin(user: IUserSignin) {
+export async function signin(user: SigninBody) {
   const foundUser = await User.findOne({
     where: user
   });
