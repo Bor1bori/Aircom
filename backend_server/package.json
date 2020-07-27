@@ -18,7 +18,8 @@
     "morgan": "~1.9.1",
     "sequelize": "^6.3.3",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "yup": "^0.29.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
@@ -28,6 +29,7 @@
     "@types/morgan": "^1.9.1",
     "@types/node": "^14.0.24",
     "@types/validator": "^13.1.0",
+    "@types/yup": "^0.29.3",
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2"
   }
