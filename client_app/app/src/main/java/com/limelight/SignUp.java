@@ -1,6 +1,7 @@
 package com.limelight;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.limelight.data.RetrofitClient;
 import com.limelight.data.ServiceAPI;
 import com.limelight.data.SignUpData;
 import com.limelight.data.SignUpResponse;
+import com.limelight.preferences.AddComputerManually;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,7 +55,7 @@ public class SignUp extends Activity {
         if (mFemale.isChecked()) gender = "female";
         if (mEtc.isChecked()) gender = "etc";
         birthDate = mYear.toString()+"-"+mMonth.toString()+"-"+mDay.toString();
-        //service = RetrofitClient.getClient().create(ServiceAPI.class);
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,17 +110,10 @@ public class SignUp extends Activity {
         service.userJoin(data).enqueue(new Callback<SignUpResponse>() {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
-                SignUpResponse result = response.body();
-                Toast.makeText(SignUp.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-
-                if (result.getCode() == 200) {
+                Toast.makeText(SignUp.this, response.message(), Toast.LENGTH_SHORT).show();
+                if (response.code() == 200) {
+                    System.out.println("Login Token: "+response.body());
                     finish();
-                }
-                if (result.getCode() == 409) {
-                    Toast.makeText(SignUp.this, "중복된 이메일", Toast.LENGTH_SHORT).show();
-                }
-                if (result.getCode() == 400) {
-                    Toast.makeText(SignUp.this, "잘못된 가입 정보 기입", Toast.LENGTH_SHORT).show();
                 }
             }
 

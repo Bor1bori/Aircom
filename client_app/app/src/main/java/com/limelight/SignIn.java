@@ -219,18 +219,11 @@ public class SignIn extends Activity{
         service.userLogin(data).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-                SignInResponse result = response.body();
-                Toast.makeText(SignIn.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-                if (result.getCode() == 200) {
-                    Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignIn.this, PcView.class);
-                    startActivity(intent);
-                }
-                else if (result.getCode() == 401) {
-                    Toast.makeText(SignIn.this, "해당 가입정보 없음", Toast.LENGTH_SHORT).show();
-                }
-                else if (result.getCode() == 400) {
-                    Toast.makeText(SignIn.this, "잘못된 가입 정보 기입", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignIn.this, response.message(), Toast.LENGTH_SHORT).show();
+                if (response.code() == 200) {
+                    System.out.println("Login Token: "+response.body());
+                    //Intent intent = new Intent(SignIn.this, PcView.class);
+                    //startActivity(intent);
                 }
             }
 
