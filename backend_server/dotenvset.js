@@ -20,5 +20,6 @@ switch (process.env.NODE_ENV) {
     break;    
 }
 if (configResult.error) {
-  throw new Error(`.env.${process.env.NODE_ENV} not exists`)
+  const message = `.env.${process.env.NODE_ENV} not exists`
+  throw new Error(message)
 }
