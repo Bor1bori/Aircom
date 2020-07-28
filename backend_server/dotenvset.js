@@ -3,10 +3,13 @@ const path = require('path');
 
 let configResult;
 switch (process.env.NODE_ENV) {
-  case 'prod':
+  case 'local':
+    configResult = dotenv.config({ path: path.join(__dirname, '.env.local') });
+    break;
+  case 'production':
     configResult = dotenv.config({ path: path.join(__dirname, '.env.prod') });
     break;
-  case 'develop':
+  case 'development':
     configResult = dotenv.config({ path: path.join(__dirname, '.env.develop') });
     break
   case 'test':
