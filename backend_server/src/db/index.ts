@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import { initUser } from './models/users';
 import createDebug from 'debug';
 
 const debug = createDebug('app')
@@ -22,6 +23,8 @@ const sequelize = new Sequelize({
 export const sequelizeInit = async () => {
   try {
     await sequelize.authenticate();
+    initUser(sequelize);
+    await sequelize.sync();
     debug('Connection has been established successfully.');
   } catch (error) {
     debug('Unable to connect to the database:', error);

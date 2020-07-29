@@ -1,11 +1,12 @@
 {
-  "name": "template",
-  "version": "0.0.0",
+  "name": "aircom-backend",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "npm run build & npx cross-env NODE_ENV=prod DEBUG=app node -r ./tsconfig-paths-bootstrap.js -r dotenvset.ts ./dist/bin/www.js",
-    "dev": "npx cross-env NODE_ENV=develop DEBUG=app npx nodemon --watch **/*.ts --exec ts-node -r tsconfig-paths/register -r dotenvset.ts ./bin/www.ts"
+    "start": "npm run build & npx cross-env NODE_ENV=production DEBUG=app node -r ./tsconfig-paths-bootstrap.js -r ./dotenvset.js ./dist/bin/www.js",
+    "dev": "npx cross-env NODE_ENV=development DEBUG=app npx nodemon -e ts,js --exec ts-node -r tsconfig-paths/register -r dotenvset.js ./bin/www.ts",
+    "local_dev": "npx cross-env NODE_ENV=local DEBUG=app npx nodemon -e ts,js --exec ts-node -r tsconfig-paths/register -r dotenvset.js ./bin/www.ts"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -13,12 +14,14 @@
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "googleapis": "^56.0.0",
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.4.2",
     "morgan": "~1.9.1",
     "sequelize": "^6.3.3",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "yup": "^0.29.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
@@ -27,6 +30,8 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/morgan": "^1.9.1",
     "@types/node": "^14.0.24",
+    "@types/validator": "^13.1.0",
+    "@types/yup": "^0.29.3",
     "nodemon": "^2.0.4",
     "ts-node": "^8.10.2"
   }
