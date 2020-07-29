@@ -17,7 +17,10 @@ export async function signup(user: SignupBody) {
 
 export async function signin(user: SigninBody) {
   const foundUser = await User.findOne({
-    where: user
+    where: {
+      signinType: 'email',
+      ...user
+    }
   });
   if (foundUser === null) {
     return null;
