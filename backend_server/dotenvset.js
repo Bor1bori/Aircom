@@ -2,6 +2,14 @@ const dotenv = require('dotenv');
 const path = require('path');
 
 let configResult;
+
+const fileMatch = {
+  local: 'local',
+  production: 'prod',
+  development: 'develop',
+  test: 'test'
+}
+
 switch (process.env.NODE_ENV) {
   case 'local':
     configResult = dotenv.config({ path: path.join(__dirname, '.env.local') });
@@ -20,6 +28,6 @@ switch (process.env.NODE_ENV) {
     break;    
 }
 if (configResult.error) {
-  const message = `.env.${process.env.NODE_ENV} not exists`
+  const message = `.env.${fileMatch[process.env.NODE_ENV]} not exists`
   throw new Error(message)
 }
