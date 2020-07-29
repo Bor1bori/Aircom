@@ -1,12 +1,15 @@
-import dotenv from 'dotenv';
-import path from 'path'
+const dotenv = require('dotenv');
+const path = require('path');
 
 let configResult;
 switch (process.env.NODE_ENV) {
-  case 'prod':
+  case 'local':
+    configResult = dotenv.config({ path: path.join(__dirname, '.env.local') });
+    break;
+  case 'production':
     configResult = dotenv.config({ path: path.join(__dirname, '.env.prod') });
     break;
-  case 'develop':
+  case 'development':
     configResult = dotenv.config({ path: path.join(__dirname, '.env.develop') });
     break
   case 'test':
@@ -17,5 +20,6 @@ switch (process.env.NODE_ENV) {
     break;    
 }
 if (configResult.error) {
-  throw new Error(`.env.${process.env.NODE_ENV} not exists`)
+  const message = `.env.${process.env.NODE_ENV} not exists`
+  throw new Error(message)
 }
