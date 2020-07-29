@@ -56,7 +56,7 @@ export const initUser = (sequelize: Sequelize) => {
       type: DataTypes.ENUM('email', 'googleoauth'),
       allowNull: false,
     },
-    signinID: {
+    signinID: { // TODO: 이거 인덱싱해서 빨리 찾을 수 있도록 하면 좋을듯
       type: DataTypes.STRING(),
       allowNull: true,
     }
