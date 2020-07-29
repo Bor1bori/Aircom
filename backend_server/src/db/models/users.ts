@@ -2,7 +2,7 @@ import {
   Sequelize,
   Model,
   DataTypes,
-  Optional
+  Optional,
 } from "sequelize";
 
 /* user db first settings */
@@ -62,6 +62,12 @@ export const initUser = (sequelize: Sequelize) => {
     }
   }, {
     tableName: 'users',
-    sequelize
+    sequelize,
+  });
+
+  const queryInterface = sequelize.getQueryInterface();
+  queryInterface.addConstraint('users', {
+    fields: ['signinType', 'signinID'],
+    type: 'unique'
   });
 }
