@@ -35,3 +35,29 @@ export const signinValidator = wrapper(async (req, res, next) => {
   }
 
 });
+
+export const googleOAuthCallbackValidator = wrapper(async (req, res, next) => {
+  const callbackSchema = yup.object({
+    code: yup.string().required()
+  }).required();
+
+  try {
+    await callbackSchema.validate(req.query);
+    next();
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+});
+
+export const googleOAuthSignValidator = wrapper(async (req, res, next) => {
+  const callbackSchema = yup.object({
+    idToken: yup.string().required()
+  }).required();
+
+  try {
+    await callbackSchema.validate(req.body);
+    next();
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+});

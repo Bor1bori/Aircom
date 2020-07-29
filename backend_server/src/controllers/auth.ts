@@ -1,5 +1,6 @@
 import { wrapper } from '@src/utils/wrapper';
 import * as AuthServices from '@src/services/auth';
+import * as GoogleOAuthServices from '@src/services/googleoauth';
 
 export const signup = wrapper(async (req, res) => {
 
@@ -24,5 +25,35 @@ export const signin = wrapper(async (req, res) => {
   } else {
     res.cookie('loginToken', loginToken, {expires: new Date(Date.now() + (1000 * 60 * 60 * 24))});
     res.status(200).json({loginToken});
+  }
+})
+
+export const getGoogleOAuthURL = wrapper(async (req, res) => {
+  const url = GoogleOAuthServices.authUrl;
+  res.status(200).json({
+    url
+  });
+})
+
+export const googleOAuthCallback = wrapper(async (req, res) => {
+  const idToken = await GoogleOAuthServices.getIDTokenWithAuthorizationCode(req.query.code as string);
+  if (!idToken) {
+    return res.status(400).json({err: 'wrong code'});
+  }
+  const loginToken = await GoogleOAuthServices.signupAndSigninWithIDToken(idToken);
+
+  res.cookie('loginToken', loginToken, {expires: new Date(Date.now() + (1000 * 60 * 60 * 24))});
+  res.status(200).json({loginToken});
+
+})
+
+export const googleOAuthSignUpAndSignIn = wrapper(async (req, res) => {
+  try {
+    const loginToken = await GoogleOAuthServices.signupAndSigninWithIDToken(req.body.idToken);
+
+    res.cookie('loginToken', loginToken, {expires: new Date(Date.now() + (1000 * 60 * 60 * 24))});
+    res.status(200).json({loginToken});
+  } catch (err) {
+    res.status(400).json({err: 'wrong idToken'})
   }
 })

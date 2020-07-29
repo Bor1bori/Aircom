@@ -1,4 +1,6 @@
 import { google } from 'googleapis';
+import { User } from '@src/db/models/users';
+import { jwtSign } from '@src/utils/crypto';
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_OAUTH_CLIENT_ID,
@@ -47,31 +49,46 @@ export const getIDTokenWithAuthorizationCode = async (code: string) => {
  * @returns loginToken login에 사용하는 token
  */
 export const signupAndSigninWithIDToken = async (idToken: string) => {
-  const ticket = await oauth2Client.verifyIdToken({
-    idToken,
-    audience: process.env.GOOGLE_OAUTH_CLIENT_ID,
-  });
+  let ticket;
+  try {
+    ticket = await oauth2Client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_OAUTH_CLIENT_ID,
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
+  
 
   const payload = ticket.getPayload();
   const userid = payload!['sub'];
 
+  const exists = await User.findOne({
+    where: {
+      signinType: 'googleoauth',
+      signinID: userid
+    }
+  });
+
   let loginToken: string;
-  if (userid /* TODO 기존에 존재하는 회원인지 확인 */) {
-    loginToken = await signin(userid);
+  if (exists) {
+    loginToken = await signin(exists.id);
   } else {
-    await signup(userid);
-    loginToken = await signin(userid);
+    const user = await signup(userid);
+    loginToken = await signin(user.id);
   }
 
   return loginToken;
 }
 
 
-const signin = async (userid: string) => {
-  // TODO: 로그인
-  return 'asdf'; // TODO: JWT 로그인
+const signin = async (pk_id: number) => {
+  return jwtSign({id: pk_id}, 1000 * 60 * 60 * 24);
 }
 
-const signup = async (userid: string, /* TODO: 필요한 파라미터 추가 */) => {
-  // TODO: 회원 생성
+const signup = async (userid: string) => {
+  return await User.create({
+    signinType: 'googleoauth',
+    signinID: userid
+  });
 }
