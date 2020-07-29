@@ -8,7 +8,10 @@ export async function signup(user: SignupBody) {
     return null;
   } else {
     console.log(1);
-    return await User.create(user);
+    return await User.create({
+      ...user,
+      signinType: 'email'
+    });
   }
 }
 

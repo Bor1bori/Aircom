@@ -12,6 +12,8 @@ export interface UserAttributes {
   password: string;
   birthdate: Date
   gender: string;
+  signinType: 'email' | 'googleoauth';
+  signinID?: string;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
@@ -23,6 +25,8 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public password!: string;
   public birthdate!: Date;
   public gender!: string;
+  public signinType!: 'email' | 'googleoauth';
+  public signinID?: string;
 }
 
 export const initUser = (sequelize: Sequelize) => {
@@ -45,7 +49,16 @@ export const initUser = (sequelize: Sequelize) => {
       allowNull: false,
     },
     gender: {
-      type: DataTypes.ENUM('male', 'female', 'etc')
+      type: DataTypes.ENUM('male', 'female', 'etc'),
+      allowNull: false,
+    },
+    signinType: {
+      type: DataTypes.ENUM('email', 'google'),
+      allowNull: false,
+    },
+    signinID: {
+      type: DataTypes.STRING(),
+      allowNull: true,
     }
   }, {
     tableName: 'users',
