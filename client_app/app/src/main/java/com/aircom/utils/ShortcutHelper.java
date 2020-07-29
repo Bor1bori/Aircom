@@ -2,15 +2,12 @@ package com.aircom.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 
-import com.aircom.AppView;
-import com.aircom.ShortcutTrampoline;
 import com.aircom.R;
 import com.aircom.nvstream.http.ComputerDetails;
 import com.aircom.nvstream.http.NvApp;

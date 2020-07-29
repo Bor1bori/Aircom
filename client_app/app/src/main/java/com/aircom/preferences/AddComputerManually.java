@@ -1,6 +1,5 @@
 package com.aircom.preferences;
 
-import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -10,11 +9,9 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.aircom.binding.PlatformBinding;
 import com.aircom.computers.ComputerManagerService;
 import com.aircom.R;
 import com.aircom.nvstream.http.ComputerDetails;
-import com.aircom.nvstream.http.NvHTTP;
 import com.aircom.utils.Dialog;
 import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;

@@ -3,7 +3,7 @@ package com.aircom.binding.input.evdev;
 
 import android.app.Activity;
 
-import com.aircom.LimelightBuildProps;
+import aircom.LimelightBuildProps;
 import com.aircom.binding.input.capture.InputCaptureProvider;
 
 public class EvdevCaptureProviderShim {

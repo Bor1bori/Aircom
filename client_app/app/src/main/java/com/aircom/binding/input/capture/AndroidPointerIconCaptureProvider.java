@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
-import android.view.MotionEvent;
 import android.view.PointerIcon;
 import android.view.View;
 

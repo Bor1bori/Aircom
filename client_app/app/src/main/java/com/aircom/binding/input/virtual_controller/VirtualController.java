@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.aircom.R;
 import com.aircom.binding.input.ControllerHandler;
-import com.aircom.nvstream.NvConnection;
 
 import java.util.ArrayList;
 import java.util.List;

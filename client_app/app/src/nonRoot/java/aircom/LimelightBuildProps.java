@@ -1,4 +1,4 @@
-package com.aircom;
+package aircom;
 
 public class LimelightBuildProps {
     public static final boolean ROOT_BUILD = false;
