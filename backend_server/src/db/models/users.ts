@@ -53,7 +53,7 @@ export const initUser = (sequelize: Sequelize) => {
       allowNull: false,
     },
     signinType: {
-      type: DataTypes.ENUM('email', 'google'),
+      type: DataTypes.ENUM('email', 'googleoauth'),
       allowNull: false,
     },
     signinID: {
