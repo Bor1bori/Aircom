@@ -8,10 +8,10 @@ import {
 /* user db first settings */
 export interface UserAttributes {
   id: number;
-  email: string;
-  password: string;
-  birthdate: Date
-  gender: string;
+  email?: string;
+  password?: string;
+  birthdate?: Date
+  gender?: string;
   signinType: 'email' | 'googleoauth';
   signinID?: string;
 }
@@ -21,10 +21,10 @@ interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 export class User extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes {
   public id!: number;
-  public email!: string;
-  public password!: string;
-  public birthdate!: Date;
-  public gender!: string;
+  public email?: string;
+  public password?: string;
+  public birthdate?: Date;
+  public gender?: string;
   public signinType!: 'email' | 'googleoauth';
   public signinID?: string;
 }
@@ -38,19 +38,19 @@ export const initUser = (sequelize: Sequelize) => {
     },
     email: {
       type: DataTypes.STRING(320),
-      allowNull: false,
+      allowNull: true,
     },
     password: {
       type: DataTypes.STRING(320),
-      allowNull: false,
+      allowNull: true,
     },
     birthdate: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     gender: {
       type: DataTypes.ENUM('male', 'female', 'etc'),
-      allowNull: false,
+      allowNull: true,
     },
     signinType: {
       type: DataTypes.ENUM('email', 'googleoauth'),
