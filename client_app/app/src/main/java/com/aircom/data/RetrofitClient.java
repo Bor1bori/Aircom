@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private final static String BASE_URL = "https://6d98885d-908a-48e9-afdd-51d4c4b716bf.mock.pstmn.io";
+    private final static String BASE_URL = "http://myaircom.co.kr:3000";
     //할당받은 public dns 작성
     private static Retrofit retrofit = null;
 
