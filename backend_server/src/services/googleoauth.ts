@@ -53,7 +53,7 @@ export const signupAndSigninWithIDToken = async (idToken: string) => {
   try {
     ticket = await oauth2Client.verifyIdToken({
       idToken,
-      audience: process.env.GOOGLE_OAUTH_APP_CLIENT_ID,
+      audience: [process.env.GOOGLE_OAUTH_APP_CLIENT_ID!, process.env.GOOGLE_OAUTH_CLIENT_ID!],
     });
   } catch (err) {
     throw new Error(err);
