@@ -3,6 +3,7 @@ package com.aircom;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -113,6 +114,8 @@ public class SignIn extends Activity{
                 signUp();
             }
         });
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
     }
 
@@ -138,10 +141,11 @@ public class SignIn extends Activity{
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
+            System.out.println("idToken: "+idToken);
 
             // TODO(developer): send ID Token to server and validate
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("https://yourbackend.example.com/tokensignin");
+            HttpPost httpPost = new HttpPost("http://myaircom.co.kr:3000/auth/oauth/google/signin");
 
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -158,7 +162,7 @@ public class SignIn extends Activity{
                 Log.e(TAG, "Error sending ID token to backend.", e);
             }
 
-            updateUI(account);
+            //updateUI(account);
         } catch (ApiException e) {
             Log.w(TAG, "handleSignInResult:error", e);
             updateUI(null);
@@ -170,7 +174,7 @@ public class SignIn extends Activity{
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        updateUI(account);
+        //updateUI(account);
     }
 
     private void attemptSignIn(){
@@ -208,7 +212,10 @@ public class SignIn extends Activity{
         if (cancel) {
             focusView.requestFocus();
         } else {
-            startSignIn(new SignInData(email, password));
+            SignInData SD = new SignInData(email, password);
+            SD.getUserEmail();
+            SD.getUserPwd();
+            startSignIn(SD);
         }
     }
 

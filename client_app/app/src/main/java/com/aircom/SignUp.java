@@ -31,8 +31,6 @@ public class SignUp extends Activity {
     private EditText mYear;
     private EditText mMonth;
     private EditText mDay;
-    private String gender;
-    private String birthDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,10 +46,7 @@ public class SignUp extends Activity {
         mYear = (EditText) findViewById(R.id.year);
         mMonth = (EditText) findViewById(R.id.month);
         mDay = (EditText) findViewById(R.id.day);
-        if (mMale.isChecked()) gender = "male";
-        if (mFemale.isChecked()) gender = "female";
-        if (mEtc.isChecked()) gender = "etc";
-        birthDate = mYear.toString()+"-"+mMonth.toString()+"-"+mDay.toString();
+
         service = RetrofitClient.getClient().create(ServiceAPI.class);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +55,7 @@ public class SignUp extends Activity {
                 trySignUp();
             }
         });
+
     }
 
     private void trySignUp(){
@@ -68,6 +64,21 @@ public class SignUp extends Activity {
 
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
+        String year = mYear.getText().toString();
+        String month = mMonth.getText().toString();
+        String day = mDay.getText().toString();
+        String birthdate = year+"-"+month+"-"+day;
+        String gender = "";
+        if (mMale.isChecked()){
+            gender = "male";
+        }
+        else if (mFemale.isChecked()){
+            gender = "female";
+        }
+        else if (mEtc.isChecked()){
+            gender = "etc";
+        }
+
 
         boolean cancel = false;
         View focusView = null;
@@ -94,11 +105,15 @@ public class SignUp extends Activity {
             cancel = true;
         }
 
-
         if (cancel) {
             focusView.requestFocus();
         } else {
-            startSignUp(new SignUpData(email, password, birthDate, gender));
+            SignUpData SD = new SignUpData(email, password, birthdate, gender);
+            startSignUp(SD);
+            SD.getEmail();
+            SD.getGender();
+            SD.getPassword();
+            SD.getBirthdate();
         }
 
     }
