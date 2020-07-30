@@ -13,4 +13,20 @@ public class SignInData {
         this.userEmail = userEmail;
         this.userPwd = userPwd;
     }
+
+    public String getUserEmail() {
+        return this.userEmail;
+    }
+
+    public String getUserPwd() {
+        return this.userPwd;
+    }
+
+    public void setEmail(String userEmail){
+        this.userEmail = userEmail;
+    }
+
+    public void setUserPwd(String userPwd){
+        this.userPwd = userPwd;
+    }
 }
