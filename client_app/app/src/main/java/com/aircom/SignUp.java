@@ -13,8 +13,11 @@ import androidx.annotation.Nullable;
 
 import com.aircom.data.RetrofitClient;
 import com.aircom.data.ServiceAPI;
+import com.aircom.data.SignInData;
+import com.aircom.data.SignInResponse;
 import com.aircom.data.SignUpData;
 import com.aircom.data.SignUpResponse;
+import com.aircom.SignIn;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -119,11 +122,17 @@ public class SignUp extends Activity {
     }
 
     private void startSignUp(SignUpData data){
+        final SignUpData registerData = data;
         service.userJoin(data).enqueue(new Callback<SignUpResponse>() {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
-                Toast.makeText(SignUp.this, response.message(), Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
+                    //회원가입 후 바로 로그인 처리
+                    SignInData loginData = new SignInData(registerData.getEmail(), registerData.getPassword());
+                    //에러 방지 코드
+                    loginData.getUserEmail();
+                    loginData.getUserPwd();
+                    startSignIn(loginData);
                     finish();
                 }
             }
@@ -143,5 +152,24 @@ public class SignUp extends Activity {
 
     private boolean isPasswordValid(String password) {
         return password.length() >= 8;
+    }
+
+    public void startSignIn(SignInData data){
+        service.userLogin(data).enqueue(new Callback<SignInResponse>() {
+            @Override
+            public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(SignUp.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
+                    //Intent intent = new Intent(SignIn.this, PcView.class);
+                    //startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignInResponse> call, Throwable t) {
+                Toast.makeText(SignUp.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("로그인 에러 발생", t.getMessage());
+            }
+        });
     }
 }
