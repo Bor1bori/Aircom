@@ -10,10 +10,10 @@ const Header = () => (
         <Link href="/">
             <a style={linkStyle}>Home</a>
         </Link>
-        <Link href="/signIn">
+        <Link href="/signin">
             <a style={linkStyle}>로그인</a>
         </Link>
-        <Link href="/signUp">
+        <Link href="/signup">
             <a style={linkStyle}>회원가입</a>
         </Link>
     </div>

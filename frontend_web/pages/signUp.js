@@ -1,56 +1,66 @@
-import React from "react";
-import Router from 'next/router';
+import React, {useState} from "react";
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
-class SignUp extends React.Component {
-  state = {
+const SignUp = () => {
+  const router = useRouter();
+  const [signupInput, setSignupInput] = useState({
     email: "",
-    pw: "",
-    gender: "",
-    birthDate: "",
-  };
-  handleChange = (e) => {
-    this.setState({
+    password: "",
+    gender: "male",
+    birthdate: "",
+  });
+  const onInputChange = (e) => {
+    setSignupInput({
+      ...signupInput,
       [e.target.name]: e.target.value,
     });
   };
-  handleClick = () => {
-    console.log("registered");
-    Router.push("/");
+  const onSignup = (e) => {
+    e.preventDefault();
+    
+    axios.post('http://api.myaircom.co.kr/auth/signup', signupInput)
+      .then((res) => {
+        console.log(res);
+        dispatch(signin(res.data.loginToken));
+        router.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   };
-  render() {
-    return (
-      <form>
-        <label>이메일</label>
-        <input
-          value={this.state.email}
-          onChange={this.handleChange}
-          name="email"
-        />
-        <label>비밀번호</label>
-        <input
-          type='password'
-          value={this.state.pw}
-          onChange={this.handleChange}
-          name="pw"
-        />
-        <label>성별</label>
-        <select name="gender">
-          <option value="male">남성</option>
-          <option value="female">여성</option>
-          <option value="etc">기타</option>
-        </select>
-        <label>생년월일</label>
-        <input
-          value={this.state.birthDate}
-          onChange={this.handleChange}
-          name="birthDate"
-          text="생년월일 8자리" 
-        />
-        <button type="submit" onClick={this.handleClick}>
-          회원가입
-        </button>
-      </form>
-    );
-  }
+  return (
+    <form onSubmit={onSignup}>
+      <label>이메일</label>
+      <input
+        value={signupInput.email}
+        onChange={onInputChange}
+        name="email"
+      />
+      <label>비밀번호</label>
+      <input
+        type='password'
+        value={signupInput.pw}
+        onChange={onInputChange}
+        name="password"
+      />
+      <label>성별</label>
+      <select name="gender" value={signupInput.gender} onChange={onInputChange}>
+        <option value="male">남성</option>
+        <option value="female">여성</option>
+        <option value="etc">기타</option>
+      </select>
+      <label>생년월일</label>
+      <input
+        value={signupInput.birthdate}
+        onChange={onInputChange}
+        name="birthdate"
+        type="date"
+      />
+      <button>
+        회원가입
+      </button>
+    </form>
+  );
 }
 export default SignUp;
