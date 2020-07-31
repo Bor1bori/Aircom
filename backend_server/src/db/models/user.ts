@@ -61,12 +61,12 @@ export const initUser = (sequelize: Sequelize) => {
       allowNull: true,
     }
   }, {
-    tableName: 'users',
+    tableName: 'user',
     sequelize,
   });
 
   const queryInterface = sequelize.getQueryInterface();
-  queryInterface.addConstraint('users', {
+  queryInterface.addConstraint('user', {
     fields: ['signinType', 'signinID'],
     type: 'unique'
   });
