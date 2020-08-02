@@ -1,6 +1,7 @@
 package com.aircom;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -160,8 +161,8 @@ public class SignUp extends Activity {
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.code() == 200) {
                     Toast.makeText(SignUp.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
-                    //Intent intent = new Intent(SignIn.this, PcView.class);
-                    //startActivity(intent);
+                    Intent intent = new Intent(SignUp.this, PcView.class);
+                    startActivity(intent);
                 }
             }
 
