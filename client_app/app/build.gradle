@@ -108,12 +108,12 @@ android {
         }
     }
 
-    /*externalNativeBuild {
+    externalNativeBuild {
         ndkBuild {
             path "src/main/jni/Android.mk"
         }
-    }*/
-    ndkVersion '21.3.6528147'
+    }
+    ndkVersion '21.0.6113669'
 
 
 }
