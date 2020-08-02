@@ -10,7 +10,7 @@ const CLIENT_ID =
 const GoogleButton = () => {
   const dispatch = useDispatch()
   // Google Login
-  const onResponseGoogle = (res) => {
+  const onResponseGoogle = (res: any) => {
     console.log(res);
     axios.post('http://myaircom.co.kr:3000/auth/oauth/google/signin', {
       idToken: res.wc.id_token
@@ -24,7 +24,7 @@ const GoogleButton = () => {
   };
 
   // Login Fail
-  const onResponseFail = (err) => {
+  const onResponseFail = (err: any) => {
     console.log('fail');
     console.log(err);
   };

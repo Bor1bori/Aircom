@@ -3,22 +3,23 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { signin } from '../store/auth/action';
 import { useRouter } from 'next/router';
+import { RootState } from '../store/store';
 
 const SignIn = () => {
   const dispatch = useDispatch(); // dispatch를 사용하기 쉽게 하는 hook
-  const authState = useSelector(state => state.auth); // store의 state를 불러오는 hook   store의 state 중에서 count의 state를 불러온다.
+  const authState = useSelector((state: RootState) => state.auth); // store의 state를 불러오는 hook   store의 state 중에서 count의 state를 불러온다.
   const router = useRouter();
   const [signinInput, setSigninInput] = useState({
     email: "",
     password: "",
   });
-  const onInputChange = (e) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSigninInput({
       ...signinInput,
       [e.target.name]: e.target.value,
     });
   };
-  const onSignin = (e) => {
+  const onSignin = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     axios.post('http://api.myaircom.co.kr/auth/signin', signinInput)

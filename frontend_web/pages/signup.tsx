@@ -1,22 +1,25 @@
 import React, {useState} from "react";
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import {signin} from '../store/auth/action';
 
 const SignUp = () => {
   const router = useRouter();
+  const dispatch = useDispatch(); // dispatch를 사용하기 쉽게 하는 hook
   const [signupInput, setSignupInput] = useState({
     email: "",
     password: "",
     gender: "male",
     birthdate: "",
   });
-  const onInputChange = (e) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setSignupInput({
       ...signupInput,
       [e.target.name]: e.target.value,
     });
   };
-  const onSignup = (e) => {
+  const onSignup = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     axios.post('http://api.myaircom.co.kr/auth/signup', signupInput)
@@ -40,7 +43,7 @@ const SignUp = () => {
       <label>비밀번호</label>
       <input
         type='password'
-        value={signupInput.pw}
+        value={signupInput.password}
         onChange={onInputChange}
         name="password"
       />

@@ -1,13 +1,13 @@
-import { authActionTypes } from './action'
+import { AuthActionTypes, AuthState, SIGNIN } from './types'
 
-const countInitialState = {
+const authInitialState: AuthState = {
   isSignedin: false,
   loginToken: '',
 }
 
-export default function reducer(state = countInitialState, action) {
+export default function reducer(state = authInitialState, action: AuthActionTypes) {
   switch (action.type) {
-    case authActionTypes.SIGNIN:
+    case SIGNIN:
       console.log(1);
       return Object.assign({}, state, {
         isSignedin: true,

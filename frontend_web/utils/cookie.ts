@@ -1,6 +1,6 @@
 import cookie from 'js-cookie';
 
-export const setCookie = (key, value) => {
+export const setCookie = (key: string, value: string) => {
   if (process.browser) {
     cookie.set(key, value, {
       expires: 1,
@@ -9,13 +9,13 @@ export const setCookie = (key, value) => {
   }
 };
 
-const getCookieFromServer = (key, req) => {
+const getCookieFromServer = (key: string, req: any) => {
   if (!req.headers.cookie) {
     return undefined;
   }
   const rawCookie = req.headers.cookie
     .split(';')
-    .find(c => c.trim().startsWith(`${key}=`));
+    .find((c: any) => c.trim().startsWith(`${key}=`));
   if (!rawCookie) {
     return undefined;
   }
