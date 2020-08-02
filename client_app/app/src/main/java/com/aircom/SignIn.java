@@ -162,7 +162,7 @@ public class SignIn extends Activity{
                 Log.e(TAG, "Error sending ID token to backend.", e);
             }
 
-            //updateUI(account);
+            updateUI(account);
         } catch (ApiException e) {
             Log.w(TAG, "handleSignInResult:error", e);
             updateUI(null);
@@ -174,7 +174,7 @@ public class SignIn extends Activity{
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        //updateUI(account);
+        updateUI(account);
     }
 
     private void attemptSignIn(){
@@ -226,8 +226,8 @@ public class SignIn extends Activity{
                 Toast.makeText(SignIn.this, response.message(), Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
                     System.out.println("Login Token: "+response.body());
-                    //Intent intent = new Intent(SignIn.this, PcView.class);
-                    //startActivity(intent);
+                    Intent intent = new Intent(SignIn.this, PcView.class);
+                    startActivity(intent);
                 }
             }
 
