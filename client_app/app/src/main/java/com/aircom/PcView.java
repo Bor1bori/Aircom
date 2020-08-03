@@ -68,7 +68,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
             final ComputerManagerService.ComputerManagerBinder localBinder =
-                    ((ComputerManagerService.ComputerManagerBinder)binder);
+                    ((ComputerManagerService.ComputerManagerBinder) binder);
 
             // Wait in a separate thread to avoid stalling the UI
             new Thread() {
@@ -131,8 +131,8 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
 
         // Setup the list view
         ImageButton settingsButton = findViewById(R.id.settingsButton);
-        ImageButton addComputerButton = findViewById(R.id.manuallyAddPc);
-        ImageButton helpButton = findViewById(R.id.helpButton);
+        //ImageButton addComputerButton = findViewById(R.id.manuallyAddPc);
+        //ImageButton helpButton = findViewById(R.id.helpButton);
 
         settingsButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -140,7 +140,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
                 startActivity(new Intent(PcView.this, StreamSettings.class));
             }
         });
-        addComputerButton.setOnClickListener(new OnClickListener() {
+        /*addComputerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(PcView.this, AddComputerManually.class);
@@ -152,9 +152,10 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
             public void onClick(View v) {
                 HelpLauncher.launchSetupGuide(PcView.this);
             }
-        });
+        });*/
 
         getFragmentManager().beginTransaction()
+                //activity_pc_view.xml
             .replace(R.id.pcFragmentContainer, new AdapterFragment())
             .commitAllowingStateLoss();
 
