@@ -12,6 +12,7 @@
 #define SHUT_RDWR SD_BOTH
 #define EWOULDBLOCK WSAEWOULDBLOCK
 #define EAGAIN WSAEWOULDBLOCK
+#define EINPROGRESS WSAEINPROGRESS
 #define EINTR WSAEINTR
 #define ETIMEDOUT WSAETIMEDOUT
 
@@ -29,6 +30,7 @@ typedef int SOCKADDR_LEN;
 #include <netdb.h>
 #include <errno.h>
 #include <signal.h>
+#include <poll.h>
 
 #define ioctlsocket ioctl
 #define LastSocketError() errno
@@ -59,6 +61,7 @@ int setNonFatalRecvTimeoutMs(SOCKET s, int timeoutMs);
 void setRecvTimeout(SOCKET s, int timeoutSec);
 void closeSocket(SOCKET s);
 int isPrivateNetworkAddress(struct sockaddr_storage* address);
+int pollSockets(struct pollfd* pollFds, int pollFdsCount, int timeoutMs);
 
 int initializePlatformSockets(void);
 void cleanupPlatformSockets(void);

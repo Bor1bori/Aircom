@@ -1,8 +1,8 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import { sequelizeInit } from '@src/db/sequelize';
-
+import cors from 'cors';
+import { sequelizeInit } from '@src/db';
 import indexRouter from '@src/routes/index';
 
 
@@ -14,6 +14,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 
 app.use('/', indexRouter);
 

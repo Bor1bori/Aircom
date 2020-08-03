@@ -6,23 +6,23 @@
 #include <arpa/inet.h>
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_sendMouseMove(JNIEnv *env, jclass clazz, jshort deltaX, jshort deltaY) {
+Java_com_aircom_nvstream_jni_MoonBridge_sendMouseMove(JNIEnv *env, jclass clazz, jshort deltaX, jshort deltaY) {
     LiSendMouseMoveEvent(deltaX, deltaY);
 }
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_sendMousePosition(JNIEnv *env, jclass clazz,
+Java_com_aircom_nvstream_jni_MoonBridge_sendMousePosition(JNIEnv *env, jclass clazz,
         jshort x, jshort y, jshort referenceWidth, jshort referenceHeight) {
     LiSendMousePositionEvent(x, y, referenceWidth, referenceHeight);
 }
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_sendMouseButton(JNIEnv *env, jclass clazz, jbyte buttonEvent, jbyte mouseButton) {
+Java_com_aircom_nvstream_jni_MoonBridge_sendMouseButton(JNIEnv *env, jclass clazz, jbyte buttonEvent, jbyte mouseButton) {
     LiSendMouseButtonEvent(buttonEvent, mouseButton);
 }
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_sendMultiControllerInput(JNIEnv *env, jclass clazz, jshort controllerNumber,
+Java_com_aircom_nvstream_jni_MoonBridge_sendMultiControllerInput(JNIEnv *env, jclass clazz, jshort controllerNumber,
                                                            jshort activeGamepadMask, jshort buttonFlags,
                                                            jbyte leftTrigger, jbyte rightTrigger,
                                                            jshort leftStickX, jshort leftStickY,
@@ -32,7 +32,7 @@ Java_com_limelight_nvstream_jni_MoonBridge_sendMultiControllerInput(JNIEnv *env,
 }
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_sendControllerInput(JNIEnv *env, jclass clazz, jshort buttonFlags,
+Java_com_aircom_nvstream_jni_MoonBridge_sendControllerInput(JNIEnv *env, jclass clazz, jshort buttonFlags,
                                                       jbyte leftTrigger, jbyte rightTrigger,
                                                       jshort leftStickX, jshort leftStickY,
                                                       jshort rightStickX, jshort rightStickY) {
@@ -40,37 +40,37 @@ Java_com_limelight_nvstream_jni_MoonBridge_sendControllerInput(JNIEnv *env, jcla
 }
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_sendKeyboardInput(JNIEnv *env, jclass clazz, jshort keyCode, jbyte keyAction, jbyte modifiers) {
+Java_com_aircom_nvstream_jni_MoonBridge_sendKeyboardInput(JNIEnv *env, jclass clazz, jshort keyCode, jbyte keyAction, jbyte modifiers) {
     LiSendKeyboardEvent(keyCode, keyAction, modifiers);
 }
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_sendMouseScroll(JNIEnv *env, jclass clazz, jbyte scrollClicks) {
+Java_com_aircom_nvstream_jni_MoonBridge_sendMouseScroll(JNIEnv *env, jclass clazz, jbyte scrollClicks) {
     LiSendScrollEvent(scrollClicks);
 }
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_sendMouseHighResScroll(JNIEnv *env, jclass clazz, jshort scrollAmount) {
+Java_com_aircom_nvstream_jni_MoonBridge_sendMouseHighResScroll(JNIEnv *env, jclass clazz, jshort scrollAmount) {
     LiSendHighResScrollEvent(scrollAmount);
 }
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_stopConnection(JNIEnv *env, jclass clazz) {
+Java_com_aircom_nvstream_jni_MoonBridge_stopConnection(JNIEnv *env, jclass clazz) {
     LiStopConnection();
 }
 
 JNIEXPORT void JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_interruptConnection(JNIEnv *env, jclass clazz) {
+Java_com_aircom_nvstream_jni_MoonBridge_interruptConnection(JNIEnv *env, jclass clazz) {
     LiInterruptConnection();
 }
 
 JNIEXPORT jstring JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_getStageName(JNIEnv *env, jclass clazz, jint stage) {
+Java_com_aircom_nvstream_jni_MoonBridge_getStageName(JNIEnv *env, jclass clazz, jint stage) {
     return (*env)->NewStringUTF(env, LiGetStageName(stage));
 }
 
 JNIEXPORT jstring JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_findExternalAddressIP4(JNIEnv *env, jclass clazz, jstring stunHostName, jint stunPort) {
+Java_com_aircom_nvstream_jni_MoonBridge_findExternalAddressIP4(JNIEnv *env, jclass clazz, jstring stunHostName, jint stunPort) {
     int err;
     struct in_addr wanAddr;
     const char* stunHostNameStr = (*env)->GetStringUTFChars(env, stunHostName, NULL);
@@ -94,11 +94,39 @@ Java_com_limelight_nvstream_jni_MoonBridge_findExternalAddressIP4(JNIEnv *env, j
 }
 
 JNIEXPORT jint JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_getPendingAudioDuration(JNIEnv *env, jclass clazz) {
+Java_com_aircom_nvstream_jni_MoonBridge_getPendingAudioDuration(JNIEnv *env, jclass clazz) {
     return LiGetPendingAudioDuration();
 }
 
 JNIEXPORT jint JNICALL
-Java_com_limelight_nvstream_jni_MoonBridge_getPendingVideoFrames(JNIEnv *env, jclass clazz) {
+Java_com_aircom_nvstream_jni_MoonBridge_getPendingVideoFrames(JNIEnv *env, jclass clazz) {
     return LiGetPendingVideoFrames();
+}
+
+JNIEXPORT jint JNICALL
+Java_com_aircom_nvstream_jni_MoonBridge_testClientConnectivity(JNIEnv *env, jclass clazz, jstring testServerHostName, jint referencePort, jint testFlags) {
+    int ret;
+    const char* testServerHostNameStr = (*env)->GetStringUTFChars(env, testServerHostName, NULL);
+
+    ret = LiTestClientConnectivity(testServerHostNameStr, (unsigned short)referencePort, testFlags);
+
+    (*env)->ReleaseStringUTFChars(env, testServerHostName, testServerHostNameStr);
+
+    return ret;
+}
+
+JNIEXPORT jint JNICALL
+Java_com_aircom_nvstream_jni_MoonBridge_getPortFromPortFlagIndex(JNIEnv *env, jclass clazz, jint portFlagIndex) {
+    return LiGetPortFromPortFlagIndex(portFlagIndex);
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_aircom_nvstream_jni_MoonBridge_getProtocolFromPortFlagIndex(JNIEnv *env, jclass clazz, jint portFlagIndex) {
+    int protocol = LiGetProtocolFromPortFlagIndex(portFlagIndex);
+    return (*env)->NewStringUTF(env, protocol == IPPROTO_TCP ? "TCP" : "UDP");
+}
+
+JNIEXPORT jint JNICALL
+Java_com_aircom_nvstream_jni_MoonBridge_getPortFlagsFromStage(JNIEnv *env, jclass clazz, jint stage) {
+    return LiGetPortFlagsFromStage(stage);
 }
