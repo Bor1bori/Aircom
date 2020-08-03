@@ -1,4 +1,4 @@
-import { User } from '@src/db/models/users';
+import { User } from '@src/db/models/user';
 import { SignupBody, SigninBody } from '@src/interfaces/auth';
 import { jwtSign, hash } from '@src/utils/crypto';
 

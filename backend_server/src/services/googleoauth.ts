@@ -1,5 +1,5 @@
 import { google } from 'googleapis';
-import { User } from '@src/db/models/users';
+import { User } from '@src/db/models/user';
 import { jwtSign } from '@src/utils/crypto';
 
 const oauth2Client = new google.auth.OAuth2(

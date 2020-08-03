@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { initUser } from './models/users';
+import { initUser } from './models/user';
 import createDebug from 'debug';
 
 const debug = createDebug('app')
