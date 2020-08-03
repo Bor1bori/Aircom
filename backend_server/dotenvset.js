@@ -8,7 +8,7 @@ const fileMatch = {
   production: 'prod',
   development: 'develop',
   test: 'test'
-}
+};
 
 switch (process.env.NODE_ENV) {
   case 'local':
@@ -19,15 +19,14 @@ switch (process.env.NODE_ENV) {
     break;
   case 'development':
     configResult = dotenv.config({ path: path.join(__dirname, '.env.develop') });
-    break
+    break;
   case 'test':
     configResult = dotenv.config({ path: path.join(__dirname, '.env.test') });
-    break
+    break;
   default:
-    throw new Error('process.env.NODE_ENV not set')
-    break;    
+    throw new Error('process.env.NODE_ENV not set');
 }
 if (configResult.error) {
-  const message = `.env.${fileMatch[process.env.NODE_ENV]} not exists`
-  throw new Error(message)
+  const message = `.env.${fileMatch[process.env.NODE_ENV]} not exists`;
+  throw new Error(message);
 }

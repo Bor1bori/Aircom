@@ -2,8 +2,8 @@ import {
   Sequelize,
   Model,
   DataTypes,
-  Optional,
-} from "sequelize";
+  Optional
+} from 'sequelize';
 
 /* user db first settings */
 export interface UserAttributes {
@@ -16,7 +16,7 @@ export interface UserAttributes {
   signinID?: string;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
 export class User extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes {
@@ -34,35 +34,35 @@ export const initUser = (sequelize: Sequelize) => {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     email: {
       type: DataTypes.STRING(320),
-      allowNull: true,
+      allowNull: true
     },
     password: {
       type: DataTypes.STRING(320),
-      allowNull: true,
+      allowNull: true
     },
     birthdate: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     gender: {
       type: DataTypes.ENUM('male', 'female', 'etc'),
-      allowNull: true,
+      allowNull: true
     },
     signinType: {
       type: DataTypes.ENUM('email', 'googleoauth'),
-      allowNull: false,
+      allowNull: false
     },
     signinID: { // TODO: 이거 인덱싱해서 빨리 찾을 수 있도록 하면 좋을듯
       type: DataTypes.STRING(),
-      allowNull: true,
+      allowNull: true
     }
   }, {
     tableName: 'user',
-    sequelize,
+    sequelize
   });
 
   const queryInterface = sequelize.getQueryInterface();
@@ -70,4 +70,4 @@ export const initUser = (sequelize: Sequelize) => {
     fields: ['signinType', 'signinID'],
     type: 'unique'
   });
-}
+};

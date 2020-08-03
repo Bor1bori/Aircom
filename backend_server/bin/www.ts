@@ -8,7 +8,7 @@ import app from '../app';
 import createDebug from 'debug';
 import http from 'http';
 
-const debug = createDebug('app')
+const debug = createDebug('app');
 
 /**
  * Get port from environment and store in Express.
@@ -35,7 +35,7 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val : number | string) {
+function normalizePort (val : number | string) {
   const port = parseInt(val as string, 10);
 
   if (isNaN(port)) {
@@ -55,7 +55,7 @@ function normalizePort(val : number | string) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error: any) {
+function onError (error: any) {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -69,11 +69,9 @@ function onError(error: any) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
       process.exit(1);
-      break;
     case 'EADDRINUSE':
       console.error(bind + ' is already in use');
       process.exit(1);
-      break;
     default:
       throw error;
   }
@@ -83,7 +81,7 @@ function onError(error: any) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
+function onListening () {
   const addr = server.address();
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
