@@ -1,32 +1,9 @@
-# Moonlight PC
+# Client PC
 
-[Moonlight PC](https://moonlight-stream.org) is an open source implementation of NVIDIA's GameStream, as used by the NVIDIA Shield, but built to run on Windows, Mac, and Linux. This client is the successor to [Moonlight Chrome](https://github.com/moonlight-stream/moonlight-chrome) for streaming on PC.
+Aircom 서비스의 PC Client
 
-Moonlight also has mobile versions for [Android](https://github.com/moonlight-stream/moonlight-android) and  [iOS](https://github.com/moonlight-stream/moonlight-ios).
-
-You can follow development on our [Discord server](https://moonlight-stream.org/discord).
-
- [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/glj5cxqwy2w3bglv/branch/master?svg=true)](https://ci.appveyor.com/project/cgutman/moonlight-qt/branch/master)
- [![Downloads](https://img.shields.io/github/downloads/moonlight-stream/moonlight-qt/total)](https://github.com/moonlight-stream/moonlight-qt/releases)
-
-## Features
- - Hardware accelerated video decoding on Windows, Mac, and Linux
- - Supports streaming at up to 120 FPS (high refresh rate monitor recommended)
- - Supports streaming at 720p, 1080p, 1440p, 4K, and the client PC's native screen resolution
- - 7.1 surround sound audio support
- - Support for both pointer capture (for games) and direct mouse control (for remote desktop)
- - Direct touchscreen mouse control
- - HEVC support for better image quality at reduced bandwidth
- - Gamepad support with force feedback for up to 4 players
+[Moonlight PC v2.1.0를 수정해서 사용](https://github.com/moonlight-stream/moonlight-qt/releases/tag/v2.1.0)
  
-## Downloads
-- [Windows, macOS, and Steam Link](https://github.com/moonlight-stream/moonlight-qt/releases)
-- [Snap (for Ubuntu-based Linux distros)](https://snapcraft.io/moonlight)
-- [Flatpak (for other Linux distros)](https://flathub.org/apps/details/com.moonlight_stream.Moonlight)
-- [AppImage](https://github.com/moonlight-stream/moonlight-qt/releases)
-- [Raspberry Pi 4](https://github.com/moonlight-stream/moonlight-docs/wiki/Installing-Moonlight-Qt-on-Raspberry-Pi-4)
-- [NVIDIA Jetson and Nintendo Switch (Ubuntu L4T)](https://github.com/moonlight-stream/moonlight-docs/wiki/Installing-Moonlight-Qt-on-Linux4Tegra-(L4T)-Ubuntu)
-
 ## Building
 
 ### Windows Build Requirements
@@ -66,10 +43,3 @@ You can follow development on our [Discord server](https://moonlight-stream.org/
         * For macOS builds, use `scripts/generate-dmg.sh`. Execute this script from the root of the repository and ensure Qt's `bin` folder is in your `$PATH`.
         * For Steam Link builds, run `scripts/build-steamlink-app.sh` from the root of the repository.
     * To build from the command line for development use, run `qmake moonlight-qt.pro` then `make debug` or `make release`
-
-## Contribute
-1. Fork us
-2. Write code
-3. Send Pull Requests
-
-Check out our [website](https://moonlight-stream.org) for project links and information.
