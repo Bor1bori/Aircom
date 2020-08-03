@@ -5,6 +5,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
+        applicationId "com.aircom"
         minSdkVersion 16
         targetSdkVersion 30
 
@@ -26,7 +27,7 @@ android {
                 }
             }
 
-            applicationId "com.limelight.root"
+            applicationId "com.aircom.root"
             dimension "root"
         }
 
@@ -37,7 +38,7 @@ android {
                 }
             }
 
-            applicationId "com.limelight"
+            applicationId "com.aircom"
             dimension "root"
         }
     }
@@ -111,8 +112,8 @@ android {
         ndkBuild {
             path "src/main/jni/Android.mk"
         }
-    }*/
-    ndkVersion '21.3.6528147'
+    }
+    ndkVersion '21.0.6113669'
 
 
 }
@@ -126,8 +127,7 @@ dependencies {
     implementation 'org.jmdns:jmdns:3.5.5'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    api 'com.google.code.gson:gson:2.8.2'
+    api 'com.google.code.gson:gson:2.8.5'
     api 'com.squareup.retrofit2:converter-gson:2.4.0'
 }
-
 

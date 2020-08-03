@@ -18,7 +18,7 @@
             android:entries="@array/fps_names"
             android:entryValues="@array/fps_values"
             android:defaultValue="60" />
-        <com.limelight.preferences.SeekBarPreference
+        <com.aircom.preferences.SeekBarPreference
             android:key="seekbar_bitrate_kbps"
             android:dialogMessage="@string/summary_seekbar_bitrate"
             seekbar:min="500"
@@ -110,7 +110,7 @@
             android:key="checkbox_only_show_L3R3"
             android:summary="@string/summary_only_l3r3"
             android:title="@string/title_only_l3r3" />
-        <com.limelight.preferences.SeekBarPreference
+        <com.aircom.preferences.SeekBarPreference
             android:key="seekbar_osc_opacity"
             android:dependency="checkbox_show_onscreen_controls"
             android:dialogMessage="@string/summary_osc_opacity"
@@ -121,7 +121,7 @@
             android:summary="@string/summary_osc_opacity"
             android:text="@string/suffix_osc_opacity"
             android:title="@string/dialog_title_osc_opacity" />
-        <com.limelight.preferences.ConfirmDeleteOscPreference
+        <com.aircom.preferences.ConfirmDeleteOscPreference
             android:title="@string/title_reset_osc"
             android:summary="@string/summary_reset_osc"
             android:dialogTitle="@string/dialog_title_reset_osc"
@@ -157,7 +157,7 @@
             android:entryValues="@array/language_values"
             android:summary="@string/summary_language_list"
             android:defaultValue="default" />
-        <com.limelight.preferences.SmallIconCheckboxPreference
+        <com.aircom.preferences.SmallIconCheckboxPreference
             android:key="checkbox_small_icon_mode"
             android:title="@string/title_checkbox_small_icon_mode"
             android:summary="@string/summary_checkbox_small_icon_mode" />
