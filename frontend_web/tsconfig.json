@@ -69,7 +69,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx", "components/auth"
   ],
   "exclude": [
     "node_modules"

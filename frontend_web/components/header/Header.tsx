@@ -1,15 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import GoogleButton from './GoogleButton';
-import { RootState } from '../store/store';
+import { useSelector } from 'react-redux';
+import GoogleButton from '../auth/GoogleButton';
+import { RootState } from '../../store/store';
 
 const linkStyle = {
     marginRight: 15
 };
 
 const Header = () => {
-    const dispatch = useDispatch();
     const authState = useSelector((state: RootState) => state.auth)
     return (
         <div>

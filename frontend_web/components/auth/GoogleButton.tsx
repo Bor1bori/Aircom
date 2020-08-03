@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { signin } from '../store/auth/action';
+import { signin } from '../../store/auth/action';
 import { GoogleLogin } from "react-google-login";
 import axios from 'axios';
 
