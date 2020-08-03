@@ -1,6 +1,4 @@
 import { google } from 'googleapis';
-import { User } from '@src/db/models/user';
-import { jwtSign } from '@src/utils/crypto';
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_OAUTH_CLIENT_ID,
@@ -42,13 +40,12 @@ export const getIDTokenWithAuthorizationCode = async (code: string) => {
 };
 
 /**
- * @description idToken을 받아 사용자 정보를 확인하고,
- * 회원가입이 되어있지 않다면 회원가입을 진행한 후
- * 로그인을 해서 login jwt를 반환
+ * @description idToken을 받아 무결성을 검증한 후
+ * 해당 사용자 google 계정의 userid를 반환
  * @param idToken id Token
- * @returns loginToken login에 사용하는 token
+ * @returns userId 해당 사용자 google 계정의 userid
  */
-export const signupAndSigninWithIDToken = async (idToken: string) => {
+export const getUserIdFromIDToken = async (idToken: string) => {
   let ticket;
   try {
     ticket = await oauth2Client.verifyIdToken({
@@ -60,33 +57,7 @@ export const signupAndSigninWithIDToken = async (idToken: string) => {
   }
 
   const payload = ticket.getPayload();
-  const userid = payload!.sub;
+  const userId = payload!.sub;
 
-  const exists = await User.findOne({
-    where: {
-      signinType: 'googleoauth',
-      signinID: userid
-    }
-  });
-
-  let loginToken: string;
-  if (exists) {
-    loginToken = await signin(exists.id);
-  } else {
-    const user = await signup(userid);
-    loginToken = await signin(user.id);
-  }
-
-  return loginToken;
-};
-
-const signin = async (pkId: number) => {
-  return jwtSign({ id: pkId }, 1000 * 60 * 60 * 24);
-};
-
-const signup = async (userid: string) => {
-  return await User.create({
-    signinType: 'googleoauth',
-    signinID: userid
-  });
+  return userId;
 };

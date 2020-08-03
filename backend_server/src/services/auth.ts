@@ -1,6 +1,7 @@
 import { User } from '@src/db/models/user';
 import { SignupBody, SigninBody } from '@src/interfaces/auth';
 import { jwtSign, hash } from '@src/utils/crypto';
+import { getUserIdFromIDToken } from './googleoauth';
 
 export async function signup (user: SignupBody) {
   const foundUser = await User.findOne({ where: { email: user.email } });
@@ -28,4 +29,28 @@ export async function signin (user: SigninBody) {
   } else {
     return jwtSign({ id: foundUser.id }, 1000 * 60 * 60 * 24);
   }
+}
+
+export async function signinOrSignupViaGoogleOAuth (idToken: string) {
+  const userID = await getUserIdFromIDToken(idToken);
+
+  const foundUser = await User.findOne({
+    where: {
+      signinType: 'googleoauth',
+      signinID: userID
+    }
+  });
+
+  let signedinID;
+  if (foundUser !== null) { // 가입된 유저일 경우
+    signedinID = foundUser.id;
+  } else {
+    const newUser = await User.create({
+      signinType: 'googleoauth',
+      signinID: userID
+    });
+    signedinID = newUser.id;
+  }
+
+  return jwtSign({ id: signedinID }, 1000 * 60 * 60 * 24);
 }
