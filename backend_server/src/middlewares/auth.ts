@@ -3,7 +3,6 @@ import * as yup from 'yup';
 import { SignupBody, SigninBody } from '@src/interfaces/auth';
 
 export const signupValidator = wrapper(async (req, res, next) => {
-
   const signupSchema = yup.object<SignupBody>({
     email: yup.string().email().required(),
     password: yup.string().required(),
@@ -17,14 +16,12 @@ export const signupValidator = wrapper(async (req, res, next) => {
   } catch (err) {
     return res.status(400).json(err);
   }
-
 });
 
 export const signinValidator = wrapper(async (req, res, next) => {
-  
   const signinSchema = yup.object<SigninBody>({
     email: yup.string().email().required(),
-    password: yup.string().required(),
+    password: yup.string().required()
   }).required();
 
   try {
@@ -33,7 +30,6 @@ export const signinValidator = wrapper(async (req, res, next) => {
   } catch (err) {
     return res.status(400).json(err);
   }
-
 });
 
 export const googleOAuthCallbackValidator = wrapper(async (req, res, next) => {
