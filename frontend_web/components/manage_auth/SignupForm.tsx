@@ -26,7 +26,7 @@ const SignUp = () => {
             .then((res) => {
                 console.log(res);
                 dispatch(signin(res.data.loginToken));
-                router.push("/");
+                router.push("/manage");
             })
             .catch((err) => {
                 console.log(err);
