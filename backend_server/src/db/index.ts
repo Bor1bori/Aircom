@@ -1,16 +1,16 @@
 import { Sequelize } from 'sequelize';
-import { initUser } from './models/users';
+import { initUser } from './models/user';
 import createDebug from 'debug';
 
-const debug = createDebug('app')
+const debug = createDebug('app');
 
 const config = {
-  "username": process.env.DB_USERNAME,
-  "password": process.env.DB_PASSWORD,
-  "database": process.env.DB_DATABASE,
-  "host": process.env.DB_HOST,
-  "dialect": 'mariadb',
-}
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  host: process.env.DB_HOST,
+  dialect: 'mariadb'
+};
 
 const sequelize = new Sequelize({
   username: config.username,
@@ -29,6 +29,6 @@ export const sequelizeInit = async () => {
   } catch (error) {
     debug('Unable to connect to the database:', error);
   }
-}
+};
 
 export default sequelize;

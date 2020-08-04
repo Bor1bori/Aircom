@@ -8,8 +8,6 @@ router.post('/signup', authMiddleware.signupValidator, authControllers.signup);
 
 router.post('/signin', authMiddleware.signinValidator, authControllers.signin);
 
-router.get('/oauth/google/authurl', authControllers.getGoogleOAuthURL);
-router.get('/oauth/google/callback', authMiddleware.googleOAuthCallbackValidator, authControllers.googleOAuthCallback);
 router.post('/oauth/google/signin', authMiddleware.googleOAuthSignValidator, authControllers.googleOAuthSignUpAndSignIn);
 
 export default router;

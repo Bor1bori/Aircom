@@ -6,7 +6,7 @@ import {
 } from 'sequelize';
 
 /* user db first settings */
-export interface UserAttributes {
+export interface PCProviderAttributes {
   id: number;
   email?: string;
   password?: string;
@@ -16,10 +16,10 @@ export interface UserAttributes {
   signinID?: string;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+interface PCProviderCreationAttributes extends Optional<PCProviderAttributes, 'id'> {}
 
-export class User extends Model<UserAttributes, UserCreationAttributes>
-  implements UserAttributes {
+export class PCProvider extends Model<PCProviderAttributes, PCProviderCreationAttributes>
+  implements PCProviderAttributes {
   public id!: number;
   public email?: string;
   public password?: string;
@@ -29,8 +29,8 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public signinID?: string;
 }
 
-export const initUser = (sequelize: Sequelize) => {
-  User.init({
+export const initPCProvider = (sequelize: Sequelize) => {
+  PCProvider.init({
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
@@ -61,12 +61,12 @@ export const initUser = (sequelize: Sequelize) => {
       allowNull: true
     }
   }, {
-    tableName: 'user',
+    tableName: 'pc_provider',
     sequelize
   });
 
   const queryInterface = sequelize.getQueryInterface();
-  queryInterface.addConstraint('user', {
+  queryInterface.addConstraint('pc_provider', {
     fields: ['signinType', 'signinID'],
     type: 'unique'
   });
