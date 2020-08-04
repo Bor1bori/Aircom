@@ -27,6 +27,9 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public gender?: string;
   public signinType!: 'email' | 'googleoauth';
   public signinID?: string;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 export const initUser = (sequelize: Sequelize) => {
