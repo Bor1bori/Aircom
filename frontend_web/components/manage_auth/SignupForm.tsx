@@ -22,7 +22,7 @@ const SignUp = () => {
     const onSignup = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
     
-        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/signup`, signupInput)
+        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/signup`, signupInput)
             .then((res) => {
                 console.log(res);
                 dispatch(signin(res.data.loginToken));
