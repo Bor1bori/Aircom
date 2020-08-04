@@ -19,6 +19,7 @@ import com.aircom.data.SignInResponse;
 import com.aircom.data.SignUpData;
 import com.aircom.data.SignUpResponse;
 import com.aircom.SignIn;
+import com.aircom.preferences.AddComputerManually;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -161,7 +162,7 @@ public class SignUp extends Activity {
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.code() == 200) {
                     Toast.makeText(SignUp.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignUp.this, PcView.class);
+                    Intent intent = new Intent(SignUp.this, AddComputerManually.class);
                     startActivity(intent);
                 }
             }

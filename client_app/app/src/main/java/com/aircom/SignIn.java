@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.aircom.preferences.AddComputerManually;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -226,7 +227,7 @@ public class SignIn extends Activity{
                 Toast.makeText(SignIn.this, response.message(), Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
                     System.out.println("Login Token: "+response.body());
-                    Intent intent = new Intent(SignIn.this, PcView.class);
+                    Intent intent = new Intent(SignIn.this, AddComputerManually.class);
                     startActivity(intent);
                 }
             }
@@ -247,7 +248,7 @@ public class SignIn extends Activity{
     private void updateUI(GoogleSignInAccount account) {
         if (account != null){
             Toast.makeText(this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SignIn.this, PcView.class);
+            Intent intent = new Intent(SignIn.this, AddComputerManually.class);
             startActivity(intent);
         }
     }
