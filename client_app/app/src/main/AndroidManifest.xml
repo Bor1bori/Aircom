@@ -115,7 +115,7 @@
                 android:value="com.aircom.PcView" />
         </activity>
         <activity
-            android:name="com.aircom.preferences.AddComputerManually"
+            android:name="com.aircom.preferences.AddComputerAutomatically"
             android:resizeableActivity="true"
             android:windowSoftInputMode="stateVisible"
             android:label="Add Computer Manually">

@@ -20,19 +20,14 @@ import com.aircom.utils.UiHelper;
 import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddComputerManually extends Activity {
+public class AddComputerAutomatically extends Activity {
     private String hostText;
     private ComputerManagerService.ComputerManagerBinder managerBinder;
     private final LinkedBlockingQueue<String> computersToAdd = new LinkedBlockingQueue<>();
@@ -122,14 +117,14 @@ public class AddComputerManually extends Activity {
             Dialog.displayDialog(this, getResources().getString(R.string.conn_error_title), getResources().getString(R.string.addpc_fail), false);
         }
         else {
-            AddComputerManually.this.runOnUiThread(new Runnable() {
+            AddComputerAutomatically.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                Toast.makeText(AddComputerManually.this, getResources().getString(R.string.addpc_success), Toast.LENGTH_LONG).show();
+                Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.addpc_success), Toast.LENGTH_LONG).show();
 
                 if (!isFinishing()) {
                     // Close the activity
-                    Intent intent = new Intent(AddComputerManually.this, AppView.class);
+                    Intent intent = new Intent(AddComputerAutomatically.this, AppView.class);
                     intent.putExtra(AppView.NAME_EXTRA, details.name);
                     intent.putExtra(AppView.UUID_EXTRA, details.uuid);
                     intent.putExtra(AppView.NEW_PAIR_EXTRA, true);
@@ -199,11 +194,11 @@ public class AddComputerManually extends Activity {
 
         UiHelper.setLocale(this);
 
-        setContentView(R.layout.activity_add_computer_manually);
+        setContentView(R.layout.activity_add_computer_automatically);
 
         UiHelper.notifyNewRootView(this);
 
-        this.hostText = "203.229.155.35"; //ip 주소
+        this.hostText = "203.229.155.35"; //ip 주소 할당
         /*hostText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         hostText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -233,7 +228,7 @@ public class AddComputerManually extends Activity {
         });
 
         // Bind to the ComputerManager service
-        bindService(new Intent(AddComputerManually.this,
+        bindService(new Intent(AddComputerAutomatically.this,
                     ComputerManagerService.class), serviceConnection, Service.BIND_AUTO_CREATE);
     }
 
@@ -242,7 +237,7 @@ public class AddComputerManually extends Activity {
         String hostAddress = hostText;
 
         if (hostAddress.length() == 0) {
-            Toast.makeText(AddComputerManually.this, getResources().getString(R.string.addpc_enter_ip), Toast.LENGTH_LONG).show();
+            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.addpc_enter_ip), Toast.LENGTH_LONG).show();
             return true;
         }
 

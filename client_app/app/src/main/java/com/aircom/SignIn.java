@@ -13,15 +13,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.aircom.preferences.AddComputerManually;
+import com.aircom.preferences.AddComputerAutomatically;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.aircom.data.RetrofitClient;
@@ -227,7 +225,7 @@ public class SignIn extends Activity{
                 Toast.makeText(SignIn.this, response.message(), Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
                     System.out.println("Login Token: "+response.body());
-                    Intent intent = new Intent(SignIn.this, AddComputerManually.class);
+                    Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
                     startActivity(intent);
                 }
             }
@@ -248,7 +246,7 @@ public class SignIn extends Activity{
     private void updateUI(GoogleSignInAccount account) {
         if (account != null){
             Toast.makeText(this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SignIn.this, AddComputerManually.class);
+            Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
             startActivity(intent);
         }
     }
