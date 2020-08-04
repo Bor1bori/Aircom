@@ -59,3 +59,13 @@ export const aesDecrypt = (encryptedText: string) => {
     return null;
   }
 };
+
+export const getRandomAlphNum = (size: number) => {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < size; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};

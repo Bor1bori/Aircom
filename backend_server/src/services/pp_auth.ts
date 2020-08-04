@@ -1,6 +1,6 @@
 import { PCProvider } from '@src/db/models/pc_provider';
 import { SignupBody, SigninBody } from '@src/interfaces/pp_auth';
-import { jwtSign, hash } from '@src/utils/crypto';
+import { jwtSign, hash, getRandomAlphNum } from '@src/utils/crypto';
 import { getUserIdFromIDToken } from './googleoauth';
 
 export async function signup (ppUser: SignupBody) {
@@ -54,3 +54,29 @@ export async function signinOrSignupViaGoogleOAuth (idToken: string) {
 
   return jwtSign({ id: signedinID }, 1000 * 60 * 60 * 24);
 }
+
+const authCodeMap: any = {
+
+};
+
+export const getAuthCode = (ppId: number) => {
+  let authCode = getRandomAlphNum(6);
+
+  while (authCodeMap[authCode]) {
+    authCode = getRandomAlphNum(6);
+  }
+
+  authCodeMap[authCode] = ppId;
+  setTimeout(() => delete authCodeMap[authCode], 1000 * 60 * 5 /* 5분간 유효 */);
+
+  return authCode;
+};
+
+export const verifyAuthCode = (authCode: string) => {
+  const ppId = authCodeMap[authCode];
+  if (ppId) {
+    return ppId;
+  } else {
+    return null;
+  }
+};
