@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize';
 import { initUser } from './models/user';
+import { initPCProvider } from './models/pc_provider';
 import createDebug from 'debug';
 
 const debug = createDebug('app');
@@ -24,6 +25,7 @@ export const sequelizeInit = async () => {
   try {
     await sequelize.authenticate();
     initUser(sequelize);
+    initPCProvider(sequelize);
     await sequelize.sync();
     debug('Connection has been established successfully.');
   } catch (error) {
