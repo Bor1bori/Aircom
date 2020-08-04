@@ -197,7 +197,7 @@ public class AddComputerManually extends Activity {
 
         UiHelper.notifyNewRootView(this);
 
-        this.hostText = findViewById(R.id.hostTextView);
+        this.hostText = findViewById(R.id.hostTextView); //ip 주소
         hostText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         hostText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

@@ -1,6 +1,6 @@
 import { wrapper } from '@src/utils/wrapper';
 import * as yup from 'yup';
-import { SignupBody, SigninBody } from '@src/interfaces/auth';
+import { SignupBody, SigninBody } from '@src/interfaces/pp_auth';
 
 export const signupValidator = wrapper(async (req, res, next) => {
   const signupSchema = yup.object<SignupBody>({

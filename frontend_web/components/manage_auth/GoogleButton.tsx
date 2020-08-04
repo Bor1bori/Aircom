@@ -12,7 +12,7 @@ const GoogleButton = () => {
     // Google Login
     const onResponseGoogle = (res: any) => {
         console.log(res);
-        axios.post("http://myaircom.co.kr:3000/pp-auth/oauth/google/signin", {
+        axios.post("http://myaircom.co.kr:3000/auth/oauth/google/signin", {
             idToken: res.wc.id_token
         })
             .then((res) => {

@@ -59,6 +59,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import static android.opengl.GLSurfaceView.*;
+
 public class PcView extends Activity implements AdapterFragmentCallbacks {
     private RelativeLayout noPcFoundLayout;
     private PcGridAdapter pcGridAdapter;
@@ -182,7 +184,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
         final GlPreferences glPrefs = GlPreferences.readPreferences(this);
         if (!glPrefs.savedFingerprint.equals(Build.FINGERPRINT) || glPrefs.glRenderer.isEmpty()) {
             GLSurfaceView surfaceView = new GLSurfaceView(this);
-            surfaceView.setRenderer(new GLSurfaceView.Renderer() {
+            surfaceView.setRenderer(new Renderer() {
                 @Override
                 public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
                     // Save the GLRenderer string so we don't need to do this next time
@@ -375,7 +377,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
                 try {
                     // Stop updates and wait while pairing
                     stopComputerUpdates(true);
-
+                    //여기서 컴퓨터 연결
                     httpConn = new NvHTTP(ServerHelper.getCurrentAddressFromComputer(computer),
                             managerBinder.getUniqueId(),
                             computer.serverCert,
@@ -562,7 +564,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        final ComputerObject computer = (ComputerObject) pcGridAdapter.getItem(info.position);
+        final ComputerObject computer = (ComputerObject) pcGridAdapter.getItem(0);
         switch (item.getItemId()) {
             case PAIR_ID:
                 doPair(computer.details);
@@ -592,7 +594,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
                     }
                 }, null);
                 return true;
-
+            //앱 리스트 화면으로 이동
             case APP_LIST_ID:
                 doAppList(computer.details, false);
                 return true;
