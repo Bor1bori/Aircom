@@ -20,7 +20,7 @@ const SignIn = () => {
     const onSignin = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
     
-        axios.post("http://api.myaircom.co.kr/pp-auth/signin", signinInput)
+        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/signin`, signinInput)
             .then((res) => {
                 console.log(res);
                 dispatch(signin(res.data.loginToken));
