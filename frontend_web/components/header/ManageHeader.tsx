@@ -8,7 +8,7 @@ const linkStyle = {
     marginRight: 15
 };
 
-const Header = () => {
+const ManageHeader = () => {
     const authState = useSelector((state: RootState) => state.auth);
     return (
         <div>
@@ -19,14 +19,14 @@ const Header = () => {
                 <a>로그아웃</a>
             </>
                 : <>
-                    <Link href="/signin">
+                    <Link href="/manage/signin">
                         <a style={linkStyle}>로그인</a>
                     </Link>
-                    <Link href="/signup">
+                    <Link href="/manage/signup">
                         <a style={linkStyle}>회원가입</a>
                     </Link>
-                    <Link href="/manage">
-                        <a style={linkStyle}>관리페이지로 이동</a>
+                    <Link href="/">
+                        <a style={linkStyle}>메인페이지로 이동</a>
                     </Link>
                 </>
             }
@@ -36,4 +36,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default ManageHeader;
