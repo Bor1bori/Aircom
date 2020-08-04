@@ -80,7 +80,7 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
         }
         // We must check if the status is exactly online and unpaired
         // to avoid colliding with the loading spinner when status is unknown
-        else if (obj.details.state == ComputerDetails.State.ONLINE &&
+        else if (obj.details.state == ComputerDetails.State.ONLINE   &&
                 obj.details.pairState == PairingManager.PairState.NOT_PAIRED) {
             overlayView.setImageResource(R.drawable.ic_lock);
             overlayView.setAlpha(1.0f);
