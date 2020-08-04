@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.aircom.AppView;
 import com.aircom.computers.ComputerManagerService;
 import com.aircom.R;
 import com.aircom.nvstream.http.ComputerDetails;
@@ -32,7 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddComputerManually extends Activity {
-    private TextView hostText;
+    private String hostText;
     private ComputerManagerService.ComputerManagerBinder managerBinder;
     private final LinkedBlockingQueue<String> computersToAdd = new LinkedBlockingQueue<>();
     private Thread addThread;
@@ -94,12 +95,12 @@ public class AddComputerManually extends Activity {
     private void doAddPc(String host) {
         boolean wrongSiteLocal = false;
         boolean success;
+        final ComputerDetails details = new ComputerDetails();
 
         SpinnerDialog dialog = SpinnerDialog.displayDialog(this, getResources().getString(R.string.title_add_pc),
             getResources().getString(R.string.msg_add_pc), false);
 
         try {
-            ComputerDetails details = new ComputerDetails();
             details.manualAddress = host;
             success = managerBinder.addComputerBlocking(details);
         } catch (IllegalArgumentException e) {
@@ -128,7 +129,12 @@ public class AddComputerManually extends Activity {
 
                 if (!isFinishing()) {
                     // Close the activity
-                    AddComputerManually.this.finish();
+                    Intent intent = new Intent(AddComputerManually.this, AppView.class);
+                    intent.putExtra(AppView.NAME_EXTRA, details.name);
+                    intent.putExtra(AppView.UUID_EXTRA, details.uuid);
+                    intent.putExtra(AppView.NEW_PAIR_EXTRA, true);
+                    startActivity(intent);
+                    //AddComputerManually.this.finish();
                 }
                 }
             });
@@ -197,8 +203,8 @@ public class AddComputerManually extends Activity {
 
         UiHelper.notifyNewRootView(this);
 
-        this.hostText = findViewById(R.id.hostTextView); //ip 주소
-        hostText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        this.hostText = "203.229.155.35"; //ip 주소
+        /*hostText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         hostText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -217,7 +223,7 @@ public class AddComputerManually extends Activity {
 
                 return false;
             }
-        });
+        });*/
 
         findViewById(R.id.addPcButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,7 +239,7 @@ public class AddComputerManually extends Activity {
 
     // Returns true if the event should be eaten
     private boolean handleDoneEvent() {
-        String hostAddress = hostText.getText().toString().trim();
+        String hostAddress = hostText;
 
         if (hostAddress.length() == 0) {
             Toast.makeText(AddComputerManually.this, getResources().getString(R.string.addpc_enter_ip), Toast.LENGTH_LONG).show();
