@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { signin } from "../../../store/auth/action";
+import { ppSignin } from "../../../store/pp_auth/action";
 import { GoogleLogin } from "react-google-login";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -18,7 +18,7 @@ const GoogleButton = () => {
             idToken: res.wc.id_token
         })
             .then((res) => {
-                dispatch(signin(res.data.loginToken));
+                dispatch(ppSignin(res.data.ppLoginToken));
                 router.push("/manage");
             })
             .catch((err) => {

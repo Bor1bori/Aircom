@@ -9,13 +9,13 @@ const linkStyle = {
 };
 
 const ManageHeader = () => {
-    const authState = useSelector((state: RootState) => state.auth);
+    const ppAuthState = useSelector((state: RootState) => state.ppAuth);
     return (
         <div>
             <Link href="/">
                 <a style={linkStyle}>Home</a>
             </Link>
-            {authState.isSignedin ? <>
+            {ppAuthState.isSignedin ? <>
                 <a>로그아웃</a>
             </>
                 : <>

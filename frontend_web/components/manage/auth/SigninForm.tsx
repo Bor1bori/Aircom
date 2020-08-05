@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { signin } from "../../../store/auth/action";
+import { ppSignin } from "../../../store/pp_auth/action";
 import { useRouter } from "next/router";
 
 const SignIn = () => {
@@ -23,7 +23,7 @@ const SignIn = () => {
         axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/signin`, signinInput)
             .then((res) => {
                 console.log(res);
-                dispatch(signin(res.data.loginToken));
+                dispatch(ppSignin(res.data.ppLoginToken));
                 router.push("/manage");
             })
             .catch((err) => {

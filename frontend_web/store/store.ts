@@ -2,7 +2,9 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import thunkMiddleware from "redux-thunk";
 import auth from "./auth/reducer";
+import ppAuth from "./pp_auth/reducer";
 import {AuthState} from "./auth/types";
+import { PPAuthState } from "./pp_auth/types";
 
 const bindMiddleware = (middleware: any) => {
     if (process.env.NODE_ENV !== "production") {
@@ -15,6 +17,7 @@ const bindMiddleware = (middleware: any) => {
 
 const combinedReducer = combineReducers({
     auth,
+    ppAuth,
 });
 
 const reducer = (state: any, action: any) => {
@@ -38,4 +41,5 @@ export const wrapper = createWrapper(initStore);
 
 export interface RootState {
   auth: AuthState
+  ppAuth: PPAuthState
 }
