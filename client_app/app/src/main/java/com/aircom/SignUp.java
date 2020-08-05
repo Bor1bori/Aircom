@@ -18,7 +18,6 @@ import com.aircom.data.SignInData;
 import com.aircom.data.SignInResponse;
 import com.aircom.data.SignUpData;
 import com.aircom.data.SignUpResponse;
-import com.aircom.preferences.AddComputerAutomatically;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,4 +1,4 @@
-package com.aircom.preferences;
+package com.aircom;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -9,9 +9,7 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.aircom.AppView;
 import com.aircom.computers.ComputerManagerService;
-import com.aircom.R;
 import com.aircom.nvstream.http.ComputerDetails;
 import com.aircom.utils.Dialog;
 import com.aircom.utils.SpinnerDialog;
