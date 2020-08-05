@@ -5,8 +5,8 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build & npx cross-env NODE_ENV=production DEBUG=app node -r ./tsconfig-paths-bootstrap.js -r ./dotenvset.js ./dist/bin/www.js",
-    "dev": "npx cross-env NODE_ENV=development DEBUG=app npx nodemon -e ts,js --exec ts-node -r tsconfig-paths/register -r dotenvset.js ./bin/www.ts",
-    "local_dev": "npx cross-env NODE_ENV=local DEBUG=app npx nodemon -e ts,js --exec ts-node -r tsconfig-paths/register -r dotenvset.js ./bin/www.ts"
+    "dev": "npx cross-env NODE_ENV=development DEBUG=app npx nodemon -e ts,js --exec ts-node -r tsconfig-paths/register -r dotenvset.js ./src/bin/www.ts",
+    "local_dev": "npx cross-env NODE_ENV=local DEBUG=app npx nodemon -e ts,js --exec ts-node -r tsconfig-paths/register -r dotenvset.js ./src/bin/www.ts"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
