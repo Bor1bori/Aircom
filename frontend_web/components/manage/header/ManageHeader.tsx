@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import GoogleButton from "../manage_auth/GoogleButton";
-import { RootState } from "../../store/store";
+import GoogleButton from "../auth/GoogleButton";
+import { RootState } from "../../../store/store";
 
 const linkStyle = {
     marginRight: 15

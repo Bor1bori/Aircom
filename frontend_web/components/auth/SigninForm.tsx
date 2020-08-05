@@ -12,7 +12,6 @@ const SignIn = () => {
         password: "",
     });
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(`${process.env.NEXT_PUBLIC_API_HOST}`);
         setSigninInput({
             ...signinInput,
             [e.target.name]: e.target.value,
