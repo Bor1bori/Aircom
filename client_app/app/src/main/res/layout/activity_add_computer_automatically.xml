@@ -25,5 +25,16 @@
         android:layout_below="@+id/manuallyAddPcText"
         android:layout_centerHorizontal="true"
         android:text="@android:string/ok"/>
-	
+
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="70dp"
+        android:layout_height="65dp"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_settings"
+        style="?android:attr/borderlessButtonStyle"/>
 </RelativeLayout>

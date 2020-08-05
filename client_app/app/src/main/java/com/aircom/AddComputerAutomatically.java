@@ -11,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.aircom.computers.ComputerManagerService;
 import com.aircom.nvstream.http.ComputerDetails;
+import com.aircom.preferences.StreamSettings;
 import com.aircom.utils.Dialog;
 import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;
@@ -23,6 +24,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class AddComputerAutomatically extends Activity {
@@ -196,7 +198,15 @@ public class AddComputerAutomatically extends Activity {
 
         UiHelper.notifyNewRootView(this);
 
-        this.hostText = "203.229.155.35"; //ip 주소 할당
+        ImageButton settingsButton = findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AddComputerAutomatically.this, StreamSettings.class));
+            }
+        });
+
+        this.hostText = "223.38.47.101"; //ip 주소 할당
         /*hostText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         hostText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
