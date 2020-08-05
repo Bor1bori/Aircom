@@ -60,7 +60,7 @@ const authCodeMap: any = {
 };
 
 export const getAuthCode = (ppId: number) => {
-  let authCode = getRandomAlphNum(6);
+  let authCode = getRandomAlphNum(6).toUpperCase();
 
   while (authCodeMap[authCode]) {
     authCode = getRandomAlphNum(6);
@@ -73,7 +73,7 @@ export const getAuthCode = (ppId: number) => {
 };
 
 export const verifyAuthCode = (authCode: string) => {
-  const ppId = authCodeMap[authCode];
+  const ppId = authCodeMap[authCode].toUpperCase();
   if (ppId) {
     return ppId;
   } else {
