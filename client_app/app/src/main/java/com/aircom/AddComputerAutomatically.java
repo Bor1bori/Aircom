@@ -136,14 +136,21 @@ public class AddComputerAutomatically extends Activity {
                         // 만약 pc가 pairing 되지 않은 상태라
                         if (details.pairState!= PairingManager.PairState.PAIRED){
                             doPair(details);
+                            return;
                         }
                         else {
-                            Intent intent = new Intent(AddComputerAutomatically.this, AppView.class);
-                            intent.putExtra(AppView.NAME_EXTRA, details.name);
-                            intent.putExtra(AppView.UUID_EXTRA, details.uuid);
-                            intent.putExtra(AppView.NEW_PAIR_EXTRA, true);
-                            startActivity(intent);
+                            findViewById(R.id.unpairPcButton).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    doUnpair(details);
+                                }
+                            });
                         }
+                        Intent intent = new Intent(AddComputerAutomatically.this, AppView.class);
+                        intent.putExtra(AppView.NAME_EXTRA, details.name);
+                        intent.putExtra(AppView.UUID_EXTRA, details.uuid);
+                        intent.putExtra(AppView.NEW_PAIR_EXTRA, true);
+                        startActivity(intent);
                         //AddComputerManually.this.finish();
                     }
                 }
@@ -400,5 +407,59 @@ public class AddComputerAutomatically extends Activity {
 
             runningPolling = false;
         }
+    }
+
+    private void doUnpair(final ComputerDetails computer) {
+        if (computer.state == ComputerDetails.State.OFFLINE ||
+                ServerHelper.getCurrentAddressFromComputer(computer) == null) {
+            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.error_pc_offline), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (managerBinder == null) {
+            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.error_manager_not_running), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.unpairing), Toast.LENGTH_SHORT).show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NvHTTP httpConn;
+                String message;
+                try {
+                    httpConn = new NvHTTP(ServerHelper.getCurrentAddressFromComputer(computer),
+                            managerBinder.getUniqueId(),
+                            computer.serverCert,
+                            PlatformBinding.getCryptoProvider(AddComputerAutomatically.this));
+                    if (httpConn.getPairState() == PairingManager.PairState.PAIRED) {
+                        httpConn.unpair();
+                        if (httpConn.getPairState() == PairingManager.PairState.NOT_PAIRED) {
+                            message = getResources().getString(R.string.unpair_success);
+                        }
+                        else {
+                            message = getResources().getString(R.string.unpair_fail);
+                        }
+                    }
+                    else {
+                        message = getResources().getString(R.string.unpair_error);
+                    }
+                } catch (UnknownHostException e) {
+                    message = getResources().getString(R.string.error_unknown_host);
+                } catch (FileNotFoundException e) {
+                    message = getResources().getString(R.string.error_404);
+                } catch (XmlPullParserException | IOException e) {
+                    message = e.getMessage();
+                    e.printStackTrace();
+                }
+
+                final String toastMessage = message;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(AddComputerAutomatically.this, toastMessage, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }).start();
     }
 }
