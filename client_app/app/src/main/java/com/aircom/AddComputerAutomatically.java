@@ -222,26 +222,6 @@ public class AddComputerAutomatically extends Activity {
         });
 
         this.hostText = ""; //ip 주소 할당
-        /*hostText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        hostText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_DONE ||
-                        (keyEvent != null &&
-                                keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
-                                keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    return handleDoneEvent();
-                }
-                else if (actionId == EditorInfo.IME_ACTION_PREVIOUS) {
-                    // This is how the Fire TV dismisses the keyboard
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(hostText.getWindowToken(), 0);
-                    return false;
-                }
-
-                return false;
-            }
-        });*/
 
         findViewById(R.id.addPcButton).setOnClickListener(new View.OnClickListener() {
             @Override
