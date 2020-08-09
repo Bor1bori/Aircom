@@ -206,7 +206,7 @@ public class AddComputerAutomatically extends Activity {
             }
         });
 
-        this.hostText = "223.38.47.101"; //ip 주소 할당
+        this.hostText = ""; //ip 주소 할당
         /*hostText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         hostText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -251,5 +251,10 @@ public class AddComputerAutomatically extends Activity {
 
         computersToAdd.add(hostAddress);
         return false;
+    }
+
+    @Override
+    public void onBackPressed(){
+        finishAffinity();
     }
 }
