@@ -1,5 +1,7 @@
 package com.aircom;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -9,10 +11,15 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.aircom.binding.PlatformBinding;
+import com.aircom.computers.ComputerManagerListener;
 import com.aircom.computers.ComputerManagerService;
 import com.aircom.nvstream.http.ComputerDetails;
+import com.aircom.nvstream.http.NvHTTP;
+import com.aircom.nvstream.http.PairingManager;
 import com.aircom.preferences.StreamSettings;
 import com.aircom.utils.Dialog;
+import com.aircom.utils.ServerHelper;
 import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;
 
@@ -27,8 +34,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParserException;
+
 public class AddComputerAutomatically extends Activity {
     private String hostText;
+    private boolean runningPolling, freezeUpdates, inForeground;
     private ComputerManagerService.ComputerManagerBinder managerBinder;
     private final LinkedBlockingQueue<String> computersToAdd = new LinkedBlockingQueue<>();
     private Thread addThread;
@@ -122,15 +132,20 @@ public class AddComputerAutomatically extends Activity {
                 public void run() {
                 Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.addpc_success), Toast.LENGTH_LONG).show();
 
-                if (!isFinishing()) {
-                    // Close the activity
-                    Intent intent = new Intent(AddComputerAutomatically.this, AppView.class);
-                    intent.putExtra(AppView.NAME_EXTRA, details.name);
-                    intent.putExtra(AppView.UUID_EXTRA, details.uuid);
-                    intent.putExtra(AppView.NEW_PAIR_EXTRA, true);
-                    startActivity(intent);
-                    //AddComputerManually.this.finish();
-                }
+                    if (!isFinishing()) {
+                        // 만약 pc가 pairing 되지 않은 상태라
+                        if (details.pairState!= PairingManager.PairState.PAIRED){
+                            doPair(details);
+                        }
+                        else {
+                            Intent intent = new Intent(AddComputerAutomatically.this, AppView.class);
+                            intent.putExtra(AppView.NAME_EXTRA, details.name);
+                            intent.putExtra(AppView.UUID_EXTRA, details.uuid);
+                            intent.putExtra(AppView.NEW_PAIR_EXTRA, true);
+                            startActivity(intent);
+                        }
+                        //AddComputerManually.this.finish();
+                    }
                 }
             });
         }
@@ -256,5 +271,154 @@ public class AddComputerAutomatically extends Activity {
     @Override
     public void onBackPressed(){
         finishAffinity();
+    }
+
+    private void doPair(final ComputerDetails computer) {
+        if (computer.state == ComputerDetails.State.OFFLINE ||
+                ServerHelper.getCurrentAddressFromComputer(computer) == null) {
+            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_offline), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (computer.runningGameId != 0) {
+            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_ingame), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (managerBinder == null) {
+            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.error_manager_not_running), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pairing), Toast.LENGTH_SHORT).show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NvHTTP httpConn;
+                String message;
+                boolean success = false;
+                try {
+                    // Stop updates and wait while pairing
+                    stopComputerUpdates(true);
+                    //여기서 컴퓨터 연결
+                    httpConn = new NvHTTP(ServerHelper.getCurrentAddressFromComputer(computer),
+                            managerBinder.getUniqueId(),
+                            computer.serverCert,
+                            PlatformBinding.getCryptoProvider(AddComputerAutomatically.this));
+                    if (httpConn.getPairState() == PairingManager.PairState.PAIRED) {
+                        // Don't display any toast, but open the app list
+                        message = null;
+                        success = true;
+                    }
+                    else {
+                        final String pinStr = PairingManager.generatePinString();
+
+                        // Spin the dialog off in a thread because it blocks
+                        //여기서 인증번호 받아 서버에 전달
+                        Dialog.displayDialog(AddComputerAutomatically.this, getResources().getString(R.string.pair_pairing_title),
+                                getResources().getString(R.string.pair_pairing_msg)+" "+pinStr, false);
+
+                        PairingManager pm = httpConn.getPairingManager();
+
+                        PairingManager.PairState pairState = pm.pair(httpConn.getServerInfo(), pinStr);
+                        if (pairState == PairingManager.PairState.PIN_WRONG) {
+                            message = getResources().getString(R.string.pair_incorrect_pin);
+                        }
+                        else if (pairState == PairingManager.PairState.FAILED) {
+                            message = getResources().getString(R.string.pair_fail);
+                        }
+                        else if (pairState == PairingManager.PairState.ALREADY_IN_PROGRESS) {
+                            message = getResources().getString(R.string.pair_already_in_progress);
+                        }
+                        else if (pairState == PairingManager.PairState.PAIRED) {
+                            // Just navigate to the app view without displaying a toast
+                            message = null;
+                            success = true;
+
+                            // Pin this certificate for later HTTPS use
+                            managerBinder.getComputer(computer.uuid).serverCert = pm.getPairedCert();
+
+                            // Invalidate reachability information after pairing to force
+                            // a refresh before reading pair state again
+                            managerBinder.invalidateStateForComputer(computer.uuid);
+                        }
+                        else {
+                            // Should be no other values
+                            message = null;
+                        }
+                    }
+                } catch (UnknownHostException e) {
+                    message = getResources().getString(R.string.error_unknown_host);
+                } catch (FileNotFoundException e) {
+                    message = getResources().getString(R.string.error_404);
+                } catch (XmlPullParserException | IOException e) {
+                    e.printStackTrace();
+                    message = e.getMessage();
+                }
+
+                Dialog.closeDialogs();
+
+                final String toastMessage = message;
+                final boolean toastSuccess = success;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (toastMessage != null) {
+                            Toast.makeText(AddComputerAutomatically.this, toastMessage, Toast.LENGTH_LONG).show();
+                        }
+
+                        if (toastSuccess) {
+                            // Open the app list after a successful pairing attempt
+                            Intent intent = new Intent(AddComputerAutomatically.this, AppView.class);
+                            intent.putExtra(AppView.NAME_EXTRA, computer.name);
+                            intent.putExtra(AppView.UUID_EXTRA, computer.uuid);
+                            intent.putExtra(AppView.NEW_PAIR_EXTRA, true);
+                            startActivity(intent);
+                        }
+                        else {
+                            // Start polling again if we're still in the foreground
+                            startComputerUpdates();
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void startComputerUpdates() {
+        // Only allow polling to start if we're bound to CMS, polling is not already running,
+        // and our activity is in the foreground.
+        if (managerBinder != null && !runningPolling && inForeground) {
+            freezeUpdates = false;
+            managerBinder.startPolling(new ComputerManagerListener() {
+                @Override
+                public void notifyComputerUpdated(final ComputerDetails details) {
+                    if (!freezeUpdates) {
+                        AddComputerAutomatically.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //updateComputer(details);
+                            }
+                        });
+                    }
+                }
+            });
+            runningPolling = true;
+        }
+    }
+
+    private void stopComputerUpdates(boolean wait) {
+        if (managerBinder != null) {
+            if (!runningPolling) {
+                return;
+            }
+
+            freezeUpdates = true;
+            managerBinder.stopPolling();
+
+            if (wait) {
+                managerBinder.waitForPollingStopped();
+            }
+
+            runningPolling = false;
+        }
     }
 }
