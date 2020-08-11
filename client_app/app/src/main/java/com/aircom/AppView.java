@@ -129,6 +129,8 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                             // Despite my best efforts to catch all conditions that could
                             // cause the activity to be destroyed when we try to commit
                             // I haven't been able to, so we have this try-catch block.
+                            final AppObject app = (AppObject) appGridAdapter.getItem(0);
+                            ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
                             try {
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.appFragmentContainer, new AdapterFragment())
@@ -284,6 +286,7 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         setContentView(R.layout.activity_app_view);
 
         UiHelper.notifyNewRootView(this);
+        
 
         uuidString = getIntent().getStringExtra(UUID_EXTRA);
 
