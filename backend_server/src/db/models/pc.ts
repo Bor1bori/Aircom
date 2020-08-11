@@ -2,24 +2,25 @@ import {
   Sequelize,
   Model,
   DataTypes,
-  Optional
+  Optional,
+  UUIDV4
 } from 'sequelize';
 import { PCProvider } from './pc_provider';
 
 /* user db first settings */
 export interface PCAttributes {
-  id: number;
+  uuid: string;
   pcProviderId: number;
   ip: string;
   port?: number;
   state: 'inUse' | 'usable' | 'unusable';
 }
 
-interface PCCreationAttributes extends Optional<PCAttributes, 'id'> {}
+interface PCCreationAttributes extends Optional<PCAttributes, 'uuid'> {}
 
 export class PC extends Model<PCAttributes, PCCreationAttributes>
   implements PCCreationAttributes {
-  public id!: number;
+  public uuid!: string;
   public pcProviderId!: number;
   public ip!: string;
   public port?: number;
@@ -31,10 +32,10 @@ export class PC extends Model<PCAttributes, PCCreationAttributes>
 
 export const initPC = (sequelize: Sequelize) => {
   PC.init({
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true
+    uuid: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: UUIDV4
     },
     pcProviderId: {
       type: DataTypes.INTEGER.UNSIGNED,
