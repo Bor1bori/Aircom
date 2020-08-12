@@ -131,6 +131,7 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                             // I haven't been able to, so we have this try-catch block.
                             final AppObject app = (AppObject) appGridAdapter.getItem(0);
                             ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+                            onBackPressed();
                             try {
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.appFragmentContainer, new AdapterFragment())
@@ -293,8 +294,8 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         String computerName = getIntent().getStringExtra(NAME_EXTRA);
 
         TextView label = findViewById(R.id.appListText);
-        setTitle(computerName);
-        label.setText(computerName);
+        //setTitle(computerName);
+        //label.setText(computerName);
 
         // Bind to the computer manager service
         bindService(new Intent(this, ComputerManagerService.class), serviceConnection,
@@ -608,5 +609,11 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         public String toString() {
             return app.getAppName();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AppView.this.finish();
     }
 }
