@@ -71,12 +71,12 @@ public class SignIn extends Activity{
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         //이미 로그인 돼 있으면 바로 로그인
-        mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
+        /*mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
             @Override
             public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
                 handleSignInResult(task);
             }
-        });
+        });*/
 
         googleSignInButton = findViewById(R.id.googleSignInButton);
 
