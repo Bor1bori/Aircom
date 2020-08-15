@@ -14,6 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.aircom.binding.PlatformBinding;
 import com.aircom.computers.ComputerManagerListener;
 import com.aircom.computers.ComputerManagerService;
+import com.aircom.data.SharedPreference;
 import com.aircom.nvstream.http.ComputerDetails;
 import com.aircom.nvstream.http.NvHTTP;
 import com.aircom.nvstream.http.PairingManager;
@@ -137,14 +138,6 @@ public class AddComputerAutomatically extends Activity {
                         if (details.pairState!= PairingManager.PairState.PAIRED){
                             doPair(details);
                             return;
-                        }
-                        else {
-                            findViewById(R.id.unpairPcButton).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    doUnpair(details);
-                                }
-                            });
                         }
                         Intent intent = new Intent(AddComputerAutomatically.this, AppView.class);
                         intent.putExtra(AppView.NAME_EXTRA, details.name);
@@ -296,7 +289,7 @@ public class AddComputerAutomatically extends Activity {
                         success = true;
                     }
                     else {
-                        final String pinStr = PairingManager.generatePinString();
+                        final String pinStr = "1111";//PairingManager.generatePinString();
 
                         // Spin the dialog off in a thread because it blocks
                         //여기서 인증번호 받아 서버에 전달
@@ -360,6 +353,7 @@ public class AddComputerAutomatically extends Activity {
                             intent.putExtra(AppView.NEW_PAIR_EXTRA, true);
                             startActivity(intent);
                         }
+
                         else {
                             // Start polling again if we're still in the foreground
                             startComputerUpdates();
