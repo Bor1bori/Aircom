@@ -22,7 +22,9 @@ const SignUp = () => {
     const onSignup = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
     
-        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/signup`, signupInput)
+        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/signup`, signupInput, {
+            withCredentials: true
+        })
             .then((res) => {
                 console.log(res);
                 dispatch(signin(res.data.loginToken));

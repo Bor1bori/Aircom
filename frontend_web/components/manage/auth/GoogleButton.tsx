@@ -16,6 +16,8 @@ const GoogleButton = () => {
         console.log(res);
         axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/oauth/google/signin`, {
             idToken: res.wc.id_token
+        }, {
+            withCredentials: true
         })
             .then((res) => {
                 dispatch(ppSignin(res.data.ppLoginToken));

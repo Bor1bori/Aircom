@@ -20,7 +20,9 @@ const SignIn = () => {
     const onSignin = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
     
-        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/signin`, signinInput)
+        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/signin`, signinInput, {
+            withCredentials: true
+        })
             .then((res) => {
                 console.log(res);
                 dispatch(ppSignin(res.data.ppLoginToken));
