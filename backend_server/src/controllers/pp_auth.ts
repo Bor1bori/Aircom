@@ -35,3 +35,9 @@ export const googleOAuthSignUpAndSignIn = wrapper(async (req, res) => {
     res.status(400).json({ err: 'wrong idToken' });
   }
 });
+
+export const getAuthToken = wrapper(async (req, res) => {
+  const authToken = await PPAuthServices.getAuthToken(req.pcProvider!.id);
+
+  res.status(200).json({ authToken });
+});

@@ -1,6 +1,10 @@
 import { wrapper } from '@src/utils/wrapper';
 import * as yup from 'yup';
 import { SignupBody, SigninBody } from '@src/interfaces/pp_auth';
+import { jwtVerify } from '@src/utils/crypto';
+import { PCProvider } from '@src/db/models/pc_provider';
+
+/* Validator */
 
 export const signupValidator = wrapper(async (req, res, next) => {
   const signupSchema = yup.object<SignupBody>({
@@ -55,5 +59,27 @@ export const googleOAuthSignValidator = wrapper(async (req, res, next) => {
     next();
   } catch (err) {
     return res.status(400).json(err);
+  }
+});
+
+/* */
+export const verifySignin = wrapper(async (req, res, next) => {
+  let ppLoginToken = req.cookies.ppLoginToken;
+  if (req.get('ppLoginToken')) {
+    ppLoginToken = req.get('ppLoginToken');
+  }
+  try {
+    const decoded = jwtVerify(ppLoginToken);
+    const pcProvider = await PCProvider.findByPk(decoded.id);
+
+    if (!pcProvider) {
+      throw new Error('not valid id in decoded token');
+    }
+
+    // controller에서 pcProvider을 이용할 수 있도록 req에 넣어줌
+    req.pcProvider = pcProvider;
+    next();
+  } catch (err) {
+    return res.status(401).json({ err });
   }
 });
