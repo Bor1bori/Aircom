@@ -51,7 +51,7 @@ export class PCProvider extends Model<PCProviderAttributes, PCProviderCreationAt
   public readonly pcs?: PC[]; // Note this is optional since it's only populated when explicitly requested in code
 
   public static associations: {
-    projects: Association<PCProvider, PC>;
+    pcs: Association<PCProvider, PC>;
   };
 }
 
