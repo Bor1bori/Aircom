@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.aircom.data.SharedPreference;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -143,7 +144,7 @@ public class SignIn extends Activity{
 
             // TODO(developer): send ID Token to server and validate
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://myaircom.co.kr:3000/auth/oauth/google/signin");
+            HttpPost httpPost = new HttpPost("http://ec2-52-79-77-234.ap-northeast-2.compute.amazonaws.com:3000/auth/oauth/google/signin");
 
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -152,8 +153,8 @@ public class SignIn extends Activity{
 
                 HttpResponse response = httpClient.execute(httpPost);
                 int statusCode = response.getStatusLine().getStatusCode();
-                final String responseBody = EntityUtils.toString(response.getEntity());
-                Log.i(TAG, "Signed in as: " + responseBody);
+                final String responseBody = EntityUtils.toString(response.getEntity()).split(":")[1];
+                SharedPreference.setLoginToken(SignIn.this, responseBody);
             } catch (ClientProtocolException e) {
                 Log.e(TAG, "Error sending ID token to backend.", e);
             } catch (IOException e) {
@@ -223,7 +224,8 @@ public class SignIn extends Activity{
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 Toast.makeText(SignIn.this, response.message(), Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
-                    System.out.println("Login Token: "+response.body());
+                    System.out.println("Login Token: "+response.body().toString());
+                    SharedPreference.setLoginToken(SignIn.this, response.body().toString());
                     Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
                     startActivity(intent);
                 }
