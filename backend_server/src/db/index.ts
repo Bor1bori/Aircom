@@ -1,6 +1,8 @@
 import { Sequelize } from 'sequelize';
 import { initUser } from './models/user';
-import { initPCProvider } from './models/pc_provider';
+import { initPCProvider, initPCProviderAssociate } from './models/pc_provider';
+import { initPC, initPCAssociate } from './models/pc';
+import { initPPAuthToken, initPPAuthTokenAssociate } from './models/pp_authtoken';
 import createDebug from 'debug';
 
 const debug = createDebug('app');
@@ -26,7 +28,15 @@ export const sequelizeInit = async () => {
     await sequelize.authenticate();
     initUser(sequelize);
     initPCProvider(sequelize);
+    initPC(sequelize);
+    initPPAuthToken(sequelize);
+
+    initPCAssociate();
+    initPCProviderAssociate();
+    initPPAuthTokenAssociate();
     await sequelize.sync();
+
+    // TODO: PPAUthToken 유효기간 지난 것들 삭제하기.
     debug('Connection has been established successfully.');
   } catch (error) {
     debug('Unable to connect to the database:', error);

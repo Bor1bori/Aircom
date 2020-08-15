@@ -6,7 +6,7 @@ const baseUrl = './dist'; // Either absolute or relative path. If relative it's 
 const cleanup = tsConfigPaths.register({
   baseUrl,
   paths: {
-    '@src/*': ['./src/*']
+    '@src/*': ['./*']
   }
 });
 // When path registration is no longer needed
