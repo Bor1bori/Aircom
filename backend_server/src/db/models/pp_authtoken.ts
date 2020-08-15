@@ -30,7 +30,8 @@ export const initPPAuthToken = (sequelize: Sequelize) => {
     },
     pcProviderId: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
+      allowNull: false,
+      unique: true
     }
   }, {
     tableName: 'pp_authtoken',
