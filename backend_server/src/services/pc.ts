@@ -2,6 +2,11 @@ import { PC } from '@src/db/models/pc';
 import { RegisterPCBody } from '@src/interfaces/pc';
 import { verifyAuthToken } from './pp_auth';
 
+/**
+ * 
+ * @returns -1 authToken에 해당하는 ppAuthToken Column이 없을 경우
+ * @returns pc 생성된 pc
+ */
 export async function registerPC (pcBody: RegisterPCBody) {
   const ppAuthToken = await verifyAuthToken(pcBody.authToken);
   if (!ppAuthToken) { // authToken 없을 경우

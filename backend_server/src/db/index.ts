@@ -35,6 +35,8 @@ export const sequelizeInit = async () => {
     initPCProviderAssociate();
     initPPAuthTokenAssociate();
     await sequelize.sync();
+
+    // TODO: PPAUthToken 유효기간 지난 것들 삭제하기.
     debug('Connection has been established successfully.');
   } catch (error) {
     debug('Unable to connect to the database:', error);
