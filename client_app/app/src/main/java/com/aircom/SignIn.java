@@ -60,6 +60,10 @@ public class SignIn extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        if (SharedPreference.getLoginToken(SignIn.this).length()!=0){
+            Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
+            startActivity(intent);
+        }
         //1. 구글로그인
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
