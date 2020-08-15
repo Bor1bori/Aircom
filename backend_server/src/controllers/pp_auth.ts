@@ -37,7 +37,7 @@ export const googleOAuthSignUpAndSignIn = wrapper(async (req, res) => {
 });
 
 export const getAuthToken = wrapper(async (req, res) => {
-  const authToken = PPAuthServices.getAuthCode(req.pcProvider!.id);
+  const authToken = await PPAuthServices.getAuthToken(req.pcProvider!.id);
 
   res.status(200).json({ authToken });
 });
