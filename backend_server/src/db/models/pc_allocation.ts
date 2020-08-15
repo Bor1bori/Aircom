@@ -2,7 +2,8 @@ import {
   Sequelize,
   Model,
   DataTypes,
-  Optional
+  Optional,
+  BelongsToGetAssociationMixin
 } from 'sequelize';
 import { PC } from './pc';
 import { User } from './user';
@@ -16,7 +17,7 @@ export interface PCAllocationAttributes {
   endTime?: Date;
 }
 
-interface PCAllocationCreationAttributes extends Optional<PCAllocationAttributes, 'id'> {}
+interface PCAllocationCreationAttributes extends Optional<Optional<PCAllocationAttributes, 'id'>, 'startTime'> {}
 
 export class PCAllocation extends Model<PCAllocationAttributes, PCAllocationCreationAttributes>
   implements PCAllocationCreationAttributes {
@@ -28,6 +29,9 @@ export class PCAllocation extends Model<PCAllocationAttributes, PCAllocationCrea
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
+
+    public getPC!: BelongsToGetAssociationMixin<PC>
+    public getUser!: BelongsToGetAssociationMixin<User>
 }
 
 export const initPCAllocation = (sequelize: Sequelize) => {
