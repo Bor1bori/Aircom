@@ -6,6 +6,6 @@ const router = express.Router();
 
 /** 할당 */
 router.post('/', verifyUserSignin, pcAllocationControllers.allocatePC);
-router.delete('/current', verifyUserSignin, pcAllocationControllers.unallocatePC);
+router.delete('/current', verifyUserSignin, pcAllocationControllers.deallocatePC);
 
 export default router;

@@ -19,12 +19,12 @@ export const allocatePC = wrapper(async (req, res) => {
   });
 });
 
-export const unallocatePC = wrapper(async (req, res) => {
-  const pcAllocation = await pcServices.unallocatePCWithUser(req.user!);
+export const deallocatePC = wrapper(async (req, res) => {
+  const pcAllocation = await pcServices.deallocatePCWithUser(req.user!);
 
   if (pcAllocation === -1) {
     return res.status(409).json({
-      err: 'no allocation to unallocate'
+      err: 'no allocation to deallocate'
     });
   }
 

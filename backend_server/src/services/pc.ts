@@ -58,7 +58,7 @@ export async function allocatePC (pc: PC, user: User) {
  * @returns -1 해당 유저가 할당할 PC를 가지고 있지 않을 때
  * @returns pcAllocation 해제된 할당
  */
-export async function unallocatePCWithUser (user: User) {
+export async function deallocatePCWithUser (user: User) {
   const pcAllocation = await PCAllocation.findOne({
     where: {
       userId: user.id,
