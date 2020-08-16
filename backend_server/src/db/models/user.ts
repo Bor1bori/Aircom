@@ -2,8 +2,15 @@ import {
   Sequelize,
   Model,
   DataTypes,
-  Optional
+  Optional,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManyHasAssociationMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  Association
 } from 'sequelize';
+import { PCAllocation } from './pc_allocation';
 
 /* user db first settings */
 export interface UserAttributes {
@@ -30,6 +37,18 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  public getPcAllocations!: HasManyGetAssociationsMixin<PCAllocation>; // Note the null assertions!
+  public addPcAllocations!: HasManyAddAssociationMixin<PCAllocation, number>;
+  public hasPcAllocations!: HasManyHasAssociationMixin<PCAllocation, number>;
+  public countPcAllocations!: HasManyCountAssociationsMixin;
+  public createPcAllocations!: HasManyCreateAssociationMixin<PCAllocation>;
+
+  public readonly pcAllocations?: PCAllocation[]; // Note this is optional since it's only populated when explicitly requested in code
+
+  public static associations: {
+    pcAllocations: Association<User, PCAllocation>;
+  };
 }
 
 export const initUser = (sequelize: Sequelize) => {
@@ -72,5 +91,13 @@ export const initUser = (sequelize: Sequelize) => {
   queryInterface.addConstraint('user', {
     fields: ['signinType', 'signinID'],
     type: 'unique'
+  });
+};
+
+export const initUserAssociate = () => {
+  User.hasMany(PCAllocation, {
+    sourceKey: 'id',
+    foreignKey: 'userId',
+    as: 'pcAllocations'
   });
 };

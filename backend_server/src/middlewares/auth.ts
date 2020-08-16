@@ -1,6 +1,8 @@
 import { wrapper } from '@src/utils/wrapper';
 import * as yup from 'yup';
 import { SignupBody, SigninBody } from '@src/interfaces/auth';
+import { jwtVerify } from '@src/utils/crypto';
+import { User } from '@src/db/models/user';
 
 export const signupValidator = wrapper(async (req, res, next) => {
   const signupSchema = yup.object<SignupBody>({
@@ -55,5 +57,26 @@ export const googleOAuthSignValidator = wrapper(async (req, res, next) => {
     next();
   } catch (err) {
     return res.status(400).json(err);
+  }
+});
+
+export const verifySignin = wrapper(async (req, res, next) => {
+  let loginToken = req.cookies.loginToken;
+  if (req.get('loginToken')) {
+    loginToken = req.get('loginToken');
+  }
+  try {
+    const decoded = jwtVerify(loginToken);
+    const user = await User.findByPk(decoded.id);
+
+    if (!user) {
+      throw new Error('not valid id in decoded token');
+    }
+
+    // controller에서 user 이용할 수 있도록 req에 넣어줌
+    req.user = user;
+    next();
+  } catch (err) {
+    return res.status(401).json({ err });
   }
 });
