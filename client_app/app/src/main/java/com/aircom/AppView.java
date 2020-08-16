@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.aircom.computers.ComputerManagerListener;
 import com.aircom.computers.ComputerManagerService;
+import com.aircom.data.SharedPreference;
 import com.aircom.grid.AppGridAdapter;
 import com.aircom.nvstream.http.ComputerDetails;
 import com.aircom.nvstream.http.NvApp;
@@ -22,8 +23,10 @@ import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
@@ -129,11 +132,11 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                             // Despite my best efforts to catch all conditions that could
                             // cause the activity to be destroyed when we try to commit
                             // I haven't been able to, so we have this try-catch block.
-
-                            if (appGridAdapter.getCount()!=0){
-                                final AppObject app = (AppObject) appGridAdapter.getItem(0);
-                                ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
-                                onBackPressed();
+                            if (lastRunningAppId==0) {
+                                if (appGridAdapter.getCount()!=0) {
+                                    final AppObject app = (AppObject) appGridAdapter.getItem(0);
+                                    ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+                                }
                             }
                             try {
                                 getFragmentManager().beginTransaction()
@@ -298,7 +301,6 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         TextView label = findViewById(R.id.appListText);
         //setTitle(computerName);
         //label.setText(computerName);
-
         // Bind to the computer manager service
         bindService(new Intent(this, ComputerManagerService.class), serviceConnection,
                 Service.BIND_AUTO_CREATE);
@@ -564,10 +566,11 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                 if (updated) {
                     appGridAdapter.notifyDataSetChanged();
                 }
-                if (appGridAdapter.getCount()!=0){
-                    final AppObject app = (AppObject) appGridAdapter.getItem(0);
-                    ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
-                    onBackPressed();
+                if (lastRunningAppId==0) {
+                    if (appGridAdapter.getCount()!= 0) {
+                        final AppObject app = (AppObject) appGridAdapter.getItem(0);
+                        ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+                    }
                 }
             }
         });
@@ -618,9 +621,29 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        AppView.this.finish();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final AppObject app = (AppObject) appGridAdapter.getItem(0);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                Boolean responseYes = data.getBooleanExtra("responseYes", true);
+                if (responseYes){
+                    suspendGridUpdates = true;
+                    ServerHelper.doQuit(AppView.this, computer,
+                            app.app, managerBinder, new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Trigger a poll immediately
+                                    suspendGridUpdates = false;
+                                    if (poller != null) {
+                                        poller.pollNow();
+                                    }
+                                }
+                            });
+                    AppView.super.onBackPressed();
+                    AppView.this.finish();
+                }
+            }
+        }
     }
 }
