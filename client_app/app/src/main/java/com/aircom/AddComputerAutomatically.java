@@ -14,6 +14,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.aircom.binding.PlatformBinding;
 import com.aircom.computers.ComputerManagerListener;
 import com.aircom.computers.ComputerManagerService;
+import com.aircom.data.PCAllocationResponse;
+import com.aircom.data.RetrofitClient;
+import com.aircom.data.ServiceAPI;
 import com.aircom.data.SharedPreference;
 import com.aircom.nvstream.http.ComputerDetails;
 import com.aircom.nvstream.http.NvHTTP;
@@ -37,12 +40,18 @@ import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AddComputerAutomatically extends Activity {
     private String hostText;
     private boolean runningPolling, freezeUpdates, inForeground;
     private ComputerManagerService.ComputerManagerBinder managerBinder;
     private final LinkedBlockingQueue<String> computersToAdd = new LinkedBlockingQueue<>();
     private Thread addThread;
+    private ServiceAPI service;
+    private String hostAddress;
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, final IBinder binder) {
             managerBinder = ((ComputerManagerService.ComputerManagerBinder)binder);
@@ -220,8 +229,9 @@ public class AddComputerAutomatically extends Activity {
                 startActivity(new Intent(AddComputerAutomatically.this, StreamSettings.class));
             }
         });
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
 
-        this.hostText = ""; //ip 주소 할당
+        //this.hostText = "121.128.91.156"; //ip 주소 할당
 
         findViewById(R.id.addPcButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,13 +247,27 @@ public class AddComputerAutomatically extends Activity {
 
     // Returns true if the event should be eaten
     private boolean handleDoneEvent() {
-        String hostAddress = hostText;
+        System.out.println("login token: "+SharedPreference.getLoginToken(AddComputerAutomatically.this));
+        hostAddress = "";
+        service.allocationRequest(SharedPreference.getLoginToken(AddComputerAutomatically.this)).enqueue(new Callback<PCAllocationResponse>() {
+            @Override
+            public void onResponse(Call<PCAllocationResponse> call, Response<PCAllocationResponse> response) {
+                System.out.println("status code: "+response.code());
+                System.out.println("response body: "+response.body());
+                System.out.println("ip: "+response.body().getIp()+", port: "+response.body().getPort());
+                //hostAddress = response.body().getIp();
+            }
 
+            @Override
+            public void onFailure(Call<PCAllocationResponse> call, Throwable t) {
+                System.out.println("error: "+t.getMessage());
+                Toast.makeText(AddComputerAutomatically.this, "PC 할당 에러 발생", Toast.LENGTH_SHORT).show();
+            }
+        });
         if (hostAddress.length() == 0) {
             Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.addpc_enter_ip), Toast.LENGTH_LONG).show();
             return true;
         }
-
         computersToAdd.add(hostAddress);
         return false;
     }
