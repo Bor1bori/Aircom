@@ -228,8 +228,8 @@ public class SignIn extends Activity{
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 Toast.makeText(SignIn.this, response.message(), Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
-                    System.out.println("Login Token: "+response.body().toString());
-                    SharedPreference.setLoginToken(SignIn.this, response.body().toString());
+                    System.out.println("Login Token: "+response.body().getLoginToken());
+                    SharedPreference.setLoginToken(SignIn.this, response.body().getLoginToken());
                     Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
                     startActivity(intent);
                 }

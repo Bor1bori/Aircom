@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.aircom.data.RetrofitClient;
 import com.aircom.data.ServiceAPI;
+import com.aircom.data.SharedPreference;
 import com.aircom.data.SignInData;
 import com.aircom.data.SignInResponse;
 import com.aircom.data.SignUpData;
@@ -160,6 +161,8 @@ public class SignUp extends Activity {
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.code() == 200) {
                     Toast.makeText(SignUp.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
+                    System.out.println("Login Token: "+response.body().getLoginToken());
+                    SharedPreference.setLoginToken(SignUp.this, response.body().getLoginToken());
                     Intent intent = new Intent(SignUp.this, AddComputerAutomatically.class);
                     startActivity(intent);
                 }
