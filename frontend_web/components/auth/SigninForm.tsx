@@ -12,7 +12,6 @@ const SignIn = () => {
         password: "",
     });
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(`${process.env.NEXT_PUBLIC_API_HOST}`);
         setSigninInput({
             ...signinInput,
             [e.target.name]: e.target.value,
@@ -21,7 +20,9 @@ const SignIn = () => {
     const onSignin = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
     
-        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/signin`, signinInput)
+        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/signin`, signinInput, {
+            withCredentials: true
+        })
             .then((res) => {
                 console.log(res);
                 dispatch(signin(res.data.loginToken));

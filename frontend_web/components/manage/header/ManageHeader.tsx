@@ -1,21 +1,23 @@
 import React from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import GoogleButton from "../manage_auth/GoogleButton";
-import { RootState } from "../../store/store";
+import GoogleButton from "../auth/GoogleButton";
+import { RootState } from "../../../store/store";
+import AuthToken from "../auth/authToken";
 
 const linkStyle = {
     marginRight: 15
 };
 
 const ManageHeader = () => {
-    const authState = useSelector((state: RootState) => state.auth);
+    const ppAuthState = useSelector((state: RootState) => state.ppAuth);
     return (
         <div>
             <Link href="/">
                 <a style={linkStyle}>Home</a>
             </Link>
-            {authState.isSignedin ? <>
+            {ppAuthState.isSignedin ? <>
+                <AuthToken/>
                 <a>로그아웃</a>
             </>
                 : <>
