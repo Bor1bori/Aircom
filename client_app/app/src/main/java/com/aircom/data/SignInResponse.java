@@ -6,8 +6,8 @@ public class SignInResponse {
     @SerializedName("code")
     private int code;
 
-    @SerializedName("message")
-    private String message;
+    @SerializedName("loginToken")
+    private String loginToken;
 
     @SerializedName("userId")
     private int userId;
@@ -16,8 +16,8 @@ public class SignInResponse {
         return code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getLoginToken() {
+        return loginToken;
     }
 
     public int getUserId() {
