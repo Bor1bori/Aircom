@@ -16,6 +16,7 @@ import com.aircom.binding.video.CrashListener;
 import com.aircom.binding.video.MediaCodecDecoderRenderer;
 import com.aircom.binding.video.MediaCodecHelper;
 import com.aircom.binding.video.PerfOverlayListener;
+import com.aircom.data.SharedPreference;
 import com.aircom.nvstream.NvConnection;
 import com.aircom.nvstream.NvConnectionListener;
 import com.aircom.nvstream.StreamConfiguration;
@@ -30,6 +31,7 @@ import com.aircom.ui.GameGestures;
 import com.aircom.ui.StreamView;
 import com.aircom.utils.Dialog;
 import com.aircom.utils.NetHelper;
+import com.aircom.utils.ServerHelper;
 import com.aircom.utils.ShortcutHelper;
 import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;
@@ -37,10 +39,12 @@ import com.aircom.utils.UiHelper;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PictureInPictureParams;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -1794,5 +1798,23 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 performanceOverlayView.setText(text);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+        new AlertDialog.Builder(this)
+                .setMessage("PC 사용을 중단하시겠습니까?")
+                .setPositiveButton("예",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent();
+                                intent.putExtra("responseYes", true);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        })
+                .setNegativeButton("아니오", null)
+                .create()
+                .show();
     }
 }
