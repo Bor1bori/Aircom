@@ -132,12 +132,12 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                             // Despite my best efforts to catch all conditions that could
                             // cause the activity to be destroyed when we try to commit
                             // I haven't been able to, so we have this try-catch block.
-                            if (lastRunningAppId==0) {
-                                if (appGridAdapter.getCount()!=0) {
-                                    final AppObject app = (AppObject) appGridAdapter.getItem(0);
-                                    ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
-                                }
+                            if (appGridAdapter.getCount()!=0) {
+                                final AppObject app = (AppObject) appGridAdapter.getItem(0);
+                                ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+                                onBackPressed();
                             }
+
                             try {
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.appFragmentContainer, new AdapterFragment())
@@ -566,11 +566,10 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                 if (updated) {
                     appGridAdapter.notifyDataSetChanged();
                 }
-                if (lastRunningAppId==0) {
-                    if (appGridAdapter.getCount()!= 0) {
-                        final AppObject app = (AppObject) appGridAdapter.getItem(0);
-                        ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
-                    }
+                if (appGridAdapter.getCount()!=0) {
+                    final AppObject app = (AppObject) appGridAdapter.getItem(0);
+                    ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+                    onBackPressed();
                 }
             }
         });
@@ -646,4 +645,10 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
             }
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+    }
+
 }
