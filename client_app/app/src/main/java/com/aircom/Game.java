@@ -1807,9 +1807,6 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 .setPositiveButton("예",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent();
-                                intent.putExtra("responseYes", true);
-                                setResult(RESULT_OK, intent);
                                 finish();
                             }
                         })

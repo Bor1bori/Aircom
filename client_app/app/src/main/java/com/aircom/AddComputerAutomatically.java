@@ -248,13 +248,13 @@ public class AddComputerAutomatically extends Activity {
     // Returns true if the event should be eaten
     private boolean handleDoneEvent() {
         System.out.println("login token: "+SharedPreference.getLoginToken(AddComputerAutomatically.this));
-        hostAddress = "";
+        hostAddress = "1.231.39.92";
         service.allocationRequest(SharedPreference.getLoginToken(AddComputerAutomatically.this)).enqueue(new Callback<PCAllocationResponse>() {
             @Override
             public void onResponse(Call<PCAllocationResponse> call, Response<PCAllocationResponse> response) {
                 System.out.println("status code: "+response.code());
                 System.out.println("response body: "+response.body());
-                System.out.println("ip: "+response.body().getIp()+", port: "+response.body().getPort());
+                //System.out.println("ip: "+response.body().getIp()+", port: "+response.body().getPort());
                 //hostAddress = response.body().getIp();
             }
 

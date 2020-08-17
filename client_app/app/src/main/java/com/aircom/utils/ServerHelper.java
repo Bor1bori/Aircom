@@ -73,7 +73,7 @@ public class ServerHelper {
             Toast.makeText(parent, parent.getResources().getString(R.string.pair_pc_offline), Toast.LENGTH_SHORT).show();
             return;
         }
-        parent.startActivityForResult(createStartIntent(parent, app, computer, managerBinder),1);
+        parent.startActivity(createStartIntent(parent, app, computer, managerBinder));
     }
 
     public static void doQuit(final Activity parent,

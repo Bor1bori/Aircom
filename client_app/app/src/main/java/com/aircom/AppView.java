@@ -620,32 +620,6 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        final AppObject app = (AppObject) appGridAdapter.getItem(0);
-        if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
-                Boolean responseYes = data.getBooleanExtra("responseYes", true);
-                if (responseYes){
-                    suspendGridUpdates = true;
-                    ServerHelper.doQuit(AppView.this, computer,
-                            app.app, managerBinder, new Runnable() {
-                                @Override
-                                public void run() {
-                                    // Trigger a poll immediately
-                                    suspendGridUpdates = false;
-                                    if (poller != null) {
-                                        poller.pollNow();
-                                    }
-                                }
-                            });
-                    AppView.super.onBackPressed();
-                    AppView.this.finish();
-                }
-            }
-        }
-    }
-
     @Override
     public void onBackPressed(){
         super.onBackPressed();
