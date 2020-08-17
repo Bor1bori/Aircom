@@ -62,6 +62,7 @@ public class SignIn extends Activity{
         setContentView(R.layout.activity_sign_in);
         if (SharedPreference.getLoginToken(SignIn.this).length()!=0){
             Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
+            Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         }
         //1. 구글로그인
