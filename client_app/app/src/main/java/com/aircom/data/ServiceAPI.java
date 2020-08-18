@@ -17,6 +17,6 @@ public interface ServiceAPI {
     Call<PCAllocationResponse> allocationRequest(@Header("loginToken") String loginToken);
 
     @DELETE("/pc-allocations/current")
-    Call<PCWithdrawResponse> withdrawRequest(@Header("loginToken") String loginToken);
+    Call<PCDeallocationResponse> withdrawRequest(@Header("loginToken") String loginToken);
 
 }

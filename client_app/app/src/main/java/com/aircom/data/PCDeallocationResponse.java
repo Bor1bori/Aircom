@@ -2,7 +2,7 @@ package com.aircom.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PCWithdrawResponse {
+public class PCDeallocationResponse {
     @SerializedName("usedTime")
     int usedTime;
 

@@ -16,8 +16,7 @@ import com.aircom.binding.video.CrashListener;
 import com.aircom.binding.video.MediaCodecDecoderRenderer;
 import com.aircom.binding.video.MediaCodecHelper;
 import com.aircom.binding.video.PerfOverlayListener;
-import com.aircom.data.PCAllocationResponse;
-import com.aircom.data.PCWithdrawResponse;
+import com.aircom.data.PCDeallocationResponse;
 import com.aircom.data.RetrofitClient;
 import com.aircom.data.ServiceAPI;
 import com.aircom.data.SharedPreference;
@@ -35,7 +34,6 @@ import com.aircom.ui.GameGestures;
 import com.aircom.ui.StreamView;
 import com.aircom.utils.Dialog;
 import com.aircom.utils.NetHelper;
-import com.aircom.utils.ServerHelper;
 import com.aircom.utils.ShortcutHelper;
 import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;
@@ -1818,15 +1816,15 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 service = RetrofitClient.getClient().create(ServiceAPI.class);
-                                service.withdrawRequest(SharedPreference.getLoginToken(Game.this)).enqueue(new Callback<PCWithdrawResponse>() {
+                                service.withdrawRequest(SharedPreference.getLoginToken(Game.this)).enqueue(new Callback<PCDeallocationResponse>() {
                                     @Override
-                                    public void onResponse(Call<PCWithdrawResponse> call, Response<PCWithdrawResponse> response) {
+                                    public void onResponse(Call<PCDeallocationResponse> call, Response<PCDeallocationResponse> response) {
                                         System.out.println("status code: "+response.code());
                                         System.out.println("response body: "+response.body());
                                     }
 
                                     @Override
-                                    public void onFailure(Call<PCWithdrawResponse> call, Throwable t) {
+                                    public void onFailure(Call<PCDeallocationResponse> call, Throwable t) {
                                         System.out.println("error: "+t.getMessage());
                                         Toast.makeText(Game.this, "PC 사용 중단 에 발생", Toast.LENGTH_SHORT).show();
                                     }
