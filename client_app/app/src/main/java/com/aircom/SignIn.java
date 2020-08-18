@@ -75,15 +75,6 @@ public class SignIn extends Activity{
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        //이미 로그인 돼 있으면 바로 로그인
-        /*mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
-            @Override
-            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-                handleSignInResult(task);
-            }
-        });*/
-
         googleSignInButton = findViewById(R.id.googleSignInButton);
 
         // Set the dimensions of the sign-in button.
@@ -149,7 +140,7 @@ public class SignIn extends Activity{
 
             // TODO(developer): send ID Token to server and validate
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://ec2-52-79-77-234.ap-northeast-2.compute.amazonaws.com:3000/auth/oauth/google/signin");
+            HttpPost httpPost = new HttpPost("http://myaircom.co.kr:3000/auth/oauth/google/signin");
 
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
