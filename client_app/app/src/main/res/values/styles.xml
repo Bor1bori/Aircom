@@ -18,8 +18,13 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">true</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:drawable">@drawable/logo2</item>>
+
+        출처: https://jabstorage.tistory.com/31 [개발 잡동사니 저장소]
     </style>
 
     <style name="StreamBaseTheme" parent="AppBaseTheme">
