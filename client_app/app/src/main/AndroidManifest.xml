@@ -109,8 +109,7 @@
         </activity>
         <activity
             android:name="com.aircom.preferences.StreamSettings"
-            android:resizeableActivity="true"
-            android:label="Streaming Settings">
+            android:resizeableActivity="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.aircom.PcView" />
@@ -118,8 +117,7 @@
         <activity
             android:name="com.aircom.AddComputerAutomatically"
             android:resizeableActivity="true"
-            android:windowSoftInputMode="stateVisible"
-            android:label="Add Computer Manually">
+            android:windowSoftInputMode="stateVisible">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.aircom.PcView" />

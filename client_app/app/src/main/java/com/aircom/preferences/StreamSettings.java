@@ -1,5 +1,6 @@
 package com.aircom.preferences;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +40,8 @@ public class StreamSettings extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ActionBar actionBar = getActionBar();
+        actionBar.hide();
         previousPrefs = PreferenceConfiguration.readPreferences(this);
 
         UiHelper.setLocale(this);

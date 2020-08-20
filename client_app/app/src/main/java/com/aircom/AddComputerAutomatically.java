@@ -27,6 +27,7 @@ import com.aircom.utils.ServerHelper;
 import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
@@ -35,6 +36,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -220,9 +222,12 @@ public class AddComputerAutomatically extends Activity {
 
         setContentView(R.layout.activity_add_computer_automatically);
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
+        actionBar.setIcon(R.drawable.logo2);
         UiHelper.notifyNewRootView(this);
 
-        ImageButton settingsButton = findViewById(R.id.settingsButton);
+        Button settingsButton = findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

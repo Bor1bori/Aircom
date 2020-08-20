@@ -22,6 +22,7 @@ import com.aircom.utils.ShortcutHelper;
 import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
@@ -280,7 +281,8 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ActionBar actionBar = getActionBar();
+        actionBar.hide();
         // Assume we're in the foreground when created to avoid a race
         // between binding to CMS and onResume()
         inForeground = true;

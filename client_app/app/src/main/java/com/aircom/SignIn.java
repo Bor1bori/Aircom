@@ -1,5 +1,6 @@
 package com.aircom;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -60,11 +61,15 @@ public class SignIn extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        if (SharedPreference.getLoginToken(SignIn.this).length()!=0){
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
+        actionBar.setIcon(R.drawable.logo2);
+        //임시로 자동 로그인 꺼두기
+        /*if (SharedPreference.getLoginToken(SignIn.this).length()!=0){
             Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
             Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
             startActivity(intent);
-        }
+        }*/
         //1. 구글로그인
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -163,14 +168,15 @@ public class SignIn extends Activity{
             updateUI(null);
         }
     }
-
+    //임시로 자동 로그인 꺼두기
+    /*
     protected void onStart() {
         super.onStart();
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
-    }
+    }*/
 
     private void attemptSignIn(){
         mEmail.setError(null);
@@ -218,7 +224,7 @@ public class SignIn extends Activity{
         service.userLogin(data).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-                Toast.makeText(SignIn.this, response.message(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
                     System.out.println("Login Token: "+response.body().getLoginToken());
                     SharedPreference.setLoginToken(SignIn.this, response.body().getLoginToken());
