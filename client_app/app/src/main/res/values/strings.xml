@@ -199,5 +199,12 @@
     <string name="summary_enable_perf_overlay">Display real-time stream performance information while streaming</string>
     <string name="title_enable_post_stream_toast">Show latency message after streaming</string>
     <string name="summary_enable_post_stream_toast">Display a latency information message after the stream ends</string>
+    <string name="server_client_id">667027998429-95dmvd3g78hu4v7as647f9l91nchr18u.apps.googleusercontent.com</string>
 
+    <string name="sign_up"><u>Sign Up</u>.</string>
+    <string name="pw">비밀번호</string>
+    <string name="email">이메일</string>
+    <string name="name">이름</string>
+    <string name="pc">PC 연결하기</string>
+    <string name="connecting_to_pc">PC 연결 중</string>
 </resources>

@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 30
 
     defaultConfig {
+        applicationId "com.aircom"
         minSdkVersion 16
         targetSdkVersion 30
 
@@ -25,7 +27,7 @@ android {
                 }
             }
 
-            applicationId "com.limelight.root"
+            applicationId "com.aircom.root"
             dimension "root"
         }
 
@@ -36,7 +38,7 @@ android {
                 }
             }
 
-            applicationId "com.limelight"
+            applicationId "com.aircom"
             dimension "root"
         }
     }
@@ -111,6 +113,9 @@ android {
             path "src/main/jni/Android.mk"
         }
     }
+    ndkVersion '21.0.6113669'
+
+
 }
 
 dependencies {
@@ -120,4 +125,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.10'
     implementation 'com.squareup.okio:okio:1.17.5'
     implementation 'org.jmdns:jmdns:3.5.5'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    api 'com.google.code.gson:gson:2.8.5'
+    api 'com.squareup.retrofit2:converter-gson:2.4.0'
 }
+
