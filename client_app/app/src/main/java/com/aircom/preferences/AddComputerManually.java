@@ -1,21 +1,5 @@
 package com.aircom.preferences;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Collections;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import com.aircom.computers.ComputerManagerService;
-import com.aircom.R;
-import com.aircom.nvstream.http.ComputerDetails;
-import com.aircom.utils.Dialog;
-import com.aircom.utils.SpinnerDialog;
-import com.aircom.utils.UiHelper;
-
 import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
@@ -30,6 +14,22 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.aircom.R;
+import com.aircom.computers.ComputerManagerService;
+import com.aircom.nvstream.http.ComputerDetails;
+import com.aircom.utils.Dialog;
+import com.aircom.utils.SpinnerDialog;
+import com.aircom.utils.UiHelper;
+
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Collections;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class AddComputerManually extends Activity {
     private TextView hostText;

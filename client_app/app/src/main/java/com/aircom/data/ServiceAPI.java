@@ -2,6 +2,8 @@ package com.aircom.data;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ServiceAPI {
@@ -10,5 +12,11 @@ public interface ServiceAPI {
 
     @POST("/auth/signup")
     Call<SignUpResponse> userJoin(@Body SignUpData data);
+
+    @POST("/pc-allocations")
+    Call<PCAllocationResponse> allocationRequest(@Header("loginToken") String loginToken);
+
+    @DELETE("/pc-allocations/current")
+    Call<PCDeallocationResponse> withdrawRequest(@Header("loginToken") String loginToken);
 
 }

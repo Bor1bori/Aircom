@@ -16,14 +16,12 @@ import com.aircom.nvstream.http.NvHTTP;
 import com.aircom.nvstream.http.PairingManager;
 import com.aircom.nvstream.http.PairingManager.PairState;
 import com.aircom.nvstream.wol.WakeOnLanSender;
-import com.aircom.preferences.AddComputerManually;
 import com.aircom.preferences.GlPreferences;
 import com.aircom.preferences.PreferenceConfiguration;
 import com.aircom.preferences.StreamSettings;
 import com.aircom.ui.AdapterFragment;
 import com.aircom.ui.AdapterFragmentCallbacks;
 import com.aircom.utils.Dialog;
-import com.aircom.utils.HelpLauncher;
 import com.aircom.utils.ServerHelper;
 import com.aircom.utils.ShortcutHelper;
 import com.aircom.utils.UiHelper;
@@ -65,7 +63,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
     private RelativeLayout noPcFoundLayout;
     private PcGridAdapter pcGridAdapter;
     private ShortcutHelper shortcutHelper;
-    private ComputerManagerService.ComputerManagerBinder managerBinder;
+    private ComputerManagerService.ComputerManagerBinder managerBinder; //
     private boolean freezeUpdates, runningPolling, inForeground, completeOnCreateCalled;
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
@@ -130,6 +128,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
 
         // Set the correct layout for the PC grid
         pcGridAdapter.updateLayoutWithPreferences(this, PreferenceConfiguration.readPreferences(this));
+        //= updateLayoutWithPreferences -> getLayoutIdForPreferences -> set pc_grid_item.xml
 
         // Setup the list view
         ImageButton settingsButton = findViewById(R.id.settingsButton);
@@ -164,9 +163,26 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
         noPcFoundLayout = findViewById(R.id.no_pc_found_layout);
         if (pcGridAdapter.getCount() == 0) {
             noPcFoundLayout.setVisibility(View.VISIBLE);
+            System.out.println("count 0");
         }
         else {
             noPcFoundLayout.setVisibility(View.INVISIBLE);
+            System.out.println("count more than 0");
+            ComputerObject computer =  (ComputerObject) pcGridAdapter.getItem(0);
+            if (computer.details.pairState != PairState.PAIRED){
+                System.out.println("gonna be paired");
+                doPair(computer.details);
+                doAppList(computer.details, false);
+            }
+            else {
+                System.out.println("go to app list");
+                Intent i = new Intent(this, AppView.class);
+                i.putExtra(AppView.NAME_EXTRA, computer.details.name);
+                i.putExtra(AppView.UUID_EXTRA, computer.details.uuid);
+                i.putExtra(AppView.NEW_PAIR_EXTRA, false);
+                startActivity(i);
+            }
+
         }
         pcGridAdapter.notifyDataSetChanged();
     }
@@ -315,9 +331,9 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
 
         // Call superclass
         super.onCreateContextMenu(menu, v, menuInfo);
-                
+
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-        ComputerObject computer = (ComputerObject) pcGridAdapter.getItem(info.position);
+        ComputerObject computer = (ComputerObject) pcGridAdapter.getItem(0);
 
         // Inflate the context menu
         if (computer.details.state == ComputerDetails.State.OFFLINE ||
@@ -705,7 +721,8 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
                                     long id) {
-                ComputerObject computer = (ComputerObject) pcGridAdapter.getItem(pos);
+                //position 0으로 고
+                ComputerObject computer = (ComputerObject) pcGridAdapter.getItem(0);
                 if (computer.details.state == ComputerDetails.State.UNKNOWN ||
                     computer.details.state == ComputerDetails.State.OFFLINE) {
                     // Open the context menu if a PC is offline or refreshing

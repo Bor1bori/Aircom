@@ -16,6 +16,10 @@ import com.aircom.binding.video.CrashListener;
 import com.aircom.binding.video.MediaCodecDecoderRenderer;
 import com.aircom.binding.video.MediaCodecHelper;
 import com.aircom.binding.video.PerfOverlayListener;
+import com.aircom.data.PCDeallocationResponse;
+import com.aircom.data.RetrofitClient;
+import com.aircom.data.ServiceAPI;
+import com.aircom.data.SharedPreference;
 import com.aircom.nvstream.NvConnection;
 import com.aircom.nvstream.NvConnectionListener;
 import com.aircom.nvstream.StreamConfiguration;
@@ -37,10 +41,12 @@ import com.aircom.utils.UiHelper;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PictureInPictureParams;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -81,6 +87,10 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Game extends Activity implements SurfaceHolder.Callback,
@@ -165,6 +175,8 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     public static final String EXTRA_PC_NAME = "PcName";
     public static final String EXTRA_APP_HDR = "HDR";
     public static final String EXTRA_SERVER_CERT = "ServerCert";
+
+    private ServiceAPI service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1794,5 +1806,34 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 performanceOverlayView.setText(text);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+        new AlertDialog.Builder(this)
+                .setMessage("PC 사용을 중단하시겠습니까?")
+                .setPositiveButton("예",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                service = RetrofitClient.getClient().create(ServiceAPI.class);
+                                service.withdrawRequest(SharedPreference.getLoginToken(Game.this)).enqueue(new Callback<PCDeallocationResponse>() {
+                                    @Override
+                                    public void onResponse(Call<PCDeallocationResponse> call, Response<PCDeallocationResponse> response) {
+                                        System.out.println("status code: "+response.code());
+                                        System.out.println("response body: "+response.body());
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<PCDeallocationResponse> call, Throwable t) {
+                                        System.out.println("error: "+t.getMessage());
+                                        Toast.makeText(Game.this, "PC 사용 중단 에 발생", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                finish();
+                            }
+                        })
+                .setNegativeButton("아니오", null)
+                .create()
+                .show();
     }
 }
