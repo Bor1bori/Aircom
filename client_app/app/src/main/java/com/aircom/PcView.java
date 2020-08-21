@@ -333,7 +333,6 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-        //position 0으로 고정
         ComputerObject computer = (ComputerObject) pcGridAdapter.getItem(0);
 
         // Inflate the context menu
@@ -581,7 +580,6 @@ public class PcView extends Activity implements AdapterFragmentCallbacks {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        //position 0으로 고정
         final ComputerObject computer = (ComputerObject) pcGridAdapter.getItem(0);
         switch (item.getItemId()) {
             case PAIR_ID:
