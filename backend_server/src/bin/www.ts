@@ -7,6 +7,8 @@
 import app from '../app';
 import createDebug from 'debug';
 import http from 'http';
+import socketIO from 'socket.io';
+import { socketEventsInject } from '@src/services/socketio';
 
 const debug = createDebug('app');
 
@@ -22,7 +24,8 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
-
+const io = socketIO(server, { pingTimeout: 60000 });
+socketEventsInject(io);
 /**
  * Listen on provided port, on all network interfaces.
  */
