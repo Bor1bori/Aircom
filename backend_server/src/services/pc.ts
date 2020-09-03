@@ -3,6 +3,8 @@ import { RegisterPCBody } from '@src/interfaces/pc';
 import { verifyAuthToken } from './pp_auth';
 import { PCAllocation } from '@src/db/models/pc_allocation';
 import { User } from '@src/db/models/user';
+import { requestAllocatePC } from './socketio';
+import { io } from '@src/bin/www';
 
 /**
  * @returns -1 authToken에 해당하는 ppAuthToken Column이 없을 경우
@@ -44,13 +46,16 @@ export async function selectPCToAllocate () {
 }
 
 export async function allocatePC (pc: PC, user: User) {
-  const pcAllocation = await PCAllocation.create({
+  try {
+    const response = await requestAllocatePC(io, pc.uuid);
+    return response;
+  } catch (err) {
+    return null;
+  }
+  /* await PCAllocation.create({
     userId: user.id,
     pcUuid: pc.uuid
-  });
-
-  // TODO?: 나중에 IP, Port 할당한 값들 주기?
-  return pcAllocation;
+  }); */
 }
 
 /**

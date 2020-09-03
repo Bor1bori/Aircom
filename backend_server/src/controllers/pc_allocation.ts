@@ -11,11 +11,14 @@ export const allocatePC = wrapper(async (req, res) => {
   }
 
   // PC 할당
-  await pcServices.allocatePC(pc, req.user!);
+  const result = await pcServices.allocatePC(pc, req.user!);
 
+  if (!result) {
+    // TODO: 처리
+  }
   return res.status(200).json({
-    ip: pc.ip,
-    port: pc.port
+    ip: result!.ip,
+    port: result!.ports
   });
 });
 
