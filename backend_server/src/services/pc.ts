@@ -74,8 +74,12 @@ export async function deallocatePCWithUser (user: User) {
     return -1;
   }
   const pc = await pcAllocation.getPC();
-  const terminateResult = await assureTermination(io, pc.uuid);
-  if (!terminateResult.success) {
+  try {
+    const terminateResult = await assureTermination(io, pc.uuid);
+    if (!terminateResult.success) {
+      return -2; // TODO 발생하면 안됨. 로그 기록, 처리 필요
+    }
+  } catch (err) {
     return -2; // TODO 발생하면 안됨. 로그 기록, 처리 필요
   }
   pc.state = 'usable'; // TODO: unusable로 설정하고 상태 관리를 통해 usable로 변경하도록 하기
