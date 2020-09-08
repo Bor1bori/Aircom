@@ -18,3 +18,10 @@ socket.on('allocate', (data: any, ack: any) => {
     ports: [1, 2, 3, 4, 5]
   });
 });
+
+socket.on('ask_state', (data: any, ack: any) => {
+  console.log(data);
+  ack({
+    state: 'inUse'
+  });
+});

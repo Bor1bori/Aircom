@@ -25,11 +25,24 @@ export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<Al
   });
 };
 
+// 특정 PC에 state를 물어봄
+export const askStateToPC = (io: socketIO.Server, uuid: string): Promise<AllocateReulst> => {
+  return new Promise((resolve, reject) => {
+    const socketId = pcUUIDSocketIdMappings.get(uuid);
+    if (!socketId) {
+      return reject(new Error('unusable pc'));
+    }
+    io.sockets.connected[socketId].emit('ask_state', null, (data: AllocateReulst) => {
+      return resolve(data);
+    });
+  });
+};
+
 export const socketEventsInject = (io: socketIO.Server) => {
   io.on('connection', (socket) => {
     console.log('connection on');
     socket.on('signin', async (data: any, ack) => {
-      console.log(data.uuid);
+      console.log(data.uuid + ' signed in');
       const pc = await PC.findByPk(data.uuid);
       if (!pc || pc.state !== 'unusable') {
         return ack({ success: false });
@@ -41,6 +54,20 @@ export const socketEventsInject = (io: socketIO.Server) => {
       ack({ success: true });
     });
 
-    // TODO: 연결 종료시 처리
+    socket.on('disconnect', async (reason) => {
+      console.log('disconnected ' + reason);
+      const uuid = socketIdPCUUIDMappings.get(socket.id);
+      if (uuid) {
+        socketIdPCUUIDMappings.delete(socket.id);
+        pcUUIDSocketIdMappings.delete(uuid);
+        await PC.update({
+          state: 'unusable'
+        }, {
+          where: {
+            uuid
+          }
+        });
+      }
+    });
   });
 };
