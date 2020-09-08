@@ -4,19 +4,36 @@ import { PC } from '@src/db/models/pc';
 const socketIdPCUUIDMappings = new Map<string, string>();
 const pcUUIDSocketIdMappings = new Map<string, string>();
 
-interface AllocateReulst {
+interface AllocateResult {
   success: boolean;
   ip: string;
   ports: number[];
 }
-// 특정 PC에 할당을 요청해서 ip, ports를 받아옴.
-export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<AllocateReulst> => {
+
+interface AskStateResult {
+  state: 'inUse' | 'usable';
+}
+
+interface TerminateResult {
+  success: boolean;
+}
+
+/**
+ * @description 특정 PC에 할당을 요청해서 ip, ports를 받아옴.
+ * @param io socketIO Server
+ * @param uuid 할당할 PC의 uuid
+ * @returns Promise\<data\>
+ * @data ip ip
+ * @data ports 연결할 포트 배열
+ * @throws 'unusable pc' 현재 소켓 연결이 되지 않았거나 이용이 불가능할 경우
+ */
+export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<AllocateResult> => {
   return new Promise((resolve, reject) => {
     const socketId = pcUUIDSocketIdMappings.get(uuid);
     if (!socketId) {
       return reject(new Error('unusable pc'));
     }
-    io.sockets.connected[socketId].emit('allocate', null, (data: AllocateReulst) => {
+    io.sockets.connected[socketId].emit('allocate', null, (data: AllocateResult) => {
       if (!data.success) {
         return reject(new Error('unusable pc'));
       }
@@ -26,13 +43,29 @@ export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<Al
 };
 
 // 특정 PC에 state를 물어봄
-export const askStateToPC = (io: socketIO.Server, uuid: string): Promise<AllocateReulst> => {
+export const askStateToPC = (io: socketIO.Server, uuid: string): Promise<AskStateResult> => {
   return new Promise((resolve, reject) => {
     const socketId = pcUUIDSocketIdMappings.get(uuid);
     if (!socketId) {
       return reject(new Error('unusable pc'));
     }
-    io.sockets.connected[socketId].emit('ask_state', null, (data: AllocateReulst) => {
+    io.sockets.connected[socketId].emit('ask_state', null, (data: AskStateResult) => {
+      return resolve(data);
+    });
+  });
+};
+
+export const assureTermination = (io: socketIO.Server, uuid: string): Promise<TerminateResult> => {
+  return new Promise((resolve, reject) => {
+    const socketId = pcUUIDSocketIdMappings.get(uuid);
+    if (!socketId) {
+      return reject(new Error('unusable pc'));
+    }
+    io.sockets.connected[socketId].emit('assure_termination', null, (data: TerminateResult) => {
+      if (!data.success) {
+        // TODO 발생하면 안됨. 로그 기록, 처리 필요
+        return reject(new Error('unusable pc'));
+      }
       return resolve(data);
     });
   });

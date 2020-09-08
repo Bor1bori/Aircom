@@ -25,3 +25,10 @@ socket.on('ask_state', (data: any, ack: any) => {
     state: 'inUse'
   });
 });
+
+socket.on('assure_termination', (data: any, ack: any) => {
+  console.log(data);
+  ack({
+    success: true
+  });
+});
