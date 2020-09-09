@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { initUser } from './models/user';
 import { initPCProvider, initPCProviderAssociate } from './models/pc_provider';
-import { initPC, initPCAssociate } from './models/pc';
+import { initPC, initPCAssociate, PC } from './models/pc';
 import { initPPAuthToken, initPPAuthTokenAssociate } from './models/pp_authtoken';
 import { initPCAllocation, initPCAllocationAssociate } from './models/pc_allocation';
 import createDebug from 'debug';
@@ -40,6 +40,12 @@ export const sequelizeInit = async () => {
     await sequelize.sync();
 
     // TODO: PPAUthToken 유효기간 지난 것들 삭제하기.
+    // TODO: PC들 상태 다 unusable로 변경하기.
+    await PC.update({
+      state: 'unusable'
+    }, {
+      where: {}
+    });
     debug('Connection has been established successfully.');
   } catch (error) {
     debug('Unable to connect to the database:', error);

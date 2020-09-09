@@ -3,6 +3,8 @@ import { RegisterPCBody } from '@src/interfaces/pc';
 import { verifyAuthToken } from './pp_auth';
 import { PCAllocation } from '@src/db/models/pc_allocation';
 import { User } from '@src/db/models/user';
+import { requestAllocatePC, assureTermination } from './socketio';
+import { io } from '@src/bin/www';
 
 /**
  * @returns -1 authToken에 해당하는 ppAuthToken Column이 없을 경우
@@ -44,13 +46,16 @@ export async function selectPCToAllocate () {
 }
 
 export async function allocatePC (pc: PC, user: User) {
-  const pcAllocation = await PCAllocation.create({
-    userId: user.id,
-    pcUuid: pc.uuid
-  });
-
-  // TODO?: 나중에 IP, Port 할당한 값들 주기?
-  return pcAllocation;
+  try {
+    const response = await requestAllocatePC(io, pc.uuid);
+    await PCAllocation.create({
+      userId: user.id,
+      pcUuid: pc.uuid
+    });
+    return response;
+  } catch (err) {
+    return null;
+  }
 }
 
 /**
@@ -69,6 +74,14 @@ export async function deallocatePCWithUser (user: User) {
     return -1;
   }
   const pc = await pcAllocation.getPC();
+  try {
+    const terminateResult = await assureTermination(io, pc.uuid);
+    if (!terminateResult.success) {
+      return -2; // TODO 발생하면 안됨. 로그 기록, 처리 필요
+    }
+  } catch (err) {
+    return -2; // TODO 발생하면 안됨. 로그 기록, 처리 필요
+  }
   pc.state = 'usable'; // TODO: unusable로 설정하고 상태 관리를 통해 usable로 변경하도록 하기
   await pc.save();
 
