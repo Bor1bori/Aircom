@@ -9,16 +9,18 @@ class StreamingTester:
         for handle in moonlight_alert_windows:
             app = Application().connect(handle = handle)
             navwin = app.window(handle = handle)
-            '''
+            
             for window in navwin.descendants():
+                '''
                 print("@@@@@@@@@@@@@@@")
                 print(window.window_text())
                 print("@@@@@@@@@@@@@@@")
                 print(window.class_name())
                 '''
-                #TODO IP 주소 찾기
-
-        self.host_ip = "1.1.1.2"
+                ip_pos = window.window_text().find("Moonlight's Add PC dialog:")
+                if ip_pos > 0:
+                    self.host_ip = window.window_text()[ip_pos + 27:]
+                    break
         return True
 
     def get_ip_address(self):

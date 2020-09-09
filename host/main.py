@@ -5,9 +5,10 @@ from streaming_tester import StreamingTester
 from api_sender import APISender
 
 CONF_DIRECTORY = "conf.ini";
-BACKEND_URL = "https://a1504d41-f8dd-4e01-94d3-9793f3e1d68b.mock.pstmn.io";
+BACKEND_URL = "http://api.myaircom.co.kr";
 
 if __name__== "__main__" :
+    '''
     auth_token = input("홈페이지에서 발급받은 인증코드를 입력하세요 : ")
     print(auth_token)
     tester = StreamingTester()
@@ -15,9 +16,17 @@ if __name__== "__main__" :
     host_ip = tester.get_ip_address()
 
     sender = APISender(BACKEND_URL)
-    sender.register("1234", host_ip)
+    #sender.register("1234", host_ip)
+    uuid = sender.register(auth_token, "192.168.0.1", 8080)
+    if uuid:
+        print("authorized clear")
+        userfile = open(CONF_DIRECTORY, "w")
+        userfile.write(uuid)
+        userfile.close()
+    else:
+        print("authorized failed")
+    '''
+    sender = APISender(BACKEND_URL)
+    sender.shield_connect()
     
-    userfile = open(CONF_DIRECTORY, "w")
-    userfile.write(hello!" )
-    #TODO uuid 저장 
-    userfile.close()
+
