@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/pcInactiveFragment">
+    <ImageView
+        android:id="@+id/cloud_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="185dp"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/connectionTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PC와 연결해주세요."
+        android:fontFamily="@font/applesd"
+        android:textSize="18dp"
+        android:layout_marginTop="27dp"
+        android:layout_below="@id/cloud_icon"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:id="@+id/addPcButton"
+        android:layout_width="160dp"
+        android:minHeight="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="51dp"
+        android:layout_below="@id/connectionTextview"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/roundedbutton"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd"
+        android:text="연결하기"
+        android:textColor="#ffffff" />
+</RelativeLayout>
