@@ -21,7 +21,7 @@
         android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/loginTextView"
-        android:background="@drawable/edittext"
+        android:background="@drawable/edittext_unfocus"
         android:hint="이메일"
         android:textColorHint="#b1b1b1"
         android:textColor="#000000"
@@ -29,6 +29,7 @@
         android:paddingTop="5dp"
         android:paddingRight="10dp"
         android:textSize="16dp"
+        android:textCursorDrawable="@null"
         android:fontFamily="@font/applesd"
         android:paddingBottom="5dp" />
 
@@ -38,7 +39,7 @@
         android:layout_height="45dp"
         android:layout_below="@id/email"
         android:layout_centerInParent="true"
-        android:background="@drawable/edittext"
+        android:background="@drawable/edittext_unfocus"
         android:ems="10"
         android:textColorHint="#b1b1b1"
         android:textColor="#000000"
@@ -50,6 +51,7 @@
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
         android:textSize="16dp"
+        android:textCursorDrawable="@null"
         android:fontFamily="@font/applesd"/>
 
     <Button
@@ -65,14 +67,36 @@
         android:fontFamily="@font/applesd"
         android:text="로그인"
         android:textColor="#ffffff" />
+    <CheckBox
+        android:id="@+id/checkLogin"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:button="@null"
+        android:background="@drawable/checkbutton"
+        android:layout_alignLeft="@+id/signInButton"
+        android:checked="true"
+        android:layout_below="@id/signInButton"
+        android:layout_marginTop="20dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:layout_alignLeft="@id/checkLogin"
+        android:layout_below="@id/signInButton"
+        android:text="자동 로그인"
+        android:fontFamily="@font/applesd"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="20.5dp"
+        />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleSignInButton"
         android:layout_width="280dp"
         android:layout_height="50dp"
-        android:layout_below="@id/signInButton"
+        android:layout_below="@id/checkLogin"
         android:layout_centerInParent="true"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="40dp">
     </com.google.android.gms.common.SignInButton>
 
     <TextView

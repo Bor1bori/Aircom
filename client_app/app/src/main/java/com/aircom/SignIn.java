@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +65,6 @@ public class SignIn extends Activity{
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
         actionBar.setIcon(R.drawable.logo2);
-        //임시로 자동 로그인 꺼두기
         /*if (SharedPreference.getLoginToken(SignIn.this).length()!=0){
             Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
             Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
@@ -220,13 +220,14 @@ public class SignIn extends Activity{
         }
     }
 
-    private void startSignIn(SignInData data){
+    private void startSignIn(final SignInData data){
         service.userLogin(data).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
                     System.out.println("Login Token: "+response.body().getLoginToken());
+                    SharedPreference.setUserName(SignIn.this, data.getUserEmail());
                     SharedPreference.setLoginToken(SignIn.this, response.body().getLoginToken());
                     Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
                     startActivity(intent);

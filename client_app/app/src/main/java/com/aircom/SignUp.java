@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class SignUp extends Activity {
     private RadioButton mFemale;
     private EditText mBirthDate;
     private TextView mGender;
+    private CheckBox mCheckBox;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class SignUp extends Activity {
         mFemale = (RadioButton) findViewById(R.id.female);
         mBirthDate = (EditText) findViewById(R.id.birthDateForSignUp);
         mGender = (TextView)findViewById(R.id.genderTextView);
+        mCheckBox = (CheckBox)findViewById(R.id.checkButton);
 
         service = RetrofitClient.getClient().create(ServiceAPI.class);
 
@@ -82,6 +85,7 @@ public class SignUp extends Activity {
         String rePassword = mRePassword.getText().toString();
         String birthDate = mBirthDate.getText().toString();
         String gender = "";
+
         if (mMale.isChecked()){
             gender = "male";
         }
@@ -144,6 +148,8 @@ public class SignUp extends Activity {
 
         if (cancel) {
             focusView.requestFocus();
+        } else if (!mCheckBox.isChecked()){
+            Toast.makeText(SignUp.this, "약관에 동의해 주세요", Toast.LENGTH_SHORT).show();
         } else {
             SignUpData SD = new SignUpData(email, password, birthDate, gender);
             System.out.println("email: "+email+", pw: "+password+", bd: "+birthDate+", gen: "+gender);
@@ -189,13 +195,14 @@ public class SignUp extends Activity {
         return password.length() >= 8;
     }
 
-    public void startSignIn(SignInData data){
+    public void startSignIn(final SignInData data){
         service.userLogin(data).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.code() == 200) {
                     Toast.makeText(SignUp.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
                     System.out.println("Login Token: "+response.body().getLoginToken());
+                    SharedPreference.setUserName(SignUp.this, data.getUserEmail());
                     SharedPreference.setLoginToken(SignUp.this, response.body().getLoginToken());
                     Intent intent = new Intent(SignUp.this, AddComputerAutomatically.class);
                     startActivity(intent);
