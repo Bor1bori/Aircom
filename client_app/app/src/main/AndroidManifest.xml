@@ -88,6 +88,12 @@
         <activity
             android:name="com.aircom.SignIn">
         </activity>
+        <activity
+            android:name="com.aircom.EditAccountInfo">
+        </activity>
+        <activity
+            android:name="com.aircom.ChargeMoney">
+        </activity>
         <!-- Small hack to support launcher shortcuts without relaunching over and over again when the back button is pressed -->
         <activity
             android:name="com.aircom.ShortcutTrampoline"
