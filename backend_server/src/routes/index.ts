@@ -1,6 +1,8 @@
 import express from 'express';
 import authRouter from './auth';
 import ppAuthRouter from './pp_auth';
+import ppRouter from './pp';
+import pcAllocationRouter from './pc_allocation';
 
 const router = express.Router();
 
@@ -11,5 +13,7 @@ router.get('/', function (req, res) {
 
 router.use('/auth', authRouter);
 router.use('/pp-auth', ppAuthRouter);
+router.use('/pc-providers', ppRouter);
+router.use('/pc-allocations', pcAllocationRouter);
 
 export default router;

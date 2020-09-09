@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import {signin} from "../../store/auth/action";
+import {ppSignin} from "../../../store/pp_auth/action";
 
 const SignUp = () => {
     const router = useRouter();
@@ -22,10 +22,12 @@ const SignUp = () => {
     const onSignup = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
     
-        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/signup`, signupInput)
+        axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/signup`, signupInput, {
+            withCredentials: true
+        })
             .then((res) => {
                 console.log(res);
-                dispatch(signin(res.data.loginToken));
+                dispatch(ppSignin(res.data.ppLoginToken));
                 router.push("/manage");
             })
             .catch((err) => {

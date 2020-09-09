@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.aircom.computers.ComputerManagerListener;
 import com.aircom.computers.ComputerManagerService;
+import com.aircom.data.SharedPreference;
 import com.aircom.grid.AppGridAdapter;
 import com.aircom.nvstream.http.ComputerDetails;
 import com.aircom.nvstream.http.NvApp;
@@ -21,9 +22,12 @@ import com.aircom.utils.ShortcutHelper;
 import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
@@ -129,6 +133,12 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                             // Despite my best efforts to catch all conditions that could
                             // cause the activity to be destroyed when we try to commit
                             // I haven't been able to, so we have this try-catch block.
+                            if (appGridAdapter.getCount()!=0) {
+                                final AppObject app = (AppObject) appGridAdapter.getItem(0);
+                                ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+                                onBackPressed();
+                            }
+
                             try {
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.appFragmentContainer, new AdapterFragment())
@@ -150,7 +160,6 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
         // If appGridAdapter is initialized, let it know about the configuration change.
         // If not, it will pick it up when it initializes.
         if (appGridAdapter != null) {
@@ -272,7 +281,8 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ActionBar actionBar = getActionBar();
+        actionBar.hide();
         // Assume we're in the foreground when created to avoid a race
         // between binding to CMS and onResume()
         inForeground = true;
@@ -284,15 +294,15 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         setContentView(R.layout.activity_app_view);
 
         UiHelper.notifyNewRootView(this);
+        
 
         uuidString = getIntent().getStringExtra(UUID_EXTRA);
 
         String computerName = getIntent().getStringExtra(NAME_EXTRA);
 
         TextView label = findViewById(R.id.appListText);
-        setTitle(computerName);
-        label.setText(computerName);
-
+        //setTitle(computerName);
+        //label.setText(computerName);
         // Bind to the computer manager service
         bindService(new Intent(this, ComputerManagerService.class), serviceConnection,
                 Service.BIND_AUTO_CREATE);
@@ -558,6 +568,11 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                 if (updated) {
                     appGridAdapter.notifyDataSetChanged();
                 }
+                if (appGridAdapter.getCount()!=0) {
+                    final AppObject app = (AppObject) appGridAdapter.getItem(0);
+                    ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+                    onBackPressed();
+                }
             }
         });
     }
@@ -606,4 +621,10 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
             return app.getAppName();
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+    }
+
 }

@@ -13,7 +13,10 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  origin: true, // TODO: 나중에 origin whitelist 설정
+  credentials: true
+}));
 
 app.use('/', indexRouter);
 

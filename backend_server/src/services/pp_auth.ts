@@ -1,6 +1,7 @@
 import { PCProvider } from '@src/db/models/pc_provider';
+import { PPAuthToken } from '@src/db/models/pp_authtoken';
 import { SignupBody, SigninBody } from '@src/interfaces/pp_auth';
-import { jwtSign, hash } from '@src/utils/crypto';
+import { jwtSign, hash, getRandomAlphNum } from '@src/utils/crypto';
 import { getUserIdFromIDToken } from './googleoauth';
 
 export async function signup (ppUser: SignupBody) {
@@ -54,3 +55,45 @@ export async function signinOrSignupViaGoogleOAuth (idToken: string) {
 
   return jwtSign({ id: signedinID }, 1000 * 60 * 60 * 24);
 }
+
+export const getAuthToken = async (ppId: number) => {
+  let authToken = getRandomAlphNum(6).toUpperCase();
+
+  // 기존에 있는 pcProviderId 삭제
+  await PPAuthToken.destroy({
+    where: {
+      pcProviderId: ppId
+    }
+  });
+  while (true) {
+    try {
+      await PPAuthToken.create({
+        authToken,
+        pcProviderId: ppId
+      });
+      break;
+    } catch {
+      authToken = getRandomAlphNum(6);
+    }
+  }
+
+  setTimeout(async () => await PPAuthToken.destroy({
+    where: {
+      authToken
+    }
+  }), 1000 * 60 * 5 /* 5분간 유효 */);
+
+  return authToken;
+};
+
+/**
+ * @description AuthToken을 검증
+ * @param authToken 검증할 authToken
+ * @returns ppId if success to verify
+ * @returns null if fail to verify
+ */
+export const verifyAuthToken = async (authToken: string) => {
+  const ppId = await PPAuthToken.findByPk(authToken.toUpperCase());
+
+  return ppId;
+};

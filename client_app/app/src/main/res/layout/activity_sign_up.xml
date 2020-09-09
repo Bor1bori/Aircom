@@ -3,183 +3,178 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:id="@+id/signUpTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:text="회원가입"
-        android:textSize="100px" />
-    <TextView
+        android:id="@+id/emailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email"
-        android:layout_marginBottom="-40dp"
-        android:layout_above="@id/emailForSignUp"
+        android:layout_marginTop="50dp"
         android:layout_alignLeft="@id/emailForSignUp"
         android:layout_alignStart="@id/emailForSignUp"
-        android:textSize="17dp">
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd">
     </TextView>
     <EditText
         android:id="@+id/emailForSignUp"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/signUpTextView"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/emailTextView"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/circulus_button"
-        android:layout_marginTop="40dp"
+        android:background="@drawable/edittext"
+        android:layout_marginTop="5dp"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
-        android:hint="이메일을 입력하세요"
-        android:textColorHint="#66565C64"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd"
+        android:hint="예: aircom@naver.com"
+        android:textColorHint="#b1b1b1"
         android:textColor="#000000" />
-
     <TextView
+        android:id="@+id/pwTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pw"
-        android:layout_marginBottom="-35dp"
-        android:layout_above="@id/pwForSignUp"
-        android:layout_alignLeft="@id/pwForSignUp"
-        android:layout_alignStart="@id/pwForSignUp"
-        android:textSize="17dp">
+        android:layout_below="@id/emailForSignUp"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@id/emailForSignUp"
+        android:layout_alignStart="@id/emailForSignUp"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd">
     </TextView>
     <EditText
         android:id="@+id/pwForSignUp"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/emailForSignUp"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/pwTextView"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/circulus_button"
-        android:layout_marginTop="35dp"
-        android:inputType="textPassword"
+        android:background="@drawable/edittext"
+        android:layout_marginTop="5dp"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
-        android:hint="숫자, 영어 포함 8자리"
-        android:textColorHint="#66565C64"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd"
+        android:hint="8자 이상 입력해주세요."
+        android:inputType="textPassword"
+        android:textColorHint="#b1b1b1"
         android:textColor="#000000" />
     <TextView
+        android:id="@+id/rePWTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호 확인"
+        android:layout_below="@id/pwForSignUp"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@id/emailForSignUp"
+        android:layout_alignStart="@id/emailForSignUp"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd">
+    </TextView>
+    <EditText
+        android:id="@+id/rePWForSignUp"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/rePWTextView"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/edittext"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:inputType="textPassword"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd"
+        android:hint="비밀번호를 다시 입력해주세요."
+        android:textColorHint="#b1b1b1"
+        android:textColor="#000000" />
+    <TextView
+        android:id="@+id/birthDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="생년월일"
+        android:layout_below="@id/rePWForSignUp"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@id/emailForSignUp"
+        android:layout_alignStart="@id/emailForSignUp"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd">
+    </TextView>
+    <EditText
+        android:id="@+id/birthDateForSignUp"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/birthDateTextView"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/edittext"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd"
+        android:hint="예: 980421"
+        android:textColorHint="#b1b1b1"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/genderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="성별"
-        android:layout_marginBottom="-35dp"
-        android:layout_above="@id/genderRadioGroup"
+        android:layout_below="@id/birthDateForSignUp"
+        android:layout_marginTop="20dp"
         android:layout_alignLeft="@id/emailForSignUp"
         android:layout_alignStart="@id/emailForSignUp"
-        android:textSize="17dp">별
-    </TextView>
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd"/>
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/genderRadioGroup"
-        android:layout_below="@id/pwForSignUp"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@id/genderTextView"
         android:orientation="horizontal"
         android:layout_alignStart="@id/emailForSignUp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="5dp"
         android:layout_alignLeft="@id/emailForSignUp">
         <RadioButton
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_width="135dp"
             android:text="남성"
-            android:layout_marginRight="20dp"
+            android:textSize="16dp"
+            android:button="@null"
+            android:textColor="@drawable/gendertextcolor"
+            android:background="@drawable/genderbutton"
+            android:fontFamily="@font/applesd"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
             android:id="@+id/male"
             />
         <RadioButton
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_height="45dp"
+            android:layout_width="135dp"
             android:text="여성"
+            android:textSize="16dp"
+            android:button="@null"
+            android:textColor="@drawable/gendertextcolor"
+            android:background="@drawable/genderbutton"
+            android:fontFamily="@font/applesd"
+            android:gravity="center"
             android:id="@+id/female"
             />
-        <RadioButton
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="기타"
-            android:id="@+id/etc"
-            />
     </RadioGroup>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="생년월일"
-        android:layout_marginBottom="-35dp"
-        android:layout_above="@id/dateOfBirth"
-        android:layout_alignLeft="@id/emailForSignUp"
-        android:layout_alignStart="@id/emailForSignUp"
-        android:textSize="17dp">
-    </TextView>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dateOfBirth"
-        android:layout_below="@id/genderRadioGroup"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        android:layout_alignStart="@id/emailForSignUp"
-        android:layout_marginTop="35dp"
-        android:layout_alignLeft="@id/emailForSignUp">
-        <EditText
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:id="@+id/year"
-            android:hint="년(4자리)"
-            android:padding="10dp"
-            android:textAlignment="textEnd"
-            android:textColorHint="#66565C64"
-            android:textColor="#000000"
-            android:background="@drawable/circulus_button"
-            android:layout_marginRight="5dp"
-            android:textSize="15dp"
-            android:inputType="text"
-            android:gravity="end">
-        </EditText>
-        <EditText
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:id="@+id/month"
-            android:hint="월(2자리)"
-            android:textSize="15dp"
-            android:padding="10dp"
-            android:textColorHint="#66565C64"
-            android:textColor="#000000"
-            android:inputType="text"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/circulus_button"
-            android:gravity="end">
-        </EditText>
-        <EditText
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:id="@+id/day"
-            android:textSize="15dp"
-            android:hint="일(2자리)"
-            android:padding="10dp"
-            android:textColorHint="#66565C64"
-            android:textColor="#000000"
-            android:inputType="text"
-            android:background="@drawable/circulus_button"
-            android:gravity="end">
-        </EditText>
-    </LinearLayout>
-
     <Button
         android:id="@+id/signUpButton"
-        android:layout_width="200dp"
-        android:minHeight="0dp"
-        android:layout_height="50dp"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:layout_below="@id/dateOfBirth"
-        android:background="@drawable/rounded_button"
+        android:layout_below="@id/genderRadioGroup"
+        android:background="@drawable/roundedbutton"
         android:text="회원가입"
-        android:textColor="#000000" />
-
-
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

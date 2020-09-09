@@ -2,8 +2,15 @@ import {
   Sequelize,
   Model,
   DataTypes,
-  Optional
+  Optional,
+  Association,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManyHasAssociationMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin
 } from 'sequelize';
+import { PC } from './pc';
 
 /* user db first settings */
 export interface PCProviderAttributes {
@@ -27,6 +34,25 @@ export class PCProvider extends Model<PCProviderAttributes, PCProviderCreationAt
   public gender?: string;
   public signinType!: 'email' | 'googleoauth';
   public signinID?: string;
+
+  // timestamps!
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+
+  // Since TS cannot determine model association at compile time
+  // we have to declare them here purely virtually
+  // these will not exist until `Model.init` was called.
+  public getPcs!: HasManyGetAssociationsMixin<PC>; // Note the null assertions!
+  public addPcs!: HasManyAddAssociationMixin<PC, number>;
+  public hasPcs!: HasManyHasAssociationMixin<PC, number>;
+  public countPcs!: HasManyCountAssociationsMixin;
+  public createPcs!: HasManyCreateAssociationMixin<PC>;
+
+  public readonly pcs?: PC[]; // Note this is optional since it's only populated when explicitly requested in code
+
+  public static associations: {
+    pcs: Association<PCProvider, PC>;
+  };
 }
 
 export const initPCProvider = (sequelize: Sequelize) => {
@@ -69,5 +95,13 @@ export const initPCProvider = (sequelize: Sequelize) => {
   queryInterface.addConstraint('pc_provider', {
     fields: ['signinType', 'signinID'],
     type: 'unique'
+  });
+};
+
+export const initPCProviderAssociate = () => {
+  PCProvider.hasMany(PC, {
+    sourceKey: 'id',
+    foreignKey: 'pcProviderId',
+    as: 'pcs' // this determines the name in `associations`!
   });
 };

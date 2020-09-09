@@ -10,4 +10,6 @@ router.post('/signin', PPAuthMiddlewares.signinValidator, PPAuthControllers.sign
 
 router.post('/oauth/google/signin', PPAuthMiddlewares.googleOAuthSignValidator, PPAuthControllers.googleOAuthSignUpAndSignIn);
 
+router.get('/auth-token', PPAuthMiddlewares.verifySignin, PPAuthControllers.getAuthToken);
+
 export default router;
