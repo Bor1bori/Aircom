@@ -3,6 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/stream_settings"
-    tools:context=".preferences.StreamSettings">
-
+    tools:context=".preferences.StreamSettings"
+    android:layout_marginTop="65dp">
 </RelativeLayout>

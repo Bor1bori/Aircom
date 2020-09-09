@@ -26,6 +26,7 @@
             seekbar:step="500"
             android:max="100000"
             android:text="@string/suffix_seekbar_bitrate"
+            android:colorAccent="#0052cc"
             android:layout="@layout/preference_style_item"
             android:title="@string/title_seekbar_bitrate" />
         <CheckBoxPreference

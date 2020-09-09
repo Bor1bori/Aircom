@@ -1,6 +1,7 @@
 package com.aircom.preferences;
 
 import android.app.ActionBar;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,9 +19,12 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Range;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 import com.aircom.LimeLog;
 import com.aircom.PcView;
@@ -28,7 +32,7 @@ import com.aircom.R;
 import com.aircom.binding.video.MediaCodecHelper;
 import com.aircom.utils.UiHelper;
 
-public class StreamSettings extends Activity {
+public class StreamSettings extends Fragment {
     private PreferenceConfiguration previousPrefs;
 
     void reloadSettings() {
@@ -37,25 +41,32 @@ public class StreamSettings extends Activity {
         ).commit();
     }
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActionBar actionBar = getActionBar();
-        actionBar.hide();
-        previousPrefs = PreferenceConfiguration.readPreferences(this);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        /*ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(getActivity().getLayoutInflater().inflate(R.layout.actionbar_setting, null),
+                new ActionBar.LayoutParams(
+                        ActionBar.LayoutParams.WRAP_CONTENT,
+                        ActionBar.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                )
+        );*/
+        final View root = inflater.inflate(R.layout.activity_stream_settings, container, false);
+        previousPrefs = PreferenceConfiguration.readPreferences(getActivity());
 
-        UiHelper.setLocale(this);
-
-        setContentView(R.layout.activity_stream_settings);
+        UiHelper.setLocale(getActivity());
         reloadSettings();
 
-        UiHelper.notifyNewRootView(this);
+        UiHelper.notifyNewRootView(getActivity());
+        return root;
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
 
+    /*@Override
+    public void onBackPressed() {
         // Check for changes that require a UI reload to take effect
         PreferenceConfiguration newPrefs = PreferenceConfiguration.readPreferences(this);
         if (!newPrefs.language.equals(previousPrefs.language)) {
@@ -64,9 +75,9 @@ public class StreamSettings extends Activity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent, null);
         }
-    }
+    }*/
 
-    public static class SettingsFragment extends PreferenceFragment {
+    public static class SettingsFragment extends PreferenceFragment{
 
         private void setValue(String preferenceKey, String value) {
             ListPreference pref = (ListPreference) findPreference(preferenceKey);
@@ -135,6 +146,7 @@ public class StreamSettings extends Activity {
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
+            getActivity().setTheme(R.style.PreferenceScreen);
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.preferences);
@@ -349,7 +361,7 @@ public class StreamSettings extends Activity {
                 category.removePreference(findPreference("checkbox_unlock_fps"));
             }
             else {
-                findPreference(PreferenceConfiguration.UNLOCK_FPS_STRING).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                /*findPreference(PreferenceConfiguration.UNLOCK_FPS_STRING).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(Preference preference, Object newValue) {
                         // HACK: We need to let the preference change succeed before reinitializing to ensure
@@ -359,7 +371,7 @@ public class StreamSettings extends Activity {
                             @Override
                             public void run() {
                                 // Ensure the activity is still open when this timeout expires
-                                StreamSettings settingsActivity = (StreamSettings)SettingsFragment.this.getActivity();
+                                StreamSettings settingsActivity = (StreamSettings)SettingsFragment.this;
                                 if (settingsActivity != null) {
                                     settingsActivity.reloadSettings();
                                 }
@@ -369,7 +381,7 @@ public class StreamSettings extends Activity {
                         // Allow the original preference change to take place
                         return true;
                     }
-                });
+                });*/
             }
 
             // Remove HDR preference for devices below Nougat
