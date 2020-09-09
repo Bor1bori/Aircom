@@ -31,6 +31,7 @@ import com.aircom.nvstream.jni.MoonBridge;
 import com.aircom.preferences.GlPreferences;
 import com.aircom.preferences.PreferenceConfiguration;
 import com.aircom.ui.GameGestures;
+import com.aircom.ui.PCInactiveFragment;
 import com.aircom.ui.StreamView;
 import com.aircom.utils.Dialog;
 import com.aircom.utils.NetHelper;
@@ -1821,12 +1822,13 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                                     public void onResponse(Call<PCDeallocationResponse> call, Response<PCDeallocationResponse> response) {
                                         System.out.println("status code: "+response.code());
                                         System.out.println("response body: "+response.body());
+                                        PCInactiveFragment.setConnectionViewInactive();
                                     }
 
                                     @Override
                                     public void onFailure(Call<PCDeallocationResponse> call, Throwable t) {
                                         System.out.println("error: "+t.getMessage());
-                                        Toast.makeText(Game.this, "PC 사용 중단 에 발생", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Game.this, "PC 사용 중단 에러 발생", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                                 finish();
