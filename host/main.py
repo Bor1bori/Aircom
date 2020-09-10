@@ -5,11 +5,11 @@ from streaming_tester import StreamingTester
 from api_sender import APISender
 import sio
 
-CONF_DIRECTORY = "conf.ini";
-BACKEND_URL = "http://api.myaircom.co.kr";
+CONF_DIRECTORY = "conf.ini"
+BACKEND_URL = "http://api.myaircom.co.kr"
 
 if __name__== "__main__" :
-    sio.init();
+    sio.init(BACKEND_URL)
     auth_token = input("홈페이지에서 발급받은 인증코드를 입력하세요 : ")
     print(auth_token)
     tester = StreamingTester()

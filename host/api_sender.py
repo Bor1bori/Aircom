@@ -18,7 +18,7 @@ class APISender:
         if res.status_code == 401:
             print("401 unauthorized")
         elif res.status_code == 404:
-            printf("404 not found")
+            print("404 not found")
        
         #TODO 401, 404 등 에러 처리
         #TODO uuid 리턴 
