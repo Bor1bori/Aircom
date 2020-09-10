@@ -1,16 +1,16 @@
 import React from "react";
 import Header from "../header/Header";
 
-const layoutStyle = {
-    margin:20,
-    padding: 20,
-    border: "1px solid #DDD"
-};
-
 const Layout = (props: any) => (
-    <div style = {layoutStyle}>
+    <div>
         <Header/>
-        {props.children}
+        <div className="children">{props.children}</div>
+        <style jsx>{`
+            .children{
+                display: flex;
+            }
+        `}
+        </style>
     </div>
 );
 
