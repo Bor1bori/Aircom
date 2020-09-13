@@ -123,6 +123,7 @@ public class AddComputerAutomatically extends Activity {
         boolean success;
         final ComputerDetails details = new ComputerDetails();
 
+        //페어링 알림 메세지 띄울 필요x
         /*SpinnerDialog dialog = SpinnerDialog.displayDialog(this, getResources().getString(R.string.title_add_pc),
             getResources().getString(R.string.msg_add_pc), false);*/
 
@@ -156,7 +157,7 @@ public class AddComputerAutomatically extends Activity {
                 Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.addpc_success), Toast.LENGTH_LONG).show();
 
                     if (!isFinishing()) {
-                        // 만약 pc가 pairing 되지 않은 상태라
+                        // 만약 pc가 pairing 되지 않은 상태라면
                         if (details.pairState!= PairingManager.PairState.PAIRED){
                             doPair(details);
                             return;
