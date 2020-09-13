@@ -1823,6 +1823,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                                         System.out.println("status code: "+response.code());
                                         System.out.println("response body: "+response.body());
                                         PCInactiveFragment.setConnectionViewInactive();
+                                        finish();
                                     }
 
                                     @Override
@@ -1831,7 +1832,6 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                                         Toast.makeText(Game.this, "PC 사용 중단 에러 발생", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                                finish();
                             }
                         })
                 .setNegativeButton("아니오", null)
