@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import {ppSignin} from "../../../store/pp_auth/action";
+import { ppSignin } from "../../../store/pp_auth/action";
 
 const SignUp = () => {
     const router = useRouter();
@@ -21,7 +21,7 @@ const SignUp = () => {
     };
     const onSignup = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-    
+
         axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/signup`, signupInput, {
             withCredentials: true
         })
@@ -54,10 +54,12 @@ const SignUp = () => {
                     placeholder="8자 이상 입력해주세요"
                 />
                 <label id="gender">성별</label>
-                <select name="gender" value={signupInput.gender} onChange={onInputChange}>
-                    <option value="male">남성</option>
-                    <option value="female">여성</option>
-                </select>
+                <div className="gender">
+                    <input type="radio" id="male" name="gender" value="male" onChange={onInputChange} />
+                    <label htmlFor="male">남성</label>
+                    <input type="radio" id="female" name="gender" value="female" onChange={onInputChange} />
+                    <label htmlFor="female">여성</label>
+                </div>
                 <label id="birthDate">생년월일</label>
                 <input className="signUp"
                     value={signupInput.birthdate}
@@ -121,13 +123,41 @@ const SignUp = () => {
                 }
                 #email{
                     margin-top: 40px;
+                    font-size: 18px;
                 }
+                input::placeholder {
+                    color: #bbbbbb;
+                  }
                 .signUp{
                     margin-top: 10px;
                 }
                 #password, #gender, #birthDate{
+                    font-size: 18px;
                     margin-top: 20px;
                 }
+                input[type="radio"] {
+                    display: none;
+                  }
+                  
+                .gender label {
+                    width: 200px;
+                    height: 50px;
+                    border-radius: 15px;
+                    border: solid 1px #bbbbbb;
+                    background-color: #ffffff;
+                    cursor: pointer;
+                    margin: 5px;
+                    font-size: 18px;
+                    text-align: center;
+                    padding-top: 13px;
+                    box-sizing: border-box;
+                    color: #bbbbbb;
+                    transition: box-shadow 400ms ease;
+                }       
+                input[type="radio"]:checked+label {
+                    color: #0052cc;
+                    border-color: #0052cc;
+                  }
                 button:active {
                     background-color: #bbbbbb;
                 }
