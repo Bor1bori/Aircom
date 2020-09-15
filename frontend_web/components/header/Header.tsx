@@ -30,11 +30,11 @@ const Header = () => {
             </button>
             <style jsx>{`
                     *{
-                        font-size: 18px;
-                        font-family: "Apple SD Gothic"
+                        font-family: "Apple SD Gothic";
+                        font-size: 1.8rem;
                     }
                     .container{
-                        width: 1440px;
+                        width: 100%;
                         height: 80px;
                         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
                         background-color: #ffffff;
@@ -45,11 +45,11 @@ const Header = () => {
                         font-stretch: normal;
                         font-style: normal;
                         line-height: normal;
-                        letter-spacing: -0.17px;
                         color: #000000;
                         text-decoration: none;
-                        margin-right: 57px;
-                        margin-top: 28px;
+                        margin-right: 4%;
+                        margin-top: 30px;
+                        white-space: nowrap;
                     }
                     button {
                         width: 120px;
@@ -60,19 +60,22 @@ const Header = () => {
                         font-stretch: normal;
                         font-style: normal;
                         line-height: normal;
-                        letter-spacing: -0.17px;
                         color: #0052cc;
                         background-color: #ffffff;
-                        margin-right: 123px;
+                        margin-right: 8.5%;
                         margin-top: 20px;
+                        white-space: nowrap;
                     }
                     img {
                         width: 101.8px;
                         height: 24px;
-                        margin-left: 123px;
+                        margin-left: 8.5%;
                         margin-top: 31px;
                         margin-bottom: 31px;
-                        margin-right: 820px;
+                        margin-right: 57%;
+                    }
+                    @media(max-width: 800px){
+                        button {display: none;}
                     }
                  `}
             </style>
