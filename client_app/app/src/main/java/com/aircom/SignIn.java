@@ -230,13 +230,16 @@ public class SignIn extends Activity{
         service.userLogin(data).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-                Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
                     System.out.println("Login Token: "+response.body().getLoginToken());
                     SharedPreference.setUserName(SignIn.this, data.getUserEmail());
                     SharedPreference.setLoginToken(SignIn.this, response.body().getLoginToken());
                     Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
                     startActivity(intent);
+                    Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
+                }
+                if (response.code()==401){
+                    Toast.makeText(SignIn.this, "아이디 혹은 비밀번호가 잘못되었습니다", Toast.LENGTH_SHORT).show();
                 }
             }
 
