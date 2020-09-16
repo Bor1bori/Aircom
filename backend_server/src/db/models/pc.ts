@@ -80,7 +80,8 @@ export const initPC = (sequelize: Sequelize) => {
 
 export const initPCAssociate = () => {
   PC.belongsTo(PCProvider, {
-    foreignKey: 'pcProviderId'
+    foreignKey: 'pcProviderId',
+    onDelete: 'CASCADE'
   });
 
   PC.hasMany(PCAllocation, {
