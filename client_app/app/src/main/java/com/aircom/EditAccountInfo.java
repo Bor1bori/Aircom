@@ -11,20 +11,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.aircom.data.AccountInfoResponse;
+import com.aircom.data.EditInfoData;
+import com.aircom.data.EditInfoResponse;
+import com.aircom.data.RetrofitClient;
+import com.aircom.data.ServiceAPI;
 import com.aircom.data.SharedPreference;
+import com.aircom.data.SignUpData;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditAccountInfo extends Activity {
     private TextView mEmail;
     private EditText mPassword;
-    private EditText mRePassword;
     private EditText mBirthDate;
     private TextView mWithdraw;
     private RadioButton mMale;
     private RadioButton mFemale;
     private Button mEditButton;
+    private ServiceAPI service;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +52,11 @@ public class EditAccountInfo extends Activity {
         );
         mEmail = (TextView) findViewById(R.id.emailForEditInfo);
         mPassword = (EditText) findViewById(R.id.pwForEditInfo);
-        mRePassword = (EditText) findViewById(R.id.rePWForEditInfo);
         mEditButton = (Button) findViewById(R.id.editInfoButton);
         mMale = (RadioButton) findViewById(R.id.male);
         mFemale = (RadioButton) findViewById(R.id.female);
-        mBirthDate = (EditText) findViewById(R.id.birthDateForSignUp);
-        mEmail.setText("aircom@naver.com");
+        mBirthDate = (EditText) findViewById(R.id.birthDateForEditInfo);
+
         mWithdraw = (TextView) findViewById(R.id.withdrawTextView);
         mWithdraw.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,5 +75,71 @@ public class EditAccountInfo extends Activity {
             }
         });
 
+        //기존 정보 반영
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
+        service.accountInfoRequest(SharedPreference.getLoginToken(EditAccountInfo.this)).enqueue(new Callback<AccountInfoResponse>() {
+            @Override
+            public void onResponse(Call<AccountInfoResponse> call, Response<AccountInfoResponse> response) {
+                mEmail.setText(response.body().getEmail());
+                if (response.body().getGender().equals("male")){
+                    mMale.setChecked(true);
+                }
+                else {
+                    mFemale.setChecked(true);
+                }
+                String birthDate = response.body().getBirthDate();
+                birthDate = birthDate.substring(2,4)+birthDate.substring(5,7)+birthDate.substring(8,10);
+                mBirthDate.setText(birthDate);
+           }
+
+            @Override
+            public void onFailure(Call<AccountInfoResponse> call, Throwable t) {
+                System.out.println("error: "+t.getMessage());
+            }
+        });
+
+        //정보 수정
+        mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String password = mPassword.getText().toString();
+                String gender = "";
+                if (mMale.isChecked()) {
+                    gender = "male";
+                }
+                else {
+                    gender = "female";
+                }
+                String birthDate = mBirthDate.getText().toString();
+                birthDate = "19"+birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"+birthDate.substring(4,6);
+
+                EditInfoData accountData = new EditInfoData();
+                if (password.length()>0){
+                    accountData.setPassword(password);
+                    accountData.getPassword();
+                }
+                accountData.setGender(gender);
+                accountData.setBirthDate(birthDate);
+                editInfo(accountData);
+
+                accountData.getGender();
+                accountData.getBirthDate();
+            }
+        });
+    }
+    public void editInfo(final EditInfoData accountData){
+        service.editInfoRequest(SharedPreference.getLoginToken(EditAccountInfo.this), accountData).enqueue(new Callback<EditInfoResponse>() {
+            @Override
+            public void onResponse(Call<EditInfoResponse> call, Response<EditInfoResponse> response) {
+                if (response.code()==200){
+                    Toast.makeText(EditAccountInfo.this, "정보가 수정되었습니다", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
+            }
+            @Override
+            public void onFailure(Call<EditInfoResponse> call, Throwable t) {
+                Toast.makeText(EditAccountInfo.this, "정보 수정 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
