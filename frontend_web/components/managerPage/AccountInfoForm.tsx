@@ -17,10 +17,12 @@ const ModifyAccountInfo = () => {
                     placeholder="8자 이상 입력해주세요"
                 />
                 <label id="gender">성별</label>
-                <select name="gender">
-                    <option value="male">남성</option>
-                    <option value="female">여성</option>
-                </select>
+                <div className="gender">
+                    <input type="radio" id="male" name="gender" value="male" />
+                    <label htmlFor="male">남성</label>
+                    <input type="radio" id="female" name="gender" value="female" />
+                    <label htmlFor="female">여성</label>
+                </div>
                 <label id="birthDate">생년월일</label>
                 <input className="signUp"
                     name="birthdate"
@@ -62,7 +64,7 @@ const ModifyAccountInfo = () => {
                 font-size: 18px;
             }
             button {
-                margin-top: 15px;
+                margin-top: 30px;
                 width: 420px;
                 height: 50px;
                 border-radius: 15px;
@@ -75,20 +77,47 @@ const ModifyAccountInfo = () => {
                 letter-spacing: -0.17px;
                 color: #ffffff;
                 border: none;
-                margin-top: 71px;
             }
             .userType{
                 margin-top: 59px;
             }
             #email{
                 margin-top: 27px;
+                font-size: 18px;
             }
-            .signUp{
+            input::placeholder {
+                color: #bbbbbb;
+              }
+            .signUp, .gender{
                 margin-top: 10px;
             }
             #password, #gender, #birthDate{
+                font-size: 18px;
                 margin-top: 20px;
             }
+            input[type="radio"] {
+                display: none;
+              }
+              
+            .gender label {
+                width: 200px;
+                height: 50px;
+                border-radius: 15px;
+                border: solid 1px #bbbbbb;
+                background-color: #ffffff;
+                cursor: pointer;
+                margin: 5px;
+                font-size: 18px;
+                text-align: center;
+                padding-top: 13px;
+                box-sizing: border-box;
+                color: #bbbbbb;
+                transition: box-shadow 400ms ease;
+            }       
+            input[type="radio"]:checked+label {
+                color: #0052cc;
+                border-color: #0052cc;
+              }
             button:active {
                 background-color: #bbbbbb;
             }
@@ -97,6 +126,7 @@ const ModifyAccountInfo = () => {
                 color: #bbbbbb;
                 margin-top: 40px;
                 text-align: right;
+                font-size: 18px;
             }
         `}</style>
         </div>
