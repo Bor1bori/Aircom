@@ -14,13 +14,14 @@ const GoogleButton = () => {
     // Google Login
     const onResponseGoogle = (res: any) => {
         console.log(res);
+        const email = res.profileObj.email;
         axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/oauth/google/signin`, {
             idToken: res.wc.id_token
         }, {
             withCredentials: true
         })
             .then((res) => {
-                dispatch(signin(res.data.loginToken));
+                dispatch(signin(res.data.loginToken, email));
                 router.push("/");
             })
             .catch((err) => {

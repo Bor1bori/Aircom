@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ppSignin } from "../../../store/pp_auth/action";
 import { useRouter } from "next/router";
+import GoogleButton from "./GoogleButton"
 import Link from "next/link";
 
 const SignIn = () => {
@@ -52,6 +53,9 @@ const SignIn = () => {
                     placeholder="비밀번호"
                 />
                 <button>로그인</button>
+                <div className="googleLogin">
+                    <GoogleButton />
+                </div>
             </form>
             <style jsx>{`
                 *{
