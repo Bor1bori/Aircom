@@ -65,9 +65,11 @@ export const initPCAllocation = (sequelize: Sequelize) => {
 
 export const initPCAllocationAssociate = () => {
   PCAllocation.belongsTo(User, {
-    foreignKey: 'userId'
+    foreignKey: 'userId',
+    onDelete: 'CASCADE'
   });
   PCAllocation.belongsTo(PC, {
-    foreignKey: 'pcUuid'
+    foreignKey: 'pcUuid',
+    onDelete: 'CASCADE'
   });
 };
