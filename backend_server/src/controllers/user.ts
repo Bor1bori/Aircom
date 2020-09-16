@@ -20,3 +20,12 @@ export const updateCurrentUserInfo = wrapper(async (req, res) => {
   }
   return res.status(200).json(null);
 });
+
+export const deleteCurrentUser = wrapper(async (req, res) => {
+  try {
+    await req.user!.destroy();
+  } catch (err) {
+    console.log(err);
+  }
+  res.status(200).json(null);
+});

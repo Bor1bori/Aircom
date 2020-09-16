@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get('/current', verifySignin, UserControllers.getCurrentUserInfo);
 router.put('/current', verifySignin, updateUserValidator, UserControllers.updateCurrentUserInfo);
+router.delete('/current', verifySignin, UserControllers.deleteCurrentUser);
 
 export default router;

@@ -36,3 +36,8 @@ export const updateCurrentPPInfo = wrapper(async (req, res) => {
   }
   return res.status(200).json(null);
 });
+
+export const deleteCurrentPP = wrapper(async (req, res) => {
+  await req.pcProvider!.destroy();
+  res.status(200).json(null);
+});

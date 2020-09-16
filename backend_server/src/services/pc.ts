@@ -54,6 +54,8 @@ export async function allocatePC (pc: PC, user: User) {
     });
     return response;
   } catch (err) {
+    pc.state = 'unusable';
+    await pc.save();
     return null;
   }
 }

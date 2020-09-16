@@ -9,5 +9,6 @@ const router = express.Router();
 router.post('/n/pcs', ppMiddlewares.registerPCValidator, ppControllers.registerPC);
 router.get('/current', verifySignin, ppControllers.getCurrentPPInfo);
 router.put('/current', verifySignin, updatePPValidator, ppControllers.updateCurrentPPInfo);
+router.delete('/current', verifySignin, ppControllers.deleteCurrentPP);
 
 export default router;
