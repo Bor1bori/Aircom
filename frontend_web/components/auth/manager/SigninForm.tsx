@@ -27,7 +27,7 @@ const SignIn = () => {
         })
             .then((res) => {
                 console.log(res);
-                dispatch(ppSignin(res.data.ppLoginToken));
+                dispatch(ppSignin(res.data.ppLoginToken, signinInput.email));
                 router.push("/");
             })
             .catch((err) => {
