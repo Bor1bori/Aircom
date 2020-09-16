@@ -27,7 +27,7 @@ const SignUp = () => {
         })
             .then((res) => {
                 console.log(res);
-                dispatch(signin(res.data.loginToken));
+                dispatch(signin(res.data.loginToken, signupInput.email));
                 router.push("/");
             })
             .catch((err) => {
