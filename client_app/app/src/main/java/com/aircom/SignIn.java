@@ -65,11 +65,11 @@ public class SignIn extends Activity{
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
         actionBar.setIcon(R.drawable.logo2);
-        /*if (SharedPreference.getLoginToken(SignIn.this).length()!=0){
+        if (SharedPreference.getLoginToken(SignIn.this).length()!=0){
             Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
             Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
             startActivity(intent);
-        }*/
+        }
         //1. 구글로그인
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -142,6 +142,7 @@ public class SignIn extends Activity{
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
             System.out.println("idToken: "+idToken);
+            String userEmail = account.getEmail();
 
             // TODO(developer): send ID Token to server and validate
             HttpClient httpClient = new DefaultHttpClient();
@@ -160,6 +161,7 @@ public class SignIn extends Activity{
                 responseBody = responseBody.substring(1, responseBody.length()-1);
                 System.out.println("response body: "+responseBody);
                 SharedPreference.setLoginToken(SignIn.this, responseBody);
+                SharedPreference.setUserName(SignIn.this, userEmail);
             } catch (ClientProtocolException e) {
                 Log.e(TAG, "Error sending ID token to backend.", e);
             } catch (IOException e) {
