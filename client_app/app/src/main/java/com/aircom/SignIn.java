@@ -154,7 +154,11 @@ public class SignIn extends Activity{
 
                 HttpResponse response = httpClient.execute(httpPost);
                 int statusCode = response.getStatusLine().getStatusCode();
-                final String responseBody = EntityUtils.toString(response.getEntity()).split(":")[1];
+                //final String responseBody1 = EntityUtils.toString(response.getEntity());
+                //System.out.println("response body1: "+responseBody1);
+                String responseBody = EntityUtils.toString(response.getEntity()).split(":")[1].replace("}", "");
+                responseBody = responseBody.substring(1, responseBody.length()-1);
+                System.out.println("response body: "+responseBody);
                 SharedPreference.setLoginToken(SignIn.this, responseBody);
             } catch (ClientProtocolException e) {
                 Log.e(TAG, "Error sending ID token to backend.", e);
