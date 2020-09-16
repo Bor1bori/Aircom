@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.aircom.data.AccountInfoResponse;
+import com.aircom.data.DeleteAccountResponse;
 import com.aircom.data.EditInfoData;
 import com.aircom.data.EditInfoResponse;
 import com.aircom.data.RetrofitClient;
@@ -56,6 +57,7 @@ public class EditAccountInfo extends Activity {
         mMale = (RadioButton) findViewById(R.id.male);
         mFemale = (RadioButton) findViewById(R.id.female);
         mBirthDate = (EditText) findViewById(R.id.birthDateForEditInfo);
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
 
         mWithdraw = (TextView) findViewById(R.id.withdrawTextView);
         mWithdraw.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +68,7 @@ public class EditAccountInfo extends Activity {
                         .setPositiveButton("예",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                       //탈퇴
+                                        deleteAccount();
                                     }
                                 })
                         .setNegativeButton("아니오", null)
@@ -76,7 +78,6 @@ public class EditAccountInfo extends Activity {
         });
 
         //기존 정보 반영
-        service = RetrofitClient.getClient().create(ServiceAPI.class);
         service.accountInfoRequest(SharedPreference.getLoginToken(EditAccountInfo.this)).enqueue(new Callback<AccountInfoResponse>() {
             @Override
             public void onResponse(Call<AccountInfoResponse> call, Response<AccountInfoResponse> response) {
@@ -139,6 +140,25 @@ public class EditAccountInfo extends Activity {
             @Override
             public void onFailure(Call<EditInfoResponse> call, Throwable t) {
                 Toast.makeText(EditAccountInfo.this, "정보 수정 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void deleteAccount(){
+        service.deleteAccountRequest(SharedPreference.getLoginToken(EditAccountInfo.this)).enqueue(new Callback<DeleteAccountResponse>() {
+            @Override
+            public void onResponse(Call<DeleteAccountResponse> call, Response<DeleteAccountResponse> response) {
+                if (response.code()==200){
+                    Toast.makeText(EditAccountInfo.this, "탈퇴되었습니다", Toast.LENGTH_SHORT).show();
+                    SharedPreference.clearLoginToken(EditAccountInfo.this);
+                    EditAccountInfo.this.moveTaskToBack(true);
+                    finishAffinity();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteAccountResponse> call, Throwable t) {
+                Toast.makeText(EditAccountInfo.this, "탈퇴 요청 실패", Toast.LENGTH_SHORT).show();
             }
         });
     }

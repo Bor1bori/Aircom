@@ -26,4 +26,7 @@ public interface ServiceAPI {
 
     @PUT("/users/current")
     Call<EditInfoResponse> editInfoRequest(@Header("loginToken") String loginToken, @Body EditInfoData editData);
+
+    @DELETE("/users/current")
+    Call<DeleteAccountResponse> deleteAccountRequest(@Header("loginToken") String loginToken);
 }
