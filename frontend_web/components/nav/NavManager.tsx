@@ -1,11 +1,15 @@
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const Nav = () => {
+    const ppUserEmail = useSelector((state:RootState)=>state.ppAuth.ppUserEmail);
     return (
         <div className="nav">
             <section id="account">
                 <label htmlFor="email">관리자 계정</label><br />
-                aircom@naver.com
+                {console.log(ppUserEmail)}
+                <p>{ppUserEmail}</p>
             </section>
             <ul className="main">
                 <Link href="/manager/manual">
@@ -85,6 +89,16 @@ const Nav = () => {
                 }
                 bottom{
                     margin-top: 50px;
+                }
+                p {
+                    margin-top: 5px;
+                    font-size: 16px;
+                    white-space: nowrap;
+                }
+                @media(max-width: 700px){
+                    .nav{
+                        display: none;
+                    }
                 }
             `}
             </style>

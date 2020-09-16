@@ -1,27 +1,33 @@
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+
 
 const Nav = () => {
+    const userEmail = useSelector((state:RootState)=>state.auth.userEmail);
+
     return (
         <div className="nav">
             <section id="account">
-                <label htmlFor="email">사용자 계정</label><br />
-                aircom@naver.com
+                <label htmlFor="email">사용자 계정</label><br/>
+                <p>{userEmail}</p>
             </section>
             <ul>
                 <Link href="/user/accountinfo">
-                    <a><li>내 정보 수정</li></a>
+                    <a><li className="list">내 정보 수정</li></a>
                 </Link>
                 <Link href="/user/charge">
-                    <a><li>시간 충전하기</li></a>
+                    <a><li className="list">시간 충전하기</li></a>
                 </Link>
                 <Link href="/user/lefttime">
-                    <a><li>남은 사용량</li></a>
+                    <a><li className="list">남은 사용량</li></a>
                 </Link>
                 <li id="logout">로그아웃</li>
             </ul>
             <style jsx>{`
                 *{
                     font-family: "Apple SD Gothic";
+                    box-sizing: border-box;
                 }
                 .nav{
                     flex-direction: column;
@@ -77,6 +83,16 @@ const Nav = () => {
                 }
                 #logout{
                     margin-top: 50px;
+                }
+                p {
+                    margin-top: 5px;
+                    font-size: 16px;
+                    white-space: nowrap;
+                }
+                @media(max-width: 700px){
+                    .nav{
+                        display: none;
+                    }
                 }
             `}
             </style>
