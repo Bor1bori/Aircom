@@ -1,40 +1,119 @@
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const ModifyAccountInfo = () => {
+    const loginToken = useSelector((state: RootState) => state.auth.loginToken);
+    const email = useSelector((state: RootState) => state.auth.userEmail);
+    const [signInType, setSignInType] = useState("");
+    const [updateInput, setUpdateInput] = useState({
+        password: "",
+        gender: "",
+        birthdate: "",
+    });
+
+    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUpdateInput({
+            ...updateInput,
+            [e.target.name]: e.target.value,
+        });
+    };
+    const getAccountInfo = () => {
+        axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users/current`, { headers: { loginToken: loginToken } })
+            .then((res) => {
+                let birthDate = res.data.birthdate;
+                birthDate = birthDate.substring(0, 10);
+                setSignInType(res.data.signinType);
+                setUpdateInput({
+                    ...updateInput,
+                    gender: res.data.gender,
+                    birthdate: birthDate,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    const updateAccountInfo = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (updateInput.password.length>0){
+            axios.put(`${process.env.NEXT_PUBLIC_API_HOST}/users/current`,  {
+                birthdate: updateInput.birthdate, gender: updateInput.gender, password: updateInput.password},  {
+                headers: {loginToken: loginToken}})
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        else {
+            axios.put(`${process.env.NEXT_PUBLIC_API_HOST}/users/current`,  {
+                birthdate: updateInput.birthdate, gender: updateInput.gender},  {
+                headers: {loginToken: loginToken}})
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    };
+    useEffect(() => {
+        getAccountInfo();        
+    }, [])
     return (
         <div>
-            <form>
+            <form onSubmit={updateAccountInfo}>
                 <h1>내 정보 수정</h1>
                 <label id="email">이메일</label>
-                <input className="signUp"
-                    name="email"
-                    placeholder="예: aircom@naver.com"
-                />
-                <label id="password">비밀번호</label>
-                <input className="signUp"
-                    type='password'
-                    name="password"
-                    placeholder="8자 이상 입력해주세요"
-                />
-                <label id="gender">성별</label>
-                <div className="gender">
-                    <input type="radio" id="male" name="gender" value="male" />
+                <p className="signUp">{email}</p>
+                {signInType == "email" && <label id="password">비밀번호</label>}
+                {signInType == "email" &&
+                    <input className="signUp"
+                        onChange={onInputChange}
+                        type='password'
+                        name="password"
+                        value={updateInput.password}
+                        placeholder="8자 이상 입력해주세요"
+                    />}
+                {signInType == "email" && <label id="gender">성별</label>}
+                {signInType == "email" && <div className="gender">
+                    <input type="radio"
+                        id="male"
+                        name="gender"
+                        value="male"
+                        onChange={onInputChange}
+                        checked={updateInput.gender=="male"}
+                        />
                     <label htmlFor="male">남성</label>
-                    <input type="radio" id="female" name="gender" value="female" />
+                    <input type="radio"
+                        id="female"
+                        name="gender"
+                        value="female"
+                        onChange={onInputChange}
+                        checked={updateInput.gender=="female"}
+                        />
                     <label htmlFor="female">여성</label>
-                </div>
-                <label id="birthDate">생년월일</label>
-                <input className="signUp"
-                    name="birthdate"
-                    type="date"
-                    placeholder="예: 980421"
-                />
+                </div>}
+                {signInType == "email" && <label id="birthDate">생년월일</label>}
+                {signInType == "email" &&
+                    <input className="signUp"
+                        name="birthdate"
+                        type="date"
+                        placeholder="예: 1998-04-21"
+                        value={updateInput.birthdate}
+                        onChange={onInputChange}
+                    />}
                 <Link href="#">
                     <a>탈퇴하기</a>
                 </Link>
-                <button type="button">
+                {signInType == "email" && 
+                <button>
                     수정하기
-            </button>
+                </button>}
             </form>
             <style jsx>{`
             *{
@@ -47,12 +126,15 @@ const ModifyAccountInfo = () => {
             }
             h1 {
                 font-size: 32px;
-                margin-top: 98px;
+                margin-top: 60px;
             }
             form{
                 height: 100vh;
                 display: flex;
                 flex-direction: column;
+            }
+            p {
+                padding-top: 13px;
             }
             .signUp {
                 width: 420px;
