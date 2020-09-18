@@ -32,7 +32,8 @@ const SignIn = () => {
                 router.push("/");
             })
             .catch((err) => {
-                console.log(err);
+                if (err.response.status==401) alert("이메일 혹은 비밀번호를 다시 확인해주세요");
+                if (err.response.status==400) alert("이메일 혹은 비밀번호 형식이 올바르지 않습니다");
             });
     };
     return (
@@ -43,7 +44,7 @@ const SignIn = () => {
                     value={signinInput.email}
                     onChange={onInputChange}
                     name="email"
-                    placeholder="이메일 주소 혹은 아이디"
+                    placeholder="이메일"
                 />
                 <input id="password"
                     type="password"

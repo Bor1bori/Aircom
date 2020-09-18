@@ -31,7 +31,8 @@ const SignUp = () => {
                 router.push("/");
             })
             .catch((err) => {
-                console.log(err);
+                if (err.response.status==409) alert("이미 가입된 이메일입니다");
+                if (err.response.status==400) alert("잘못된 가입 정보입니다");
             });
     };
 
@@ -52,7 +53,6 @@ const SignUp = () => {
                     value={signupInput.password}
                     onChange={onInputChange}
                     name="password"
-                    placeholder="8자 이상 입력해주세요"
                 />
                 <label id="gender">성별</label>
                 <div className="gender">

@@ -31,7 +31,8 @@ const SignUp = () => {
                 router.push("/");
             })
             .catch((err) => {
-                console.log(err);
+                if (err.response.status==409) alert("이미 가입된 이메일입니다");
+                if (err.response.status==400) alert("잘못된 가입 정보입니다");
             });
     };
     return (
@@ -66,7 +67,7 @@ const SignUp = () => {
                     onChange={onInputChange}
                     name="birthdate"
                     type="date"
-                    placeholder="예: 980421"
+                    placeholder="예: 1998-04-21"
                 />
                 <button>
                     회원가입
