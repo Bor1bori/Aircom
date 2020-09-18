@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { useRouter } from "next/router";
+
 
 const ModifyAccountInfo = () => {
     const loginToken = useSelector((state: RootState) => state.auth.loginToken);
@@ -13,6 +14,7 @@ const ModifyAccountInfo = () => {
         gender: "",
         birthdate: "",
     });
+    const router = useRouter();
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUpdateInput({
@@ -55,6 +57,21 @@ const ModifyAccountInfo = () => {
                 headers: {loginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
+                    router.push("/");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    };
+    const deleteAccount = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
+        e.preventDefault();
+        if (window.confirm('정말로 탈퇴하겠습니까?')){
+            axios.delete(`${process.env.NEXT_PUBLIC_API_HOST}/users/current`, {
+                headers: {loginToken: loginToken}})
+                .then((res) => {
+                    console.log(res);
+                    
                 })
                 .catch((err) => {
                     console.log(err);
@@ -107,9 +124,7 @@ const ModifyAccountInfo = () => {
                         value={updateInput.birthdate}
                         onChange={onInputChange}
                     />}
-                <Link href="#">
-                    <a>탈퇴하기</a>
-                </Link>
+                <p className="deletion" onClick={deleteAccount}>탈퇴하기</p>
                 {signInType == "email" && 
                 <button>
                     수정하기
@@ -203,12 +218,13 @@ const ModifyAccountInfo = () => {
             button:active {
                 background-color: #bbbbbb;
             }
-            a{
+            .deletion{
                 text-decoration: none;
                 color: #bbbbbb;
-                margin-top: 40px;
+                margin-top: 10px;
                 text-align: right;
                 font-size: 18px;
+                cursor: pointer;
             }
         `}</style>
         </div>
