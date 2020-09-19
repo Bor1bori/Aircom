@@ -2,10 +2,13 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
-
 const Nav = () => {
     const userEmail = useSelector((state:RootState)=>state.auth.userEmail);
-
+    const logout = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = '/';
+    }
     return (
         <div className="nav">
             <section id="account">
@@ -22,7 +25,7 @@ const Nav = () => {
                 <Link href="/user/lefttime">
                     <a><li className="list">남은 사용량</li></a>
                 </Link>
-                <li id="logout">로그아웃</li>
+                <li id="logout" onClick={logout}>로그아웃</li>
             </ul>
             <style jsx>{`
                 *{

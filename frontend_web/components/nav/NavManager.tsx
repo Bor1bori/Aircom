@@ -4,6 +4,11 @@ import { RootState } from "../../store/store";
 
 const Nav = () => {
     const ppUserEmail = useSelector((state:RootState)=>state.ppAuth.ppUserEmail);
+    const logout = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = '/';
+    }
     return (
         <div className="nav">
             <section id="account">
@@ -29,7 +34,7 @@ const Nav = () => {
                 <Link href="/manager/accountinfo">
                     <a><li>내 정보 수정</li></a>
                 </Link>
-                <li id="logout">로그아웃</li>
+                <li id="logout" onClick={logout}>로그아웃</li>
             </ul>
             <style jsx>{`
                 *{
