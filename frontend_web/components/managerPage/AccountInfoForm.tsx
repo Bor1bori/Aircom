@@ -23,9 +23,9 @@ const ModifyAccountInfo = () => {
         });
     };
     const getAccountInfo = () => {
-        console.log(loginToken);
-        axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/pc-providers/current`, { headers: { loginToken: loginToken } })
+        axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/pc-providers/current`, { headers: { ppLoginToken: loginToken } })
             .then((res) => {
+                console.log(res);
                 let birthDate = res.data.birthdate;
                 birthDate = birthDate.substring(0, 10);
                 setSignInType(res.data.signinType);
@@ -44,7 +44,7 @@ const ModifyAccountInfo = () => {
         if (updateInput.password.length>0){
             axios.put(`${process.env.NEXT_PUBLIC_API_HOST}/pc-providers/current`,  {
                 birthdate: updateInput.birthdate, gender: updateInput.gender, password: updateInput.password},  {
-                headers: {loginToken: loginToken}})
+                headers: {ppLoginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
                 })
@@ -55,10 +55,9 @@ const ModifyAccountInfo = () => {
         else {
             axios.put(`${process.env.NEXT_PUBLIC_API_HOST}/pc-providers/current`,  {
                 birthdate: updateInput.birthdate, gender: updateInput.gender},  {
-                headers: {loginToken: loginToken}})
+                headers: {ppLoginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
-                    router.push("/");
                 })
                 .catch((err) => {
                     console.log(err);
@@ -69,10 +68,10 @@ const ModifyAccountInfo = () => {
         e.preventDefault();
         if (window.confirm('정말로 탈퇴하겠습니까?')){
             axios.delete(`${process.env.NEXT_PUBLIC_API_HOST}/pc-providers/current`, {
-                headers: {loginToken: loginToken}})
+                headers: {ppLoginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
-                    
+                    router.push("/");
                 })
                 .catch((err) => {
                     console.log(err);

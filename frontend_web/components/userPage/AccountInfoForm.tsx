@@ -57,7 +57,6 @@ const ModifyAccountInfo = () => {
                 headers: {loginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
-                    router.push("/");
                 })
                 .catch((err) => {
                     console.log(err);
@@ -71,7 +70,7 @@ const ModifyAccountInfo = () => {
                 headers: {loginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
-                    
+                    router.push("/");
                 })
                 .catch((err) => {
                     console.log(err);
