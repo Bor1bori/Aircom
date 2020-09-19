@@ -28,6 +28,13 @@ const SignUp = () => {
             .then((res) => {
                 console.log(res);
                 dispatch(ppSignin(res.data.ppLoginToken, signupInput.email));
+                localStorage.setItem(
+                    "managerInfo",
+                    JSON.stringify({
+                        managerEmail: signupInput.email,
+                        ppLoginToken: res.data.ppLoginToken,
+                    })
+                );
                 router.push("/");
             })
             .catch((err) => {

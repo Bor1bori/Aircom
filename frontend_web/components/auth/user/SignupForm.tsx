@@ -28,6 +28,13 @@ const SignUp = () => {
             .then((res) => {
                 console.log(res);
                 dispatch(signin(res.data.loginToken, signupInput.email));
+                localStorage.setItem(
+                    "userInfo",
+                    JSON.stringify({
+                        userEmail: signupInput.email,
+                        loginToken: res.data.loginToken,
+                    })
+                );
                 router.push("/");
             })
             .catch((err) => {

@@ -28,11 +28,18 @@ const SignIn = () => {
             .then((res) => {
                 console.log(res);
                 dispatch(signin(res.data.loginToken, signinInput.email));
+                localStorage.setItem(
+                    "userInfo",
+                    JSON.stringify({
+                        userEmail: signinInput.email,
+                        loginToken: res.data.loginToken,
+                    })
+                );
                 router.push("/");
             })
             .catch((err) => {
-                if (err.response.status==401) alert("이메일 혹은 비밀번호를 다시 확인해주세요");
-                if (err.response.status==400) alert("이메일 혹은 비밀번호 형식이 올바르지 않습니다");
+                if (err.response.status == 401) alert("이메일 혹은 비밀번호를 다시 확인해주세요");
+                if (err.response.status == 400) alert("이메일 혹은 비밀번호 형식이 올바르지 않습니다");
             });
     };
     return (
