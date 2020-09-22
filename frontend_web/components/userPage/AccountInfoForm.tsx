@@ -79,7 +79,7 @@ const ModifyAccountInfo = () => {
     };
     useEffect(() => {
         getAccountInfo();        
-    }, [])
+    }, [loginToken])
     return (
         <div>
             <form onSubmit={updateAccountInfo}>
