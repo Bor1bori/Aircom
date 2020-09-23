@@ -28,6 +28,7 @@ interface TerminateResult {
  * @returns -1 현재 소켓 연결이 되지 않았거나 이용이 불가능할 경우
  */
 export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<AllocateResult | -1> => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return new Promise((resolve, reject) => {
     const socketId = pcUuidSocketIdMappings.get(uuid);
     if (!socketId) {
