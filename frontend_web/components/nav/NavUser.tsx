@@ -37,7 +37,7 @@ const Nav = () => {
                     border-right: solid 0.5px #b1b1b1;
                     display: flex;
                     width: 240px;   
-                    height: 100vh;
+                    height: auto;
                     font-size: 18px;
                     line-height: 2.0em;
                     z-index: 1;
@@ -92,7 +92,7 @@ const Nav = () => {
                     font-size: 16px;
                     white-space: nowrap;
                 }
-                @media(max-width: 700px){
+                @media(max-width: 1000px){
                     .nav{
                         display: none;
                     }
