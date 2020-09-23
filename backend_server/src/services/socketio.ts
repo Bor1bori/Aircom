@@ -1,8 +1,8 @@
 import socketIO from 'socket.io';
 import { PC } from '@src/db/models/pc';
 
-const socketIdPCUUIDMappings = new Map<string, string>();
-const pcUUIDSocketIdMappings = new Map<string, string>();
+const socketIdPCUuidMappings = new Map<string, string>();
+const pcUuidSocketIdMappings = new Map<string, string>();
 
 interface AllocateResult {
   success: boolean;
@@ -29,7 +29,7 @@ interface TerminateResult {
  */
 export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<AllocateResult> => {
   return new Promise((resolve, reject) => {
-    const socketId = pcUUIDSocketIdMappings.get(uuid);
+    const socketId = pcUuidSocketIdMappings.get(uuid);
     if (!socketId) {
       return reject(new Error('unusable pc'));
     }
@@ -45,7 +45,7 @@ export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<Al
 // 특정 PC에 state를 물어봄
 export const askStateToPC = (io: socketIO.Server, uuid: string): Promise<AskStateResult> => {
   return new Promise((resolve, reject) => {
-    const socketId = pcUUIDSocketIdMappings.get(uuid);
+    const socketId = pcUuidSocketIdMappings.get(uuid);
     if (!socketId) {
       return reject(new Error('unusable pc'));
     }
@@ -57,7 +57,7 @@ export const askStateToPC = (io: socketIO.Server, uuid: string): Promise<AskStat
 
 export const assureTermination = (io: socketIO.Server, uuid: string): Promise<TerminateResult> => {
   return new Promise((resolve, reject) => {
-    const socketId = pcUUIDSocketIdMappings.get(uuid);
+    const socketId = pcUuidSocketIdMappings.get(uuid);
     if (!socketId) {
       return reject(new Error('unusable pc'));
     }
@@ -80,8 +80,8 @@ export const socketEventsInject = (io: socketIO.Server) => {
       if (!pc || pc.state !== 'unusable') {
         return ack({ success: false });
       }
-      socketIdPCUUIDMappings.set(socket.id, data.uuid);
-      pcUUIDSocketIdMappings.set(data.uuid, socket.id);
+      socketIdPCUuidMappings.set(socket.id, data.uuid);
+      pcUuidSocketIdMappings.set(data.uuid, socket.id);
       pc.state = 'usable';
       await pc.save();
       ack({ success: true });
@@ -89,10 +89,10 @@ export const socketEventsInject = (io: socketIO.Server) => {
 
     socket.on('disconnect', async (reason) => {
       console.log('disconnected ' + reason);
-      const uuid = socketIdPCUUIDMappings.get(socket.id);
+      const uuid = socketIdPCUuidMappings.get(socket.id);
       if (uuid) {
-        socketIdPCUUIDMappings.delete(socket.id);
-        pcUUIDSocketIdMappings.delete(uuid);
+        socketIdPCUuidMappings.delete(socket.id);
+        pcUuidSocketIdMappings.delete(uuid);
         await PC.update({
           state: 'unusable'
         }, {

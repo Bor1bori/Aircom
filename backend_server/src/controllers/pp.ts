@@ -23,7 +23,7 @@ export const getCurrentPPInfo = wrapper(async (req, res) => {
   return res.status(200).json({
     email: req.pcProvider!.email,
     signinType: req.pcProvider!.signinType,
-    signinID: req.pcProvider!.signinID,
+    signinId: req.pcProvider!.signinId,
     gender: req.pcProvider!.gender,
     birthdate: req.pcProvider!.birthdate
   });

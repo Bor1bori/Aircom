@@ -20,7 +20,7 @@ export interface PCProviderAttributes {
   birthdate?: Date
   gender?: string;
   signinType: 'email' | 'googleoauth';
-  signinID?: string;
+  signinId?: string;
 }
 
 interface PCProviderCreationAttributes extends Optional<PCProviderAttributes, 'id'> {}
@@ -33,7 +33,7 @@ export class PCProvider extends Model<PCProviderAttributes, PCProviderCreationAt
   public birthdate?: Date;
   public gender?: string;
   public signinType!: 'email' | 'googleoauth';
-  public signinID?: string;
+  public signinId?: string;
 
   // timestamps!
   public readonly createdAt!: Date;
@@ -82,7 +82,7 @@ export const initPCProvider = (sequelize: Sequelize) => {
       type: DataTypes.ENUM('email', 'googleoauth'),
       allowNull: false
     },
-    signinID: { // TODO: 이거 인덱싱해서 빨리 찾을 수 있도록 하면 좋을듯
+    signinId: { // TODO: 이거 인덱싱해서 빨리 찾을 수 있도록 하면 좋을듯
       type: DataTypes.STRING(),
       allowNull: true
     }
@@ -93,7 +93,7 @@ export const initPCProvider = (sequelize: Sequelize) => {
 
   const queryInterface = sequelize.getQueryInterface();
   queryInterface.addConstraint('pc_provider', {
-    fields: ['signinType', 'signinID'],
+    fields: ['signinType', 'signinId'],
     type: 'unique'
   });
 };

@@ -7,7 +7,7 @@ export const getCurrentUserInfo = wrapper(async (req, res) => {
   return res.status(200).json({
     email: req.user!.email,
     signinType: req.user!.signinType,
-    signinID: req.user!.signinID,
+    signinId: req.user!.signinId,
     gender: req.user!.gender,
     birthdate: req.user!.birthdate
   });

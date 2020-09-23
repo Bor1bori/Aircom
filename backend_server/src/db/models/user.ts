@@ -20,7 +20,7 @@ export interface UserAttributes {
   birthdate?: Date
   gender?: string;
   signinType: 'email' | 'googleoauth';
-  signinID?: string;
+  signinId?: string;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
@@ -33,7 +33,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public birthdate?: Date;
   public gender?: string;
   public signinType!: 'email' | 'googleoauth';
-  public signinID?: string;
+  public signinId?: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -78,7 +78,7 @@ export const initUser = (sequelize: Sequelize) => {
       type: DataTypes.ENUM('email', 'googleoauth'),
       allowNull: false
     },
-    signinID: { // TODO: 이거 인덱싱해서 빨리 찾을 수 있도록 하면 좋을듯
+    signinId: { // TODO: 이거 인덱싱해서 빨리 찾을 수 있도록 하면 좋을듯
       type: DataTypes.STRING(),
       allowNull: true
     }
@@ -89,7 +89,7 @@ export const initUser = (sequelize: Sequelize) => {
 
   const queryInterface = sequelize.getQueryInterface();
   queryInterface.addConstraint('user', {
-    fields: ['signinType', 'signinID'],
+    fields: ['signinType', 'signinId'],
     type: 'unique'
   });
 };
