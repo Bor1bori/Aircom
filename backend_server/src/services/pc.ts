@@ -46,18 +46,17 @@ export async function selectPCToAllocate () {
 }
 
 export async function allocatePC (pc: PC, user: User) {
-  try {
-    const response = await requestAllocatePC(io, pc.uuid);
-    await PCAllocation.create({
-      userId: user.id,
-      pcUuid: pc.uuid
-    });
-    return response;
-  } catch (err) {
+  const response = await requestAllocatePC(io, pc.uuid);
+  if (response === -1) {
     pc.state = 'unusable';
     await pc.save();
     return null;
   }
+  await PCAllocation.create({
+    userId: user.id,
+    pcUuid: pc.uuid
+  });
+  return response;
 }
 
 /**

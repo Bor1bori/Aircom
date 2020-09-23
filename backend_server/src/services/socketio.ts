@@ -25,17 +25,17 @@ interface TerminateResult {
  * @returns Promise\<data\>
  * @data ip ip
  * @data ports 연결할 포트 배열
- * @throws 'unusable pc' 현재 소켓 연결이 되지 않았거나 이용이 불가능할 경우
+ * @returns -1 현재 소켓 연결이 되지 않았거나 이용이 불가능할 경우
  */
-export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<AllocateResult> => {
+export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<AllocateResult | -1> => {
   return new Promise((resolve, reject) => {
     const socketId = pcUuidSocketIdMappings.get(uuid);
     if (!socketId) {
-      return reject(new Error('unusable pc'));
+      return resolve(-1);
     }
     io.sockets.connected[socketId].emit('allocate', null, (data: AllocateResult) => {
       if (!data.success) {
-        return reject(new Error('unusable pc'));
+        return resolve(-1);
       }
       return resolve(data);
     });
