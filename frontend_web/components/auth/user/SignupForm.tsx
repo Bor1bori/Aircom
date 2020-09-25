@@ -60,6 +60,7 @@ const SignUp = () => {
                     value={signupInput.password}
                     onChange={onInputChange}
                     name="password"
+                    placeholder="8자 이상 입력해주세요"
                 />
                 <label id="gender">성별</label>
                 <div className="gender">

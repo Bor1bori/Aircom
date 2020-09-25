@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis } from 'recharts';
 
 const LeftTime = () => {
     const providedTime = 72;
@@ -90,7 +90,7 @@ const LeftTime = () => {
                     background-color: #ffffff;
                     margin-right: 20px;
                     margin-left: 20px;
-                    margin-top: 113px;
+                    margin-top: 60px;
                 }
                 .dailyUsage {
                     width: 840px;
