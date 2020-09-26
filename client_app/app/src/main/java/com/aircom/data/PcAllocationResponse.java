@@ -2,7 +2,7 @@ package com.aircom.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PCAllocationResponse {
+public class PcAllocationResponse {
     @SerializedName("ip")
     String ip;
     @SerializedName("port")

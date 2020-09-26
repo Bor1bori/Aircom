@@ -138,7 +138,7 @@ public class EditAccountInfo extends Activity {
                 birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"+birthDate.substring(4,6);
 
         EditInfoData accountData = new EditInfoData();
-        if (password.length()>0){
+        if (password.length()>0) {
             accountData.setPassword(password);
             accountData.getPassword();
         }

@@ -6,9 +6,10 @@ import org.jcodec.containers.mp4.boxes.Edit;
 
 public class EditInfoData {
 
-    public EditInfoData(){
+    public EditInfoData() {
 
     }
+
     public EditInfoData(String password, String birthDate, String gender) {
         this.password = password;
         this.birthDate = birthDate;

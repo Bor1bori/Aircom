@@ -2,9 +2,7 @@ package com.aircom.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
 
 import com.aircom.AddComputerAutomatically;
 import com.aircom.R;
-import com.aircom.data.PCAllocationResponse;
+import com.aircom.data.PcAllocationResponse;
 import com.aircom.data.SharedPreference;
 
 import retrofit2.Call;
@@ -53,10 +50,10 @@ public class PCInactiveFragment extends Fragment {
         System.out.println("login token: "+SharedPreference.getLoginToken(getActivity()));
         AddComputerAutomatically.hostAddress = "1.231.39.92";
         AddComputerAutomatically.service.allocationRequest(SharedPreference.getLoginToken
-                (getActivity())).enqueue(new Callback<PCAllocationResponse>() {
+                (getActivity())).enqueue(new Callback<PcAllocationResponse>() {
             @Override
-            public void onResponse(Call<PCAllocationResponse> call,
-                                   Response<PCAllocationResponse> response) {
+            public void onResponse(Call<PcAllocationResponse> call,
+                                   Response<PcAllocationResponse> response) {
                 System.out.println("status code: "+response.code());
                 System.out.println("response body: "+response.body());
                 //System.out.println("ip: "+response.body().getIp()+",
@@ -65,7 +62,7 @@ public class PCInactiveFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<PCAllocationResponse> call, Throwable t) {
+            public void onFailure(Call<PcAllocationResponse> call, Throwable t) {
                 System.out.println("error: "+t.getMessage());
                 Toast.makeText(getActivity(), "PC 할당 에러 발생", Toast.LENGTH_SHORT).show();
             }

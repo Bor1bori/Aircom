@@ -14,10 +14,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.aircom.binding.PlatformBinding;
 import com.aircom.computers.ComputerManagerListener;
 import com.aircom.computers.ComputerManagerService;
-import com.aircom.data.PCAllocationResponse;
 import com.aircom.data.RetrofitClient;
 import com.aircom.data.ServiceAPI;
-import com.aircom.data.SharedPreference;
 import com.aircom.nvstream.http.ComputerDetails;
 import com.aircom.nvstream.http.NvHTTP;
 import com.aircom.nvstream.http.PairingManager;
@@ -40,10 +38,6 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -51,10 +45,6 @@ import android.app.Fragment;
 
 
 import org.xmlpull.v1.XmlPullParserException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AddComputerAutomatically extends Activity {
     public boolean runningPolling, freezeUpdates, inForeground;
@@ -237,8 +227,6 @@ public class AddComputerAutomatically extends Activity {
         setActionBar();
         UiHelper.notifyNewRootView(this);
         service = RetrofitClient.getClient().create(ServiceAPI.class);
-
-        //this.hostText = "121.128.91.156"; //ip 주소 할당
 
         // Bind to the ComputerManager service
         bindService(new Intent(AddComputerAutomatically.this,

@@ -155,12 +155,12 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         }
     };
 
-    public boolean hasPreviouslyPaired(){
+    public boolean hasPreviouslyPaired() {
         if (appGridAdapter.getCount() != 0) return true;
         return false;
     }
 
-    public void startAppAutomatically(){
+    public void startAppAutomatically() {
         final AppObject app = (AppObject) appGridAdapter.getItem(0);
         ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
         onBackPressed();
@@ -578,7 +578,7 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                 if (updated) {
                     appGridAdapter.notifyDataSetChanged();
                 }
-                if (appGridAdapter.getCount()!=0) {
+                if (appGridAdapter.getCount() != 0) {
                     startAppAutomatically();
                 }
             }

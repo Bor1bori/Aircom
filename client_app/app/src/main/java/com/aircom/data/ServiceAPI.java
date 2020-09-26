@@ -16,10 +16,10 @@ public interface ServiceAPI {
     Call<SignUpResponse> userJoin(@Body SignUpData data);
 
     @POST("/pc-allocations")
-    Call<PCAllocationResponse> allocationRequest(@Header("loginToken") String loginToken);
+    Call<PcAllocationResponse> allocationRequest(@Header("loginToken") String loginToken);
 
     @DELETE("/pc-allocations/current")
-    Call<PCDeallocationResponse> withdrawRequest(@Header("loginToken") String loginToken);
+    Call<PcDeallocationResponse> withdrawRequest(@Header("loginToken") String loginToken);
 
     @GET("/users/current")
     Call<AccountInfoResponse> accountInfoRequest(@Header("loginToken") String loginToken);

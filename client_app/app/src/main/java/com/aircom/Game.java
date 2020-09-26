@@ -16,7 +16,7 @@ import com.aircom.binding.video.CrashListener;
 import com.aircom.binding.video.MediaCodecDecoderRenderer;
 import com.aircom.binding.video.MediaCodecHelper;
 import com.aircom.binding.video.PerfOverlayListener;
-import com.aircom.data.PCDeallocationResponse;
+import com.aircom.data.PcDeallocationResponse;
 import com.aircom.data.RetrofitClient;
 import com.aircom.data.ServiceAPI;
 import com.aircom.data.SharedPreference;
@@ -1816,31 +1816,35 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 .setPositiveButton("예",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                service = RetrofitClient.getClient().create(ServiceAPI.class);
-                                service.withdrawRequest(SharedPreference.
-                                        getLoginToken(Game.this)).
-                                        enqueue(new Callback<PCDeallocationResponse>() {
-                                    @Override
-                                    public void onResponse(Call<PCDeallocationResponse> call,
-                                                           Response<PCDeallocationResponse> response) {
-                                        System.out.println("status code: "+response.code());
-                                        System.out.println("response body: "+response.body());
-                                        PCInactiveFragment.setConnectionViewInactive();
-                                        finish();
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<PCDeallocationResponse> call,
-                                                          Throwable t) {
-                                        System.out.println("error: "+t.getMessage());
-                                        Toast.makeText(Game.this, "PC 사용 중단 에러 발생",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                requestPcDeallocate();
                             }
                         })
                 .setNegativeButton("아니오", null)
                 .create()
                 .show();
+    }
+
+    private void requestPcDeallocate() {
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
+        service.withdrawRequest(SharedPreference.
+                getLoginToken(Game.this)).
+                enqueue(new Callback<PcDeallocationResponse>() {
+                    @Override
+                    public void onResponse(Call<PcDeallocationResponse> call,
+                                           Response<PcDeallocationResponse> response) {
+                        System.out.println("status code: "+response.code());
+                        System.out.println("response body: "+response.body());
+                        PCInactiveFragment.setConnectionViewInactive();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<PcDeallocationResponse> call,
+                                          Throwable t) {
+                        System.out.println("error: "+t.getMessage());
+                        Toast.makeText(Game.this, "PC 사용 중단 에러 발생",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
