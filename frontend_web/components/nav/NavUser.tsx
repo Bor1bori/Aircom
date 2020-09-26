@@ -10,7 +10,10 @@ const Nav = () => {
         localStorage.clear();
         window.location.href = '/';
     }
-    let url = (document.URL).split("user/")[1];
+    let url;
+    if (typeof window !== "undefined"){
+        url = (document.URL).split("user/")[1];
+    }
     return (
         <div className="nav">
             <section id="account">
