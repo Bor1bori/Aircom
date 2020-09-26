@@ -49,7 +49,7 @@ import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 
-public class SignIn extends Activity{
+public class SignIn extends Activity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
@@ -62,15 +62,54 @@ public class SignIn extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        setActionBar();
+        if (hasSignedInBefore()){
+            signInAutomatically();
+        }
+        //1. 구글로그인
+        setGoogleSignIn();
+
+        //2. 일반 로그인
+        mEmail = (EditText)findViewById(R.id.email);
+        mPassword = (EditText)findViewById(R.id.PW);
+        signInButton = (Button)findViewById(R.id.signInButton);
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptSignIn();
+            }
+        });
+
+        //3. 회원가입
+        signUpLink = (TextView) findViewById(R.id.signUpLink);
+        signUpLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signUp();
+            }
+        });
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+    }
+
+    private void setActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
         actionBar.setIcon(R.drawable.logo2);
-        if (SharedPreference.getLoginToken(SignIn.this).length()!=0){
-            Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
-            Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
-            startActivity(intent);
-        }
-        //1. 구글로그인
+    }
+
+    private boolean hasSignedInBefore() {
+        return SharedPreference.getLoginToken(SignIn.this).length()!=0;
+    }
+
+    private void signInAutomatically() {
+        Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
+        Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+    }
+
+    private void setGoogleSignIn() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -87,40 +126,13 @@ public class SignIn extends Activity{
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               googleSignIn();
-                }
-        });
-
-        //2. 일반 로그인
-        mEmail = (EditText)findViewById(R.id.email);
-        mPassword = (EditText)findViewById(R.id.PW);
-        signInButton = (Button)findViewById(R.id.signInButton);
-
-        service = RetrofitClient.getClient().create(ServiceAPI.class);
-
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptSignIn();
+                startGoogleSignIn();
             }
         });
-
-
-        //3. 회원가입
-        signUpLink = (TextView) findViewById(R.id.signUpLink);
-        signUpLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signUp();
-            }
-        });
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
     }
 
-    // 버튼 클릭 시 실행. 구글 계정 선택 창을 띄우고 선택하면 onActivityResult로 결과값이 전달된다
-    private void googleSignIn() {
+
+    private void startGoogleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -146,7 +158,8 @@ public class SignIn extends Activity{
 
             // TODO(developer): send ID Token to server and validate
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://myaircom.co.kr:3000/auth/oauth/google/signin");
+            HttpPost httpPost = new HttpPost
+                    ("http://myaircom.co.kr:3000/auth/oauth/google/signin");
 
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -157,7 +170,8 @@ public class SignIn extends Activity{
                 int statusCode = response.getStatusLine().getStatusCode();
                 //final String responseBody1 = EntityUtils.toString(response.getEntity());
                 //System.out.println("response body1: "+responseBody1);
-                String responseBody = EntityUtils.toString(response.getEntity()).split(":")[1].replace("}", "");
+                String responseBody = EntityUtils.toString(response.getEntity())
+                        .split(":")[1].replace("}", "");
                 responseBody = responseBody.substring(1, responseBody.length()-1);
                 System.out.println("response body: "+responseBody);
                 SharedPreference.setLoginToken(SignIn.this, responseBody);
@@ -184,7 +198,7 @@ public class SignIn extends Activity{
         updateUI(account);
     }*/
 
-    private void attemptSignIn(){
+    private void attemptSignIn() {
         mEmail.setError(null);
         mPassword.setError(null);
 
@@ -199,7 +213,8 @@ public class SignIn extends Activity{
             mEmail.setError("비밀번호를 입력해주세요.");
             focusView = mEmail;
             cancel = true;
-        } else if (!isPasswordValid(password)) {
+        }
+        else if (!isPasswordValid(password)) {
             mPassword.setError("8자 이상의 비밀번호를 입력해주세요.");
             focusView = mPassword;
             cancel = true;
@@ -210,7 +225,8 @@ public class SignIn extends Activity{
             mEmail.setError("이메일을 입력해주세요.");
             focusView = mEmail;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        }
+        else if (!isEmailValid(email)) {
             mEmail.setError("@를 포함한 유효한 이메일을 입력해주세요.");
             focusView = mEmail;
             cancel = true;
@@ -218,7 +234,8 @@ public class SignIn extends Activity{
 
         if (cancel) {
             focusView.requestFocus();
-        } else {
+        }
+        else {
             SignInData SD = new SignInData(email, password);
             SD.getUserEmail();
             SD.getUserPwd();
@@ -226,26 +243,31 @@ public class SignIn extends Activity{
         }
     }
 
-    private void startSignIn(final SignInData data){
+    private void startSignIn(final SignInData data) {
         service.userLogin(data).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.code() == 200) {
                     System.out.println("Login Token: "+response.body().getLoginToken());
                     SharedPreference.setUserName(SignIn.this, data.getUserEmail());
-                    SharedPreference.setLoginToken(SignIn.this, response.body().getLoginToken());
-                    Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
+                    SharedPreference.setLoginToken(SignIn.this,
+                            response.body().getLoginToken());
+                    Intent intent = new Intent(SignIn.this,
+                            AddComputerAutomatically.class);
                     startActivity(intent);
-                    Toast.makeText(SignIn.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignIn.this, "로그인 되었습니다",
+                            Toast.LENGTH_SHORT).show();
                 }
                 if (response.code()==401){
-                    Toast.makeText(SignIn.this, "아이디 혹은 비밀번호가 잘못되었습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignIn.this, "아이디 혹은 비밀번호가 잘못되었습니다",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<SignInResponse> call, Throwable t) {
-                Toast.makeText(SignIn.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignIn.this, "로그인 에러 발생",
+                        Toast.LENGTH_SHORT).show();
                 Log.e("로그인 에러 발생", t.getMessage());
             }
         });

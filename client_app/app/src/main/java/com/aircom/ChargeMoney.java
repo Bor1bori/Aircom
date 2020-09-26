@@ -24,16 +24,7 @@ public class ChargeMoney extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charge_money);
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(getLayoutInflater().inflate(R.layout.actionbar_charge_money, null),
-                new ActionBar.LayoutParams(
-                        ActionBar.LayoutParams.WRAP_CONTENT,
-                        ActionBar.LayoutParams.MATCH_PARENT,
-                        Gravity.CENTER
-                )
-        );
+        setActionBar();
         mChargeRadioGroup = (RadioGroup) findViewById(R.id.chargeRadioGroup);
         mBasic = (RadioButton)findViewById(R.id.basicRadioButton);
         mPro = (RadioButton)findViewById(R.id.proRadioButton);
@@ -47,28 +38,45 @@ public class ChargeMoney extends Activity {
         mChargeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (mBasic.isChecked()){
-                    mProductName.setText("정액제 - 기본형");
-                    mDueDate.setText("2020.10.10 23시");
-                    mCurrentLeftTime.setText("0시간");
-                    mAfterLeftTime.setText("72시간");
-                    mTotalPrice.setText("9900원");
-                }
-                if (mPro.isChecked()){
-                    mProductName.setText("정액제 - 프로형");
-                    mDueDate.setText("2020.10.10 23시");
-                    mCurrentLeftTime.setText("0시간");
-                    mAfterLeftTime.setText("160시간");
-                    mTotalPrice.setText("19900원");
-                }
-                if (mTime.isChecked()){
-                    mProductName.setText("시간제");
-                    mDueDate.setText("-");
-                    mCurrentLeftTime.setText("0시간");
-                    mAfterLeftTime.setText("1시간");
-                    mTotalPrice.setText("300원");
-                }
+                setChangedText();
             }
         });
+    }
+
+    private void setActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(getLayoutInflater().inflate(R.layout.actionbar_charge_money, null),
+                new ActionBar.LayoutParams(
+                        ActionBar.LayoutParams.WRAP_CONTENT,
+                        ActionBar.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                )
+        );
+    }
+
+    private void setChangedText() {
+        if (mBasic.isChecked()){
+            mProductName.setText("정액제 - 기본형");
+            mDueDate.setText("2020.10.10 23시");
+            mCurrentLeftTime.setText("0시간");
+            mAfterLeftTime.setText("72시간");
+            mTotalPrice.setText("9900원");
+        }
+        if (mPro.isChecked()){
+            mProductName.setText("정액제 - 프로형");
+            mDueDate.setText("2020.10.10 23시");
+            mCurrentLeftTime.setText("0시간");
+            mAfterLeftTime.setText("160시간");
+            mTotalPrice.setText("19900원");
+        }
+        if (mTime.isChecked()){
+            mProductName.setText("시간제");
+            mDueDate.setText("-");
+            mCurrentLeftTime.setText("0시간");
+            mAfterLeftTime.setText("1시간");
+            mTotalPrice.setText("300원");
+        }
     }
 }

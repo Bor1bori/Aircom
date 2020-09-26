@@ -228,15 +228,34 @@ public class AddComputerAutomatically extends Activity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_computer_automatically);
+        setInitialView();
+        setBottomNavigationView();
+        UiHelper.setLocale(this);
+        setActionBar();
+        UiHelper.notifyNewRootView(this);
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
+
+        //this.hostText = "121.128.91.156"; //ip 주소 할당
+
+        // Bind to the ComputerManager service
+        bindService(new Intent(AddComputerAutomatically.this,
+                    ComputerManagerService.class), serviceConnection, Service.BIND_AUTO_CREATE);
+    }
+
+    private void setInitialView() {
         Fragment currentFragment = new PCInactiveFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentLocation, currentFragment).commit();
+    }
+
+    private void setBottomNavigationView() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setItemIconTintList(null);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener
+                (new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -255,24 +274,20 @@ public class AddComputerAutomatically extends Activity {
                         ft = getFragmentManager().beginTransaction();
                         ft.replace(R.id.fragmentLocation, newFragment).commit();
                         break;
+                    default:
+                        System.out.println("invalid consequence");
+                        break;
                 }
                 return true;
             }
         });
-        UiHelper.setLocale(this);
+    }
+
+    private void setActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
         actionBar.setIcon(R.drawable.logo2);
-        UiHelper.notifyNewRootView(this);
-        service = RetrofitClient.getClient().create(ServiceAPI.class);
-
-        //this.hostText = "121.128.91.156"; //ip 주소 할당
-
-        // Bind to the ComputerManager service
-        bindService(new Intent(AddComputerAutomatically.this,
-                    ComputerManagerService.class), serviceConnection, Service.BIND_AUTO_CREATE);
     }
-
 
     @Override
     public void onBackPressed(){

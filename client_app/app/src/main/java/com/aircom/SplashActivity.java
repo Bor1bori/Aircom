@@ -19,21 +19,13 @@ public class SplashActivity extends Activity {
         actionBar.hide();
         setContentView(R.layout.activity_splash);
         Handler hd = new Handler();
-        hd.postDelayed(new SplashHandler(), 2000);
-
+        hd.postDelayed(new SplashHandler(), 1500);
     }
 
-    private class SplashHandler implements Runnable{
+    private class SplashHandler implements Runnable {
         public void run(){
-            /*if (SharedPreference.getLoginToken(SplashActivity.this).length()!=0){
-                Toast.makeText(SplashActivity.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplication(), AddComputerAutomatically.class));
-            }
-            else {*/
-                startActivity(new Intent(getApplication(), SignIn.class));
-            //}
+            startActivity(new Intent(getApplication(), SignIn.class));
             SplashActivity.this.finish();
         }
     }
-
 }

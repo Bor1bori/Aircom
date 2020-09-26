@@ -1810,16 +1810,19 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setMessage("PC 사용을 중단하시겠습니까?")
                 .setPositiveButton("예",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 service = RetrofitClient.getClient().create(ServiceAPI.class);
-                                service.withdrawRequest(SharedPreference.getLoginToken(Game.this)).enqueue(new Callback<PCDeallocationResponse>() {
+                                service.withdrawRequest(SharedPreference.
+                                        getLoginToken(Game.this)).
+                                        enqueue(new Callback<PCDeallocationResponse>() {
                                     @Override
-                                    public void onResponse(Call<PCDeallocationResponse> call, Response<PCDeallocationResponse> response) {
+                                    public void onResponse(Call<PCDeallocationResponse> call,
+                                                           Response<PCDeallocationResponse> response) {
                                         System.out.println("status code: "+response.code());
                                         System.out.println("response body: "+response.body());
                                         PCInactiveFragment.setConnectionViewInactive();
@@ -1827,9 +1830,11 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                                     }
 
                                     @Override
-                                    public void onFailure(Call<PCDeallocationResponse> call, Throwable t) {
+                                    public void onFailure(Call<PCDeallocationResponse> call,
+                                                          Throwable t) {
                                         System.out.println("error: "+t.getMessage());
-                                        Toast.makeText(Game.this, "PC 사용 중단 에러 발생", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Game.this, "PC 사용 중단 에러 발생",
+                                                Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }

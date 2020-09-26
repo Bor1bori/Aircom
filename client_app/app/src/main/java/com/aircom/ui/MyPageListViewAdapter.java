@@ -56,7 +56,8 @@ public class MyPageListViewAdapter extends BaseAdapter{
         final Context context = viewGroup.getContext();
         int viewType = getItemViewType(i) ;
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
 
             // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
             ListViewItem listViewItem = listViewItemList.get(i);

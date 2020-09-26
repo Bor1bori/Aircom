@@ -133,10 +133,8 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                             // Despite my best efforts to catch all conditions that could
                             // cause the activity to be destroyed when we try to commit
                             // I haven't been able to, so we have this try-catch block.
-                            if (appGridAdapter.getCount()!=0) {
-                                final AppObject app = (AppObject) appGridAdapter.getItem(0);
-                                ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
-                                onBackPressed();
+                            if (hasPreviouslyPaired()) {
+                                startAppAutomatically();
                             }
 
                             try {
@@ -156,6 +154,17 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
             managerBinder = null;
         }
     };
+
+    public boolean hasPreviouslyPaired(){
+        if (appGridAdapter.getCount() != 0) return true;
+        return false;
+    }
+
+    public void startAppAutomatically(){
+        final AppObject app = (AppObject) appGridAdapter.getItem(0);
+        ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+        onBackPressed();
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -451,7 +460,8 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                 ImageView appImageView = info.targetView.findViewById(R.id.grid_image);
                 Bitmap appBits = ((BitmapDrawable)appImageView.getDrawable()).getBitmap();
                 if (!shortcutHelper.createPinnedGameShortcut(computer, app.app, appBits)) {
-                    Toast.makeText(AppView.this, getResources().getString(R.string.unable_to_pin_shortcut), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AppView.this, getResources().getString(R.string.unable_to_pin_shortcut),
+                            Toast.LENGTH_LONG).show();
                 }
                 return true;
 
@@ -569,9 +579,7 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                     appGridAdapter.notifyDataSetChanged();
                 }
                 if (appGridAdapter.getCount()!=0) {
-                    final AppObject app = (AppObject) appGridAdapter.getItem(0);
-                    ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
-                    onBackPressed();
+                    startAppAutomatically();
                 }
             }
         });
