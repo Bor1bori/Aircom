@@ -1,31 +1,52 @@
-import React, { useState }  from "react";
+import React, { useState } from "react";
 
 const LandingPageForm = () => {
-    const h1 = ["스마트폰만 있다면", "언제 어디서나 경험하는 고사양의 PC 환경", "스마트폰만 있다면", "언제 어디서나 경험하는 고사양의 PC 환경", "스마트폰만 있다면", "언제 어디서나 경험하는 고사양의 PC 환경"];
-    const h2 = ["스마트폰만 있다면 언제 어디서나 경험하는 고사양의 PC환경", "스마트폰만 있다면 언제 어디서나 경험하는 고사양의 PC환경", "스마트폰만 있다면 언제 어디서나 경험하는 고사양의 PC환경"];
+    const h1 = ["스마트폰만 있다면", "언제 어디서나 경험하는 고사양의 PC 환경",
+        "스마트폰만 있다면", "언제 어디서나 경험하는 고사양의 PC 환경",
+        "스마트폰만 있다면", "언제 어디서나 경험하는 고사양의 PC 환경"];
+    const h2 = ["스마트폰만 있다면 언제 어디서나 경험하는 고사양의 PC환경",
+        "스마트폰만 있다면 언제 어디서나 경험하는 고사양의 PC환경",
+        "스마트폰만 있다면 언제 어디서나 경험하는 고사양의 PC환경"];
     const [index, setIndex] = useState(0);
     return (
-        <div className="container">
-            {index==0 && <img src={require("../../styles/images/slide-1.png")} alt=""/>}
-            {index==1 && <img src={require("../../styles/images/slide-2.png")} alt=""/>}
-            {index==2 && <img src={require("../../styles/images/slide-3.png")} alt=""/>}
-            <h1>{h1[2*index]}<br />{h1[2*index+1]}</h1>
-            <h2>{h2[index]}</h2>
-            <a className="prev" onClick={()=>setIndex(index==0 ? 2: index-1)}>&#10094;</a>
-            <a className="next" onClick={()=>setIndex(index==2 ? 0: index+1)}>&#10095;</a>
-            <div className="dot1" style={index==0?{backgroundColor: "#ffffff"}:{backgroundColor: "#bbbbbb"}}></div>
-            <div className="dot2" style={index==1?{backgroundColor: "#ffffff"}:{backgroundColor: "#bbbbbb"}}></div>
-            <div className="dot3" style={index==2?{backgroundColor: "#ffffff"}:{backgroundColor: "#bbbbbb"}}></div>
-            <style jsx>{`
+            <div className="container">
+                {index == 0 && <img src={require("../../styles/images/slide-1.png")} alt="" />}
+                {index == 1 && <img src={require("../../styles/images/slide-2.png")} alt="" />}
+                {index == 2 && <img src={require("../../styles/images/slide-3.png")} alt="" />}
+                <h1>{h1[2 * index]}<br />{h1[2 * index + 1]}</h1>
+                <h2>{h2[index]}</h2>
+                <a className="prev"
+                    onClick={() => setIndex(index == 0 ? 2 : index - 1)}>
+                    &#10094;
+                    </a>
+                <a className="next"
+                    onClick={() => setIndex(index == 2 ? 0 : index + 1)}>
+                    &#10095;
+                    </a>
+                <div className="dot1"
+                    style={index == 0 ?
+                        { backgroundColor: "#ffffff" } :
+                        { backgroundColor: "#bbbbbb" }}>
+                </div>
+                <div className="dot2"
+                    style={index == 1 ?
+                        { backgroundColor: "#ffffff" } :
+                        { backgroundColor: "#bbbbbb" }}>
+
+                </div>
+                <div className="dot3"
+                    style={index == 2 ?
+                        { backgroundColor: "#ffffff" } :
+                        { backgroundColor: "#bbbbbb" }}>
+                    </div>
+                <style jsx>{`
                 * {
                     font-family: "Apple SD Gothic";
                 }
-                img{
+                img {
                     width: 100%;
                     height: 100vh;
                     opacity: 0.5;
-                    min-height: 100%;
-                    box-sizing: border-box;
                 }
                 h1 {
                     font-size: 4rem;
@@ -123,7 +144,7 @@ const LandingPageForm = () => {
                     }
                 }
             `}</style>
-        </div>
+            </div>
     );
 };
 
