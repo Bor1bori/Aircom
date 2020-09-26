@@ -3,12 +3,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 const Nav = () => {
-    const ppUserEmail = useSelector((state:RootState)=>state.ppAuth.ppUserEmail);
+    const ppUserEmail = useSelector((state: RootState) => state.ppAuth.ppUserEmail);
     const logout = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
         e.preventDefault();
         localStorage.clear();
         window.location.href = '/';
     }
+    let url = (document.URL).split("manager/")[1];
     return (
         <div className="nav">
             <section id="account">
@@ -18,34 +19,50 @@ const Nav = () => {
             </section>
             <ul className="main">
                 <Link href="/manager/manual">
-                    <a><li>PC 등록 메뉴얼</li></a>
+                    <li><a
+                        className={url == "manual" ? "selected" : ""}>
+                        PC 등록 메뉴얼
+                    </a></li>
                 </Link>
                 <Link href="/manager/pcenrolled">
-                    <a><li>등록된 PC 확인</li></a>
+                    <li><a
+                        className={url == "pcenrolled" ? "selected" : ""}>
+                        등록된 PC 확인
+                    </a></li>
                 </Link>
                 <Link href="/manager/profit">
-                    <a><li>내 수익</li></a>
+                    <li><a
+                        className={url == "profit" ? "selected" : ""}>
+                        내 수익
+                    </a></li>
                 </Link>
                 <Link href="/manager/bankaccount">
-                    <a><li>내 계좌 정보</li></a>
+                    <li><a
+                        className={url == "bankaccount" ? "selected" : ""}>
+                        내 계좌 정보
+                    </a></li>
                 </Link>
             </ul>
             <ul className="bottom">
                 <Link href="/manager/accountinfo">
-                    <a><li>내 정보 수정</li></a>
+                    <li><a
+                        className={url == "accountinfo" ? "selected" : ""}>
+                        내 정보 수정
+                    </a></li>
                 </Link>
                 <li id="logout" onClick={logout}>로그아웃</li>
             </ul>
             <style jsx>{`
                 *{
                     font-family: "Apple SD Gothic";
+                    box-sizing: border-box;
                 }
                 .nav{
                     flex-direction: column;
                     border-right: solid 0.5px #b1b1b1;
                     display: flex;
                     width: 240px;   
-                    height: 100vh;
+                    height: auto;
                     font-size: 18px;
                     line-height: 2.0em;
                     z-index: 1;
@@ -89,10 +106,24 @@ const Nav = () => {
                     letter-spacing: -0.17px;
                     color: #000000;
                 }
-                a{
+                a {
                     text-decoration: none;
+                    cursor: pointer;
+                    display: block;
                 }
-                bottom{
+                .selected {
+                    width: 180px;
+                    height: 40px;
+                    border-radius: 10px;
+                    background-color: #0052cc;
+                    color: #ffffff;
+                    padding-left: 10px;
+                    margin-left: -10px;
+                    padding-top: 10px;
+                    margin-top: -10px;
+                    margin-bottom: -9px;
+                }
+                .bottom{
                     margin-top: 50px;
                 }
                 p {
@@ -100,7 +131,10 @@ const Nav = () => {
                     font-size: 16px;
                     white-space: nowrap;
                 }
-                @media(max-width: 700px){
+                #logout {
+                    cursor: pointer;
+                }
+                @media(max-width: 1000px){
                     .nav{
                         display: none;
                     }

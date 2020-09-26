@@ -1,29 +1,40 @@
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 const Nav = () => {
-    const userEmail = useSelector((state:RootState)=>state.auth.userEmail);
+    const userEmail = useSelector((state: RootState) => state.auth.userEmail);
     const logout = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
         e.preventDefault();
         localStorage.clear();
         window.location.href = '/';
     }
+    let url = (document.URL).split("user/")[1];
     return (
         <div className="nav">
             <section id="account">
-                <label htmlFor="email">사용자 계정</label><br/>
+                <label htmlFor="email">사용자 계정</label><br />
                 <p>{userEmail}</p>
             </section>
             <ul>
                 <Link href="/user/accountinfo">
-                    <a><li className="list">내 정보 수정</li></a>
+                    <li><a
+                        className={url=="accountinfo" ? "selected" : ""}>
+                        내 정보 수정
+                    </a></li>
                 </Link>
                 <Link href="/user/charge">
-                    <a><li className="list">시간 충전하기</li></a>
+                    <li><a
+                        className={url=="charge" ? "selected" : ""}>
+                        시간 충전하기
+                    </a></li>
                 </Link>
                 <Link href="/user/lefttime">
-                    <a><li className="list">남은 사용량</li></a>
+                    <li><a
+                        className={url=="lefttime" ? "selected" : ""}>
+                        남은 사용량
+                    </a></li>
                 </Link>
                 <li id="logout" onClick={logout}>로그아웃</li>
             </ul>
@@ -43,7 +54,9 @@ const Nav = () => {
                     z-index: 1;
                 }
                 ul{
-                    list-style:none;
+                    list-style: none;
+                    width: 240px;
+                    height: 100%;
                 }
                 #account {
                     width: 200px;
@@ -81,11 +94,26 @@ const Nav = () => {
                     letter-spacing: -0.17px;
                     color: #000000;
                 }
-                a{
+                a {
                     text-decoration: none;
+                    cursor: pointer;
+                    display: block;
+                }
+                .selected {
+                    width: 180px;
+                    height: 40px;
+                    border-radius: 10px;
+                    background-color: #0052cc;
+                    color: #ffffff;
+                    padding-left: 10px;
+                    margin-left: -10px;
+                    padding-top: 10px;
+                    margin-top: -10px;
+                    margin-bottom: -9px;
                 }
                 #logout{
                     margin-top: 50px;
+                    cursor: pointer;
                 }
                 p {
                     margin-top: 5px;
