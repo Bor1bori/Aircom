@@ -3,7 +3,7 @@ import AccountInfoForm from "../../components/userPage/AccountInfoForm";
 import Layout from "../../components/layout/Layout";
 import Nav from "../../components/nav/NavUser";
 
-export default function Signin() {
+export default function EditAccountInfo() {
     return (
         <Layout>
             <Nav/>

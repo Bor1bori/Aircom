@@ -3,7 +3,7 @@ import Layout from "../../components/layout/Layout";
 import ProfitForm from "../../components/managerPage/ProfitForm";
 import Nav from "../../components/nav/NavManager";
 
-export default function Manual(){
+export default function AnalyzeProfit(){
     return (
         <Layout>
             <Nav/>
