@@ -22,6 +22,13 @@ const GoogleButton = () => {
         })
             .then((res) => {
                 dispatch(signin(res.data.loginToken, email));
+                localStorage.setItem(
+                    "userInfo",
+                    JSON.stringify({
+                        userEmail: email,
+                        loginToken: res.data.loginToken,
+                    })
+                );
                 router.push("/");
             })
             .catch((err) => {

@@ -22,6 +22,13 @@ const GoogleButton = () => {
         })
             .then((res) => {
                 dispatch(ppSignin(res.data.ppLoginToken, email));
+                localStorage.setItem(
+                    "managerInfo",
+                    JSON.stringify({
+                        managerEmail: email,
+                        ppLoginToken: res.data.ppLoginToken,
+                    })
+                );
                 router.push("/");
             })
             .catch((err) => {
