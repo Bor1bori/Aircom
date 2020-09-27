@@ -3,8 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ppSignin } from "../../../store/pp_auth/action";
 import { useRouter } from "next/router";
-import GoogleButton from "./GoogleButton"
-import Link from "next/link";
+import GoogleButton from "./GoogleButtonForm"
 
 const SignIn = () => {
     const dispatch = useDispatch(); // dispatch를 사용하기 쉽게 하는 hook
