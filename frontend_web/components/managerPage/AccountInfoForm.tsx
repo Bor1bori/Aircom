@@ -202,8 +202,9 @@ const ModifyAccountInfo = () => {
                     cursor: pointer;
                     margin: 5px;
                     font-size: 18px;
-                    text-align: center;
-                    padding-top: 13px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     box-sizing: border-box;
                     color: #bbbbbb;
                     transition: box-shadow 400ms ease;

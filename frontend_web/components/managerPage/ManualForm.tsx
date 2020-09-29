@@ -34,6 +34,7 @@ const Manual = () => {
                 font-size: 20px;
                 margin-right: auto;
                 margin-top: 20px;
+                white-space: nowrap;
             }
             button {
                 width: 240px;
