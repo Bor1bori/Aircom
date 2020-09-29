@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "Apple SD Gothic";
+  font-style: normal;
+  font-weight: normal;
+  font-display: auto;
+  src: local(AppleSDGothicNeoM00) url("/public/fonts/AppleSDGothicNeoM.woff") format('woff'), 
+        url("/public/fonts/AppleSDGothicNeoM.ttf") format('truetype'),
+}
+
+body {
+  font-family: "Apple SD Gothic";
+}
+/*
+@font-face{
+    font-family: "Apple SD Gothic";
+    font-style: normal;
+    src: url("../public/fonts/AppleSDGothicNeoM.woff");
+}*/
