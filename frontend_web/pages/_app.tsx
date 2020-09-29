@@ -1,11 +1,13 @@
 import React from "react";
+import Head from "next/head";
 import { wrapper } from "../store/store";
 import { useDispatch } from "react-redux";
 import { signin } from "../store/auth/action";
 import { ppSignin } from "../store/pp_auth/action";
 import { useEffect } from 'react';
+import "../public/fonts/font.css";
 
-const WrappedApp = ({ Component, pageProps }: {Component: any; pageProps: any}) => {
+const WrappedApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
     const dispatch = useDispatch();
     const setLoggedInInfo = () => {
         const userLoggedIn = localStorage.getItem("userInfo");
@@ -20,7 +22,21 @@ const WrappedApp = ({ Component, pageProps }: {Component: any; pageProps: any}) 
         }
     }
     useEffect(setLoggedInInfo, []);
-    return <Component {...pageProps} />;
+    return (
+        <div>
+            <Head>
+            </Head>
+            <Component {...pageProps} />
+            <style jsx global>{`
+                html, body {
+                    margin: 0;
+                    padding: 0;
+                    font-size: 10px;
+                    font-family:  "Apple SD Gothic Neo"
+                }
+            `}</style>
+        </div>
+    );
 };
 
 export default wrapper.withRedux(WrappedApp);
