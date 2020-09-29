@@ -8,7 +8,7 @@ const UserType = () => {
                 <Link href="/manager/signup">
                     <a>
                         <div className="manager">
-                            <img src={require("../../styles/images/join_admin.png")} />
+                            <img src={require("../../public/images/join_admin.png")} />
                             <p>관리자로 회원가입하기</p>
                         </div>
                     </a>
@@ -16,7 +16,7 @@ const UserType = () => {
                 <Link href="/user/signup">
                     <a>
                         <div className="user">
-                            <img src={require("../../styles/images/join_user.png")} />
+                            <img src={require("../../public/images/join_user.png")} />
                             <p>사용자로 회원가입하기</p>
                         </div>
                     </a>
@@ -24,7 +24,6 @@ const UserType = () => {
             </div>
             <style jsx>{`
                 *{
-                    font-family: "Apple SD Gothic";
                     color: #000000;
                 }
                 h1 {

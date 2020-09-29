@@ -40,7 +40,6 @@ const Nav = () => {
             </ul>
             <style jsx>{`
                 *{
-                    font-family: "Apple SD Gothic";
                     box-sizing: border-box;
                 }
                 .nav{

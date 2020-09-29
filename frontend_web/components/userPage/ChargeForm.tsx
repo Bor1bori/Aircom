@@ -26,7 +26,7 @@ const Charge = () => {
                         }} />
                     <label htmlFor="basic">
                         <div className="name">정액제 - 기본형
-                        <img src={require("../../styles/images/plan_basic.png")} />
+                        <img src={require("../../public/images/plan_basic.png")} />
                         </div>
                         <div className="details">월 최대 72시간 사용 가능</div>
                         <div className="price">월 / 9,900원</div>
@@ -42,7 +42,7 @@ const Charge = () => {
                         }} />
                     <label htmlFor="pro">
                         <div className="name">정액제 - 프로형
-                        <img src={require("../../styles/images/plan_pro.png")} />
+                        <img src={require("../../public/images/plan_pro.png")} />
                         </div>
                         <div className="details">월 최대 160시간 사용 가능</div>
                         <div className="price">월 / 19,900원</div>
@@ -58,7 +58,7 @@ const Charge = () => {
                         }} />
                     <label htmlFor="time">
                         <div className="name">시간제
-                        <img id="time" src={require("../../styles/images/plan_time.png")} />
+                        <img id="time" src={require("../../public/images/plan_time.png")} />
                         </div>
                         <div className="details">1시간 기준</div>
                         <div className="price" id="timePrice">
@@ -110,8 +110,8 @@ const Charge = () => {
                             <img
                                 id="checkForAgree"
                                 src={agreement ?
-                                    require("../../styles/images/check_active.png")
-                                    : require("../../styles/images/check_inactive.png")}
+                                    require("../../public/images/check_active.png")
+                                    : require("../../public/images/check_inactive.png")}
                                 onClick={() => setAgreement(agreement ? false : true)} />
                         </div>
                     </div>
@@ -119,9 +119,6 @@ const Charge = () => {
                 </div>
             </div>
             <style jsx>{`
-                *{
-                    font-family: "Apple SD Gothic";
-                }
                 .primaryContainer, h1 {
                     display: flex;
                     align-items: center;

@@ -11,13 +11,6 @@ const Layout = (props: any) => (
             }
         `}
         </style>
-        <style jsx global>{`
-        html, body {
-          margin: 0;
-          padding: 0;
-          font-size: 10px;
-        }
-      `}</style>
     </div>
 );
 

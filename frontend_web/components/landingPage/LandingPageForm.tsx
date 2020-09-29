@@ -10,9 +10,9 @@ const LandingPageForm = () => {
     const [index, setIndex] = useState(0);
     return (
             <div className="container">
-                {index == 0 && <img src={require("../../styles/images/slide-1.png")} alt="" />}
-                {index == 1 && <img src={require("../../styles/images/slide-2.png")} alt="" />}
-                {index == 2 && <img src={require("../../styles/images/slide-3.png")} alt="" />}
+                {index == 0 && <img src={require("../../public/images/slide-1.png")} alt="" />}
+                {index == 1 && <img src={require("../../public/images/slide-2.png")} alt="" />}
+                {index == 2 && <img src={require("../../public/images/slide-3.png")} alt="" />}
                 <h1>{h1[2 * index]}<br />{h1[2 * index + 1]}</h1>
                 <h2>{h2[index]}</h2>
                 <a className="prev"
@@ -40,9 +40,6 @@ const LandingPageForm = () => {
                         { backgroundColor: "#bbbbbb" }}>
                     </div>
                 <style jsx>{`
-                * {
-                    font-family: "Apple SD Gothic";
-                }
                 img {
                     width: 100%;
                     height: 100vh;

@@ -99,9 +99,6 @@ const AccountManage = () => {
             </div>
             <button>새 계좌 등록하기</button>
             <style jsx>{`
-                * {
-                    font-family: "Apple SD Gothic";
-                }
                 .container {
                     display: flex;
                     flex-direction: column;

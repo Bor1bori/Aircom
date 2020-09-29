@@ -79,9 +79,6 @@ const LeftTime = () => {
                 </div>
             </div>
             <style jsx>{`
-                *{
-                    font-family: "Apple SD Gothic";
-                }
                 .usage, .product {
                     width: 400px;
                     height: 200px;

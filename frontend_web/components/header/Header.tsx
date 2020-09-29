@@ -10,7 +10,7 @@ const Header = () => {
     return (
         <div className="container">
             <Link href="/">
-                <img src={require("../../styles/images/logo.png")} />
+                <img src={require("../../public/images/logo.png")} />
             </Link>
             {state == "none" ?
                 <Link href="/signinusertype">
@@ -30,7 +30,6 @@ const Header = () => {
             </button>
             <style jsx>{`
                     *{
-                        font-family: "Apple SD Gothic";
                         font-size: 1.8rem;
                     }
                     .container{

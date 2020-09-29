@@ -15,9 +15,6 @@ const Manual = () => {
                 </video>
             </div>
             <style jsx>{`
-            * {
-                font-family: "Apple SD Gothic"
-            }
             div, h1 {
                 display: flex;
                 flex-direction: column;

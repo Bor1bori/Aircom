@@ -65,9 +65,6 @@ const SignIn = () => {
                 </div>
             </form>
             <style jsx>{`
-                *{
-                    font-family: "Apple SD Gothic";
-                }
                 h1, div{
                     display: flex;
                     justify-content: center;

@@ -71,9 +71,6 @@ const Profit = () => {
                 </div>
             </div>
             <style jsx>{`
-                *{
-                    font-family: "Apple SD Gothic";
-                }
                 .primaryContainer {
                     width: 100%;
                     display: flex;
