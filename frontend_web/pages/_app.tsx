@@ -25,6 +25,7 @@ const WrappedApp = ({ Component, pageProps }: { Component: any; pageProps: any }
     return (
         <div>
             <Head>
+            <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css"/>
             </Head>
             <Component {...pageProps} />
             <style jsx global>{`
@@ -32,7 +33,7 @@ const WrappedApp = ({ Component, pageProps }: { Component: any; pageProps: any }
                     margin: 0;
                     padding: 0;
                     font-size: 10px;
-                    font-family:  "Apple SD Gothic Neo"
+                    font-family: 'NanumSquare', sans-serif;
                 }
             `}</style>
         </div>
