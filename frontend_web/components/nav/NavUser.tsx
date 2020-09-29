@@ -116,7 +116,7 @@ const Nav = () => {
                 }
                 p {
                     margin-top: 5px;
-                    font-size: 16px;
+                    font-size: 14px;
                     white-space: nowrap;
                 }
                 @media(max-width: 1000px){
