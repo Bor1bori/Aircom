@@ -3,6 +3,7 @@ import { AuthActionTypes, AuthState, SIGNIN } from "./types";
 const authInitialState: AuthState = {
     isSignedin: false,
     loginToken: "",
+    userEmail: "",
 };
 
 export default function reducer(state = authInitialState, action: AuthActionTypes) {
@@ -11,7 +12,8 @@ export default function reducer(state = authInitialState, action: AuthActionType
         console.log(1);
         return Object.assign({}, state, {
             isSignedin: true,
-            loginToken: action.loginToken
+            loginToken: action.loginToken,
+            userEmail: action.userEmail,
         });
     default:
         return state;
