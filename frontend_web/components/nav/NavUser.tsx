@@ -15,7 +15,9 @@ const Nav = () => {
         <div className="nav">
             <section id="account">
                 <label htmlFor="email">사용자 계정</label><br />
-                <p>{userEmail}</p>
+                <p className={userEmail.length <= 18 ? "shortEmail" : "longEmail"}>
+                    {userEmail}
+                </p>
             </section>
             <ul>
                 <Link href="/user/accountinfo">
@@ -116,8 +118,11 @@ const Nav = () => {
                 }
                 p {
                     margin-top: 5px;
-                    font-size: 14px;
+                    font-size: 16px;
                     white-space: nowrap;
+                }
+                .longEmail {
+                    font-size: 14px;
                 }
                 @media(max-width: 1000px){
                     .nav{
