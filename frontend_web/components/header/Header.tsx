@@ -38,6 +38,7 @@ const Header = () => {
                         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
                         background-color: #ffffff;
                         display: flex;
+                        align-items: center;
                     }
                     a {
                         font-weight: normal;
@@ -47,7 +48,6 @@ const Header = () => {
                         color: #000000;
                         text-decoration: none;
                         margin-right: 4%;
-                        margin-top: 30px;
                         white-space: nowrap;
                     }
                     button {
@@ -62,15 +62,12 @@ const Header = () => {
                         color: #0052cc;
                         background-color: #ffffff;
                         margin-right: 8.5%;
-                        margin-top: 20px;
                         white-space: nowrap;
                     }
                     img {
-                        width: 101.8px;
-                        height: 24px;
+                        width: 125px;
+                        height: 30px;
                         margin-left: 8.5%;
-                        margin-top: 31px;
-                        margin-bottom: 31px;
                         margin-right: 57%;
                     }
                     @media(max-width: 800px){

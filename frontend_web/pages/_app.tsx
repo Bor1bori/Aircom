@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { signin } from "../store/auth/action";
 import { ppSignin } from "../store/pp_auth/action";
 import { useEffect } from 'react';
-import "../public/fonts/font.css";
 
 const WrappedApp = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
     const dispatch = useDispatch();
@@ -25,7 +24,9 @@ const WrappedApp = ({ Component, pageProps }: { Component: any; pageProps: any }
     return (
         <div>
             <Head>
-            <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css"/>
+                <link rel="stylesheet"
+                    type="text/css"
+                    href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css" />
             </Head>
             <Component {...pageProps} />
             <style jsx global>{`
