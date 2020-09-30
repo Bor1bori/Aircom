@@ -125,7 +125,7 @@ const Nav = () => {
                     margin-bottom: -9px;
                 }
                 .bottom{
-                    margin-top: 50px;
+                    margin-top: 30px;
                 }
                 p {
                     margin-top: 5px;
