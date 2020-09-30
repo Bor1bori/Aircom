@@ -41,7 +41,6 @@ public class SignUp extends Activity {
     private EditText mBirthDate;
     private TextView mGender;
     private CheckBox mCheckBox;
-    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,7 +96,6 @@ public class SignUp extends Activity {
         else if (mFemale.isChecked()) {
             gender = "female";
         }
-
 
         boolean cancel = false;
         View focusView = null;
@@ -232,24 +230,5 @@ public class SignUp extends Activity {
                 Log.e("로그인 에러 발생", t.getMessage());
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            finishAffinity();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "'뒤로'버튼 한번 더 누르시면 종료됩니다.",
-                Toast.LENGTH_SHORT).show();
-
-        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
     }
 }
