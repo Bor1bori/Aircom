@@ -66,7 +66,8 @@ public class SignIn extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         setActionBar();
-        if (hasSignedInBefore()){
+        if (hasSignedInBefore() &&
+                SharedPreference.getLoginChecked(SignIn.this, "checked")) {
             signInAutomatically();
         }
         //1. 구글로그인
@@ -159,7 +160,6 @@ public class SignIn extends Activity {
             System.out.println("idToken: "+idToken);
             String userEmail = account.getEmail();
 
-            // TODO(developer): send ID Token to server and validate
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost
                     ("http://myaircom.co.kr:3000/auth/oauth/google/signin");
@@ -252,6 +252,10 @@ public class SignIn extends Activity {
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.code() == 200) {
                     System.out.println("Login Token: "+response.body().getLoginToken());
+                    if (((CheckBox)findViewById(R.id.checkLogin)).isChecked())
+                        SharedPreference.setLoginChecked(SignIn.this, true, "checked");
+                    else
+                        SharedPreference.setLoginChecked(SignIn.this, false, "checked");
                     SharedPreference.setUserName(SignIn.this, data.getUserEmail());
                     SharedPreference.setLoginToken(SignIn.this,
                             response.body().getLoginToken());
