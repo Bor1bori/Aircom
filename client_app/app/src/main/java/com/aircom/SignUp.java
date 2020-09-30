@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -39,6 +41,7 @@ public class SignUp extends Activity {
     private EditText mBirthDate;
     private TextView mGender;
     private CheckBox mCheckBox;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -229,5 +232,24 @@ public class SignUp extends Activity {
                 Log.e("로그인 에러 발생", t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAffinity();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "'뒤로'버튼 한번 더 누르시면 종료됩니다.",
+                Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

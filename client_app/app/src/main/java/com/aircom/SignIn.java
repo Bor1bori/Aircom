@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -58,6 +60,7 @@ public class SignIn extends Activity {
     private EditText mEmail, mPassword;
     private Button signInButton;
     private ServiceAPI service;
+    boolean doubleBackToExitPressedOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -294,4 +297,22 @@ public class SignIn extends Activity {
         return password.length() >= 8;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "'뒤로'버튼 한번 더 누르시면 종료됩니다.",
+                Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 }

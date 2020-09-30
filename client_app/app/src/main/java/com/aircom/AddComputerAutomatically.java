@@ -36,7 +36,9 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 public class AddComputerAutomatically extends Activity {
     public boolean runningPolling, freezeUpdates, inForeground;
+    boolean doubleBackToExitPressedOnce = false;
     public ComputerManagerService.ComputerManagerBinder managerBinder;
     public static final LinkedBlockingQueue<String> computersToAdd = new LinkedBlockingQueue<>();
     public Thread addThread;
@@ -277,10 +280,6 @@ public class AddComputerAutomatically extends Activity {
         actionBar.setIcon(R.drawable.logo2);
     }
 
-    @Override
-    public void onBackPressed(){
-        finishAffinity();
-    }
 
     public void doPair(final ComputerDetails computer) {
         if (computer.state == ComputerDetails.State.OFFLINE ||
@@ -484,5 +483,24 @@ public class AddComputerAutomatically extends Activity {
                 });
             }
         }).start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAffinity();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "'뒤로'버튼 한번 더 누르시면 종료됩니다.",
+                Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }
