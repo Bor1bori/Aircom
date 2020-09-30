@@ -5,8 +5,7 @@ import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-const CLIENT_ID =
-  "667027998429-n50iijf7gfoe7ildnvvvplge4u9ovdj3.apps.googleusercontent.com";
+const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID!;
 
 const GoogleButton = () => {
     const router = useRouter();
@@ -42,7 +41,7 @@ const GoogleButton = () => {
         console.log(err);
     };
 
-  
+
     return (
         <div>
             <GoogleLogin
@@ -50,6 +49,36 @@ const GoogleButton = () => {
                 buttonText="Google로 로그인하기"
                 onSuccess={onResponseGoogle}
                 onFailure={onResponseFail}
+                render={renderProps => (
+                    <button onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <img src={require("../../../public/images/login_google.png")}
+                            alt="google logo" />
+                        <p>Google로 로그인</p>
+                        <style jsx>{`
+                            button {
+                                width: 420px;
+                                height: 50px;
+                                border-radius: 15px;
+                                border: solid 1px #666666;
+                                background-color: #ffffff;
+                                font-size: 18px;
+                                display: flex;
+                                align-items: center;
+                            }       
+                            img {
+                                width: 30px;
+                                height: 30px;
+                                margin-left: 63px;
+                                margin-right: -63px;
+                            }  
+                            p {
+                                display: flex;
+                                width: 420px;
+                                justify-content: center;
+                            }       
+                        `}</style>
+                    </button>
+                )}
             />
         </div>
     );

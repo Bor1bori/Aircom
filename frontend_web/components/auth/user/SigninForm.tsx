@@ -59,6 +59,7 @@ const SignIn = () => {
                     placeholder="비밀번호"
                 />
                 <button>로그인</button>
+                <p></p>
                 <div className="googleLogin">
                     <GoogleButton />
                 </div>
@@ -108,11 +109,16 @@ const SignIn = () => {
                     color: #ffffff;
                     border: none;
                 }
-               .googleLogin {
-                    margin-top: 75px;
-               }
-               button:active {
+                .googleLogin {
+                    margin-top: 35px;
+                }
+                button:active {
                 background-color: #bbbbbb;
+                }
+                p {
+                    border: solid 1px #bbbbbb;
+                    opacity: 0.5;
+                    margin-top: 50px;
                 }
             `}</style>
         </div>
