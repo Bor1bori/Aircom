@@ -40,7 +40,6 @@ export const sequelizeInit = async () => {
     await sequelize.sync();
 
     // TODO: PPAUthToken 유효기간 지난 것들 삭제하기.
-    // TODO: PC들 상태 다 unusable로 변경하기.
     await PC.update({
       state: 'unusable'
     }, {

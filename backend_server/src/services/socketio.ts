@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import socketIO from 'socket.io';
 import { PC } from '@src/db/models/pc';
 
@@ -44,11 +45,11 @@ export const requestAllocatePC = (io: socketIO.Server, uuid: string): Promise<Al
 };
 
 // 특정 PC에 state를 물어봄
-export const askStateToPC = (io: socketIO.Server, uuid: string): Promise<AskStateResult> => {
+export const askStateToPC = (io: socketIO.Server, uuid: string): Promise<AskStateResult | -1> => {
   return new Promise((resolve, reject) => {
     const socketId = pcUuidSocketIdMappings.get(uuid);
     if (!socketId) {
-      return reject(new Error('unusable pc'));
+      return resolve(-1);
     }
     io.sockets.connected[socketId].emit('ask_state', null, (data: AskStateResult) => {
       return resolve(data);
@@ -56,16 +57,16 @@ export const askStateToPC = (io: socketIO.Server, uuid: string): Promise<AskStat
   });
 };
 
-export const assureTermination = (io: socketIO.Server, uuid: string): Promise<TerminateResult> => {
+export const assureTermination = (io: socketIO.Server, uuid: string): Promise<TerminateResult | -1> => {
   return new Promise((resolve, reject) => {
     const socketId = pcUuidSocketIdMappings.get(uuid);
     if (!socketId) {
-      return reject(new Error('unusable pc'));
+      return resolve(-1);
     }
     io.sockets.connected[socketId].emit('assure_termination', null, (data: TerminateResult) => {
       if (!data.success) {
+        return resolve(-1);
         // TODO 발생하면 안됨. 로그 기록, 처리 필요
-        return reject(new Error('unusable pc'));
       }
       return resolve(data);
     });
