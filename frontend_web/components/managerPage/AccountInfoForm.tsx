@@ -47,6 +47,7 @@ const ModifyAccountInfo = () => {
                 headers: {ppLoginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
+                    alert("정보가 수정되었습니다")
                 })
                 .catch((err) => {
                     console.log(err);
@@ -58,6 +59,7 @@ const ModifyAccountInfo = () => {
                 headers: {ppLoginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
+                    alert("정보가 수정되었습니다")
                 })
                 .catch((err) => {
                     console.log(err);
