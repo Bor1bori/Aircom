@@ -51,9 +51,11 @@ const GoogleButton = () => {
                 onFailure={onResponseFail}
                 render={renderProps => (
                     <button onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <div>
                         <img src={require("../../../public/images/login_google.png")}
                             alt="google logo" />
                         <p>Google로 로그인</p>
+                        </div>
                         <style jsx>{`
                             button {
                                 width: 420px;
@@ -61,10 +63,13 @@ const GoogleButton = () => {
                                 border-radius: 15px;
                                 border: solid 1px #666666;
                                 background-color: #ffffff;
+                            }    
+                            div {
                                 font-size: 18px;
                                 display: flex;
                                 align-items: center;
-                            }       
+                                height: 50px;
+                            }   
                             img {
                                 width: 30px;
                                 height: 30px;
