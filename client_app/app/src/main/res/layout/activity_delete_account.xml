@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        android:layout_marginTop="70dp"
+        android:layout_alignLeft="@id/emailForEditInfo"
+        android:layout_alignStart="@id/emailForEditInfo"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd">
+    </TextView>
+    <TextView
+        android:id="@+id/emailForEditInfo"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/emailTextView"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/edittext"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd"
+        android:textColor="#000000" />
+    <TextView
+        android:id="@+id/withdrawTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="탈퇴하기"
+        android:textSize="16dp"
+        android:textColor="#bbbbbb"
+        android:layout_below="@id/emailForEditInfo"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/applesd"
+        android:layout_alignRight="@id/emailForEditInfo"
+        />
+
+
+</RelativeLayout>

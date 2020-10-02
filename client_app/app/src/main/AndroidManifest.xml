@@ -92,6 +92,9 @@
             android:name="com.aircom.EditAccountInfo">
         </activity>
         <activity
+            android:name="com.aircom.DeleteAccount">
+        </activity>
+        <activity
             android:name="com.aircom.ChargeMoney">
         </activity>
         <!-- Small hack to support launcher shortcuts without relaunching over and over again when the back button is pressed -->

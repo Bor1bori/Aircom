@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.aircom.ChargeMoney;
+import com.aircom.DeleteAccount;
 import com.aircom.EditAccountInfo;
 import com.aircom.R;
 import com.aircom.data.AccountInfoResponse;
@@ -85,6 +86,10 @@ public class MyPageFragment extends Fragment {
         if (i==0) {
             if (loginType[0].equals("email")) {
                 Intent intent = new Intent(getActivity(), EditAccountInfo.class);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(getActivity(), DeleteAccount.class);
                 startActivity(intent);
             }
         }

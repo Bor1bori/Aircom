@@ -150,6 +150,7 @@ public class EditAccountInfo extends Activity {
         accountData.getGender();
         accountData.getBirthDate();
     }
+
     public void editInfo(final EditInfoData accountData) {
         service.editInfoRequest(SharedPreference.getLoginToken(EditAccountInfo.this), accountData)
                 .enqueue(new Callback<EditInfoResponse>() {
