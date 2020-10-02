@@ -178,6 +178,12 @@ public class SignIn extends Activity {
                 System.out.println("response body: "+responseBody);
                 SharedPreference.setLoginToken(SignIn.this, responseBody);
                 SharedPreference.setUserName(SignIn.this, userEmail);
+                if (((CheckBox)findViewById(R.id.checkLogin)).isChecked()) {
+                    SharedPreference.setLoginChecked(SignIn.this, true, "checked");
+                }
+                else {
+                    SharedPreference.setLoginChecked(SignIn.this, false, "checked");
+                }
             } catch (ClientProtocolException e) {
                 Log.e(TAG, "Error sending ID token to backend.", e);
             } catch (IOException e) {
