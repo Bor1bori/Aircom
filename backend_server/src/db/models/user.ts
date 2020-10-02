@@ -8,9 +8,10 @@ import {
   HasManyHasAssociationMixin,
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
-  Association
+  Association, BelongsToGetAssociationMixin
 } from 'sequelize';
 import { PCAllocation } from './pc_allocation';
+import { SubMenu } from './sub_menu';
 
 /* user db first settings */
 export interface UserAttributes {
@@ -21,6 +22,7 @@ export interface UserAttributes {
   gender?: string;
   signinType: 'email' | 'googleoauth';
   signinId?: string;
+  subMenuId?: number;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
@@ -34,6 +36,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public gender?: string;
   public signinType!: 'email' | 'googleoauth';
   public signinId?: string;
+  public subMenuId?: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -43,6 +46,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public hasPcAllocations!: HasManyHasAssociationMixin<PCAllocation, number>;
   public countPcAllocations!: HasManyCountAssociationsMixin;
   public createPcAllocations!: HasManyCreateAssociationMixin<PCAllocation>;
+  public getSubMenu!: BelongsToGetAssociationMixin<SubMenu>
 
   public readonly pcAllocations?: PCAllocation[]; // Note this is optional since it's only populated when explicitly requested in code
 
@@ -81,6 +85,10 @@ export const initUser = (sequelize: Sequelize) => {
     signinId: { // TODO: 이거 인덱싱해서 빨리 찾을 수 있도록 하면 좋을듯
       type: DataTypes.STRING(),
       allowNull: true
+    },
+    subMenuId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true
     }
   }, {
     tableName: 'user',
@@ -99,5 +107,9 @@ export const initUserAssociate = () => {
     sourceKey: 'id',
     foreignKey: 'userId',
     as: 'pcAllocations'
+  });
+  User.belongsTo(SubMenu, {
+    foreignKey: 'subMenuId',
+    onDelete: 'CASCADE'
   });
 };

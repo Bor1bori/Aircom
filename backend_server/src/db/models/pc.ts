@@ -9,7 +9,7 @@ import {
   HasManyHasAssociationMixin,
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
-  Association
+  Association, BelongsToGetAssociationMixin
 } from 'sequelize';
 import { PCProvider } from './pc_provider';
 import { PCAllocation } from './pc_allocation';
@@ -42,10 +42,12 @@ export class PC extends Model<PCAttributes, PCCreationAttributes>
   public countPcAllocations!: HasManyCountAssociationsMixin;
   public createPcAllocations!: HasManyCreateAssociationMixin<PCAllocation>;
 
+  public getPcProvider!: BelongsToGetAssociationMixin<PCProvider>
+
   public readonly pcAllocations?: PCAllocation[]; // Note this is optional since it's only populated when explicitly requested in code
 
   public static associations: {
-    pcAllocations: Association<PCProvider, PCAllocation>;
+    pcAllocations: Association<PC, PCAllocation>;
   };
 }
 
