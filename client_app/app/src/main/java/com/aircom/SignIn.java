@@ -216,7 +216,7 @@ public class SignIn extends Activity {
             focusView = mEmail;
             cancel = true;
         }
-        else if (!isPasswordValid(password)) {
+        else if (isPasswordInvalid(password)) {
             mPassword.setError("8자 이상의 비밀번호를 입력해주세요.");
             focusView = mPassword;
             cancel = true;
@@ -228,7 +228,7 @@ public class SignIn extends Activity {
             focusView = mEmail;
             cancel = true;
         }
-        else if (!isEmailValid(email)) {
+        else if (isEmailInvalid(email)) {
             mEmail.setError("@를 포함한 유효한 이메일을 입력해주세요.");
             focusView = mEmail;
             cancel = true;
@@ -251,10 +251,13 @@ public class SignIn extends Activity {
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 if (response.code() == 200) {
                     System.out.println("Login Token: "+response.body().getLoginToken());
-                    if (((CheckBox)findViewById(R.id.checkLogin)).isChecked())
+                    if (((CheckBox)findViewById(R.id.checkLogin)).isChecked()) {
                         SharedPreference.setLoginChecked(SignIn.this, true, "checked");
-                    else
+                    }
+                    else {
                         SharedPreference.setLoginChecked(SignIn.this, false, "checked");
+                    }
+
                     SharedPreference.setUserName(SignIn.this, data.getUserEmail());
                     SharedPreference.setLoginToken(SignIn.this,
                             response.body().getLoginToken());
@@ -279,25 +282,25 @@ public class SignIn extends Activity {
         });
     }
 
-    private void signUp(){
+    private void signUp() {
         Intent intent = new Intent(SignIn.this, SignUp.class);
         startActivity(intent);
     }
 
     private void updateUI(GoogleSignInAccount account) {
-        if (account != null){
+        if (account != null) {
             Toast.makeText(this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SignIn.this, AddComputerAutomatically.class);
             startActivity(intent);
         }
     }
 
-    private boolean isEmailValid(String email) {
-        return email.contains("@");
+    private boolean isEmailInvalid(String email) {
+        return !email.contains("@");
     }
 
-    private boolean isPasswordValid(String password) {
-        return password.length() >= 8;
+    private boolean isPasswordInvalid(String password) {
+        return password.length() < 8;
     }
 
     @Override

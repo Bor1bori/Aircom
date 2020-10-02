@@ -106,7 +106,7 @@ public class SignUp extends Activity {
             focusView = mPassword;
             cancel = true;
         }
-        else if (!isPasswordValid(password)) {
+        else if (isPasswordInvalid(password)) {
             mPassword.setError("8자 이상의 비밀번호를 입력해주세요.");
             focusView = mPassword;
             cancel = true;
@@ -118,7 +118,7 @@ public class SignUp extends Activity {
             focusView = mEmail;
             cancel = true;
         }
-        else if (!isEmailValid(email)) {
+        else if (isEmailInValid(email)) {
             mEmail.setError("@를 포함한 유효한 이메일을 입력해주세요.");
             focusView = mEmail;
             cancel = true;
@@ -137,14 +137,14 @@ public class SignUp extends Activity {
         }
 
         //생년월일 유효성
-        if (birthDate.length()!=6) {
+        if (birthDate.length() != 6) {
             mBirthDate.setError("생년월일을 6자리로 입력해주세요");
             focusView = mBirthDate;
             cancel = true;
         }
         else {
-            birthDate = "19"+birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"
-                    +birthDate.substring(4,6);
+            birthDate = "19" + birthDate.substring(0, 2) + "-" + birthDate.substring(2, 4) + "-"
+                    +birthDate.substring(4, 6);
         }
 
         //성별 체크 여부
@@ -198,12 +198,12 @@ public class SignUp extends Activity {
 
 
     }
-    private boolean isEmailValid(String email) {
-        return email.contains("@");
+    private boolean isEmailInValid(String email) {
+        return !email.contains("@");
     }
 
-    private boolean isPasswordValid(String password) {
-        return password.length() >= 8;
+    private boolean isPasswordInvalid(String password) {
+        return password.length() < 8;
     }
 
     public void startSignIn(final SignInData data) {

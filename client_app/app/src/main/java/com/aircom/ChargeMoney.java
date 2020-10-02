@@ -57,21 +57,21 @@ public class ChargeMoney extends Activity {
     }
 
     private void setChangedText() {
-        if (mBasic.isChecked()){
+        if (mBasic.isChecked()) {
             mProductName.setText("정액제 - 기본형");
             mDueDate.setText("2020.10.10 23시");
             mCurrentLeftTime.setText("0시간");
             mAfterLeftTime.setText("72시간");
             mTotalPrice.setText("9900원");
         }
-        if (mPro.isChecked()){
+        if (mPro.isChecked()) {
             mProductName.setText("정액제 - 프로형");
             mDueDate.setText("2020.10.10 23시");
             mCurrentLeftTime.setText("0시간");
             mAfterLeftTime.setText("160시간");
             mTotalPrice.setText("19900원");
         }
-        if (mTime.isChecked()){
+        if (mTime.isChecked()) {
             mProductName.setText("시간제");
             mDueDate.setText("-");
             mCurrentLeftTime.setText("0시간");

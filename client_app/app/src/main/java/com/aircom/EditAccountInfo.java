@@ -112,8 +112,8 @@ public class EditAccountInfo extends Activity {
                     mFemale.setChecked(true);
                 }
                 String birthDate = response.body().getBirthDate();
-                birthDate =
-                        birthDate.substring(2,4)+birthDate.substring(5,7)+birthDate.substring(8,10);
+                birthDate = birthDate.substring(2, 4) + birthDate.substring(5, 7)
+                        + birthDate.substring(8, 10);
                 mBirthDate.setText(birthDate);
             }
 
@@ -135,10 +135,11 @@ public class EditAccountInfo extends Activity {
         }
         String birthDate = mBirthDate.getText().toString();
         birthDate = "19"+
-                birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"+birthDate.substring(4,6);
+                birthDate.substring(0, 2) + "-" + birthDate.substring(2, 4) + "-"
+                +birthDate.substring(4, 6);
 
         EditInfoData accountData = new EditInfoData();
-        if (password.length()>0) {
+        if (password.length() > 0) {
             accountData.setPassword(password);
             accountData.getPassword();
         }
@@ -154,7 +155,7 @@ public class EditAccountInfo extends Activity {
                 .enqueue(new Callback<EditInfoResponse>() {
             @Override
             public void onResponse(Call<EditInfoResponse> call, Response<EditInfoResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     Toast.makeText(EditAccountInfo.this, "정보가 수정되었습니다",
                             Toast.LENGTH_SHORT).show();
                     onBackPressed();
@@ -174,7 +175,7 @@ public class EditAccountInfo extends Activity {
             @Override
             public void onResponse(Call<DeleteAccountResponse> call,
                                    Response<DeleteAccountResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     Toast.makeText(EditAccountInfo.this, "탈퇴되었습니다",
                             Toast.LENGTH_SHORT).show();
                     SharedPreference.clearLoginToken(EditAccountInfo.this);
