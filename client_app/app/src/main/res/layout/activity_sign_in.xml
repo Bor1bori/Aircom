@@ -90,15 +90,22 @@
         android:layout_marginTop="20.5dp"
         />
 
-    <com.google.android.gms.common.SignInButton
+    <Button
         android:id="@+id/googleSignInButton"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_below="@id/checkLogin"
         android:layout_centerInParent="true"
-        android:layout_marginTop="40dp">
-    </com.google.android.gms.common.SignInButton>
-
+        android:layout_marginTop="40dp"
+        android:background="@drawable/googlelogin"
+        android:drawableLeft="@drawable/login_google"
+        android:textSize="16dp"
+        android:fontFamily="@font/applesd"
+        android:text="Google로 로그인"
+        android:drawablePadding="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="50dp">
+    </Button>
     <TextView
         android:id="@+id/signUpTextView"
         android:layout_height="wrap_content"

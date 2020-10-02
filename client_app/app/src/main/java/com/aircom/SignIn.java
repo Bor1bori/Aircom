@@ -55,7 +55,7 @@ public class SignIn extends Activity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInOptions gso;
     private GoogleSignInClient mGoogleSignInClient;
-    private SignInButton googleSignInButton;
+    private Button googleSignInButton;
     private TextView signUpLink;
     private EditText mEmail, mPassword;
     private Button signInButton;
@@ -126,7 +126,6 @@ public class SignIn extends Activity {
         googleSignInButton = findViewById(R.id.googleSignInButton);
 
         // Set the dimensions of the sign-in button.
-        googleSignInButton.setSize(SignInButton.SIZE_WIDE);
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -265,7 +264,7 @@ public class SignIn extends Activity {
                     Toast.makeText(SignIn.this, "로그인 되었습니다",
                             Toast.LENGTH_SHORT).show();
                 }
-                if (response.code()==401){
+                if (response.code() == 401) {
                     Toast.makeText(SignIn.this, "아이디 혹은 비밀번호가 잘못되었습니다",
                             Toast.LENGTH_SHORT).show();
                 }
