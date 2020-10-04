@@ -6,17 +6,17 @@ import {
 } from 'sequelize';
 
 /* user db first settings */
-export interface SubMenuAttributes {
+export interface SubscriptionMenuAttributes {
   id: number;
   name: string;
   price: number;
   monthlyUsableTime: number;
 }
 
-interface SubMenuCreationAttributes extends Optional<SubMenuAttributes, 'id'> {}
+interface SubscriptionMenuCreationAttributes extends Optional<SubscriptionMenuAttributes, 'id'> {}
 
-export class SubMenu extends Model<SubMenuAttributes, SubMenuCreationAttributes>
-  implements SubMenuCreationAttributes {
+export class SubscriptionMenu extends Model<SubscriptionMenuAttributes, SubscriptionMenuCreationAttributes>
+  implements SubscriptionMenuCreationAttributes {
     public id!: number;
     public name!: string;
     public price!: number;
@@ -26,8 +26,8 @@ export class SubMenu extends Model<SubMenuAttributes, SubMenuCreationAttributes>
     public readonly updatedAt!: Date;
 }
 
-export const initSubMenu = (sequelize: Sequelize) => {
-  SubMenu.init({
+export const initSubscriptionMenu = (sequelize: Sequelize) => {
+  SubscriptionMenu.init({
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
@@ -43,7 +43,7 @@ export const initSubMenu = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED
     }
   }, {
-    tableName: 'sub_menu',
+    tableName: 'subscription_menu',
     sequelize
   });
 };

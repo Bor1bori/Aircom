@@ -11,7 +11,7 @@ import {
   Association, BelongsToGetAssociationMixin
 } from 'sequelize';
 import { PCAllocation } from './pc_allocation';
-import { SubMenu } from './sub_menu';
+import { SubscriptionMenu } from './subscription_menu';
 
 /* user db first settings */
 export interface UserAttributes {
@@ -22,7 +22,7 @@ export interface UserAttributes {
   gender?: string;
   signinType: 'email' | 'googleoauth';
   signinId?: string;
-  subMenuId?: number;
+  subscriptionMenuId?: number;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
@@ -36,7 +36,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public gender?: string;
   public signinType!: 'email' | 'googleoauth';
   public signinId?: string;
-  public subMenuId?: number;
+  public subscriptionMenuId?: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -46,7 +46,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public hasPcAllocations!: HasManyHasAssociationMixin<PCAllocation, number>;
   public countPcAllocations!: HasManyCountAssociationsMixin;
   public createPcAllocations!: HasManyCreateAssociationMixin<PCAllocation>;
-  public getSubMenu!: BelongsToGetAssociationMixin<SubMenu>
+  public getSubscriptionMenu!: BelongsToGetAssociationMixin<SubscriptionMenu>
 
   public readonly pcAllocations?: PCAllocation[]; // Note this is optional since it's only populated when explicitly requested in code
 
@@ -86,7 +86,7 @@ export const initUser = (sequelize: Sequelize) => {
       type: DataTypes.STRING(),
       allowNull: true
     },
-    subMenuId: {
+    subscriptionMenuId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true
     }
@@ -108,8 +108,8 @@ export const initUserAssociate = () => {
     foreignKey: 'userId',
     as: 'pcAllocations'
   });
-  User.belongsTo(SubMenu, {
-    foreignKey: 'subMenuId',
+  User.belongsTo(SubscriptionMenu, {
+    foreignKey: 'subscriptionMenuId',
     onDelete: 'CASCADE'
   });
 };
