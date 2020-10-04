@@ -1,8 +1,8 @@
-import { Sequelize } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import { initUser } from './models/user';
 import { initPCProvider, initPCProviderAssociate } from './models/pc_provider';
 import { initPC, initPCAssociate, PC } from './models/pc';
-import { initPPAuthToken, initPPAuthTokenAssociate } from './models/pp_authtoken';
+import { initPPAuthToken, initPPAuthTokenAssociate, PPAuthToken } from './models/pp_authtoken';
 import { initPCAllocation, initPCAllocationAssociate } from './models/pc_allocation';
 import { initPaymentHistory, initPaymentHistoryAssociate } from './models/payment_history';
 import { initSubscriptionMenu } from './models/subscription_menu';
@@ -47,7 +47,13 @@ export const sequelizeInit = async () => {
     initPaymentHistoryAssociate();
     await sequelize.sync();
 
-    // TODO: PPAUthToken 유효기간 지난 것들 삭제하기.
+    await PPAuthToken.destroy({
+      where: {
+        createdAt: {
+          [Op.lte]: new Date(new Date().getTime() - 1000 * 60 * 5)
+        }
+      } as any
+    })
     await PC.update({
       state: 'unusable'
     }, {
