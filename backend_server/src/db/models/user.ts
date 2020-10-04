@@ -23,6 +23,7 @@ export interface UserAttributes {
   signinType: 'email' | 'googleoauth';
   signinId?: string;
   subscriptionMenuId?: number;
+  remainTime: number;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
@@ -37,6 +38,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public signinType!: 'email' | 'googleoauth';
   public signinId?: string;
   public subscriptionMenuId?: number;
+  public remainTime!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -89,6 +91,10 @@ export const initUser = (sequelize: Sequelize) => {
     subscriptionMenuId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true
+    },
+    remainTime: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      defaultValue: 0
     }
   }, {
     tableName: 'user',
