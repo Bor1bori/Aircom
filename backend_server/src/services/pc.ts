@@ -84,8 +84,9 @@ export async function deallocatePCWithUser (user: User) {
 
   pcAllocation.endTime = new Date();
   await pcAllocation.save();
-
-  // TODO: 시간 차감
+  
+  user.remainTime = user.remainTime - (pcAllocation.endTime.getTime() - pcAllocation.startTime.getTime());
+  await user.save();
 
   return pcAllocation;
 }
