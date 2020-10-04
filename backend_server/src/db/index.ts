@@ -4,6 +4,10 @@ import { initPCProvider, initPCProviderAssociate } from './models/pc_provider';
 import { initPC, initPCAssociate, PC } from './models/pc';
 import { initPPAuthToken, initPPAuthTokenAssociate } from './models/pp_authtoken';
 import { initPCAllocation, initPCAllocationAssociate } from './models/pc_allocation';
+import { initPaymentHistory, initPaymentHistoryAssociate } from './models/payment_history';
+import { initSubscriptionMenu } from './models/subscription_menu';
+import { initTimeMenu } from './models/time_menu';
+
 import createDebug from 'debug';
 
 const debug = createDebug('app');
@@ -32,11 +36,15 @@ export const sequelizeInit = async () => {
     initPC(sequelize);
     initPPAuthToken(sequelize);
     initPCAllocation(sequelize);
+    initPaymentHistory(sequelize);
+    initSubscriptionMenu(sequelize);
+    initTimeMenu(sequelize);
 
     initPCAssociate();
     initPCProviderAssociate();
     initPPAuthTokenAssociate();
     initPCAllocationAssociate();
+    initPaymentHistoryAssociate();
     await sequelize.sync();
 
     // TODO: PPAUthToken 유효기간 지난 것들 삭제하기.
