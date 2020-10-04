@@ -18,9 +18,15 @@ import { PCAllocation } from './pc_allocation';
 export interface PCAttributes {
   uuid: string;
   pcProviderId: number;
-  ip: string;
-  port?: number;
   state: 'inUse' | 'usable' | 'unusable';
+  ip: string;
+  port1: number;
+  port2: number;
+  port3: number;
+  port4: number;
+  port5: number;
+  port6: number;
+  port7: number;
 }
 
 interface PCCreationAttributes extends Optional<PCAttributes, 'uuid'> {}
@@ -29,9 +35,15 @@ export class PC extends Model<PCAttributes, PCCreationAttributes>
   implements PCCreationAttributes {
   public uuid!: string;
   public pcProviderId!: number;
-  public ip!: string;
-  public port?: number;
   public state!: 'inUse' | 'usable' | 'unusable';
+  public ip!: string;
+  public port1!: number;
+  public port2!: number;
+  public port3!: number;
+  public port4!: number;
+  public port5!: number;
+  public port6!: number;
+  public port7!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -62,18 +74,35 @@ export const initPC = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
+    state: {
+      type: DataTypes.ENUM('inUse', 'usable', 'unusable'),
+      allowNull: false
+    },
     ip: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    port: {
+    port1: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: true
     },
-    state: {
-      type: DataTypes.ENUM('inUse', 'usable', 'unusable'),
-      allowNull: false
-    }
+    port2: {
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    port3: {
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    port4: {
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    port5: {
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    port6: {
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    port7: {
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
   }, {
     tableName: 'pc',
     sequelize

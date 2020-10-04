@@ -18,7 +18,13 @@ export async function registerPC (pcBody: RegisterPCBody) {
 
   return await PC.create({
     ip: pcBody.ip,
-    port: pcBody.port,
+    port1: pcBody.port1,
+    port2: pcBody.port2,
+    port3: pcBody.port3,
+    port4: pcBody.port4,
+    port5: pcBody.port5,
+    port6: pcBody.port6,
+    port7: pcBody.port7,
     pcProviderId: ppAuthToken.pcProviderId,
     state: 'usable' // TODO: default를 unusable로 셋팅하고 상태 관리에서 usable로 바꾸도록 변경
   });
@@ -56,7 +62,10 @@ export async function allocatePC (pc: PC, user: User) {
     userId: user.id,
     pcUuid: pc.uuid
   });
-  return response;
+  return {
+    ip: pc.ip,
+    ports: [pc.port1, pc.port2, pc.port3, pc.port4, pc.port5, pc.port6, pc.port7]
+  };
 }
 
 /**
@@ -84,7 +93,7 @@ export async function deallocatePCWithUser (user: User) {
 
   pcAllocation.endTime = new Date();
   await pcAllocation.save();
-  
+
   user.remainTime = user.remainTime - (pcAllocation.endTime.getTime() - pcAllocation.startTime.getTime());
   await user.save();
 

@@ -7,8 +7,6 @@ const pcUuidSocketIdMappings = new Map<string, string>();
 
 interface AllocateResult {
   success: boolean;
-  ip: string;
-  ports: number[];
 }
 
 interface AskStateResult {
