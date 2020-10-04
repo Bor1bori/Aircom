@@ -7,7 +7,13 @@ export const registerPCValidator = wrapper(async (req, res, next) => {
   const registerPCSchema = yup.object<RegisterPCBody>({
     authToken: yup.string().required(),
     ip: yup.string().matches(/(?:[0-9]{1,3}\.){3}[0-9]{1,3}/).required(),
-    port: yup.number().max(65535)
+    port1: yup.number().max(65535).required(),
+    port2: yup.number().max(65535).required(),
+    port3: yup.number().max(65535).required(),
+    port4: yup.number().max(65535).required(),
+    port5: yup.number().max(65535).required(),
+    port6: yup.number().max(65535).required(),
+    port7: yup.number().max(65535).required(),
   }).required();
 
   try {
