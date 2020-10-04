@@ -26,7 +26,7 @@ export interface UserAttributes {
   remainTime: number;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+interface UserCreationAttributes extends Optional<Optional<UserAttributes, 'id'>, 'remainTime'> {}
 
 export class User extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes {
