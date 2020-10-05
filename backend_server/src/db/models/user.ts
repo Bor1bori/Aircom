@@ -8,10 +8,9 @@ import {
   HasManyHasAssociationMixin,
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
-  Association, BelongsToGetAssociationMixin
+  Association
 } from 'sequelize';
 import { UsePc } from './use_pc';
-import { SubscriptionMenu } from './subscription_menu';
 
 /* user db first settings */
 export interface UserAttributes {
@@ -22,7 +21,6 @@ export interface UserAttributes {
   gender?: string;
   signinType: 'email' | 'googleoauth';
   signinId?: string;
-  subscriptionMenuId?: number;
   remainTime: number;
 }
 
@@ -37,7 +35,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public gender?: string;
   public signinType!: 'email' | 'googleoauth';
   public signinId?: string;
-  public subscriptionMenuId?: number;
   public remainTime!: number;
 
   public readonly createdAt!: Date;
@@ -48,7 +45,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public hasUsePcs!: HasManyHasAssociationMixin<UsePc, number>;
   public countUsePcs!: HasManyCountAssociationsMixin;
   public createUsePcs!: HasManyCreateAssociationMixin<UsePc>;
-  public getSubscriptionMenu!: BelongsToGetAssociationMixin<SubscriptionMenu>
 
   public readonly usePcs?: UsePc[]; // Note this is optional since it's only populated when explicitly requested in code
 
@@ -88,10 +84,6 @@ export const initUser = (sequelize: Sequelize) => {
       type: DataTypes.STRING(),
       allowNull: true
     },
-    subscriptionMenuId: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: true
-    },
     remainTime: {
       type: DataTypes.INTEGER.UNSIGNED,
       defaultValue: 0
@@ -113,9 +105,5 @@ export const initUserAssociate = () => {
     sourceKey: 'id',
     foreignKey: 'userId',
     as: 'usePcs'
-  });
-  User.belongsTo(SubscriptionMenu, {
-    foreignKey: 'subscriptionMenuId',
-    onDelete: 'CASCADE'
   });
 };
