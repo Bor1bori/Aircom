@@ -1,9 +1,9 @@
 import { Op, Sequelize } from 'sequelize';
 import { initUser } from './models/user';
-import { initPCProvider, initPCProviderAssociate } from './models/pc_provider';
-import { initPC, initPCAssociate, PC } from './models/pc';
+import { initPcProvider, initPcProviderAssociate } from './models/pc_provider';
+import { initPc, initPcAssociate, Pc } from './models/pc';
 import { initPPAuthToken, initPPAuthTokenAssociate, PPAuthToken } from './models/pp_authtoken';
-import { initPCAllocation, initPCAllocationAssociate } from './models/pc_allocation';
+import { initUsePc, initUsePcAssociate } from './models/use_pc';
 import { initPaymentHistory, initPaymentHistoryAssociate } from './models/payment_history';
 import { initSubscriptionMenu } from './models/subscription_menu';
 import { initTimeMenu } from './models/time_menu';
@@ -32,18 +32,18 @@ export const sequelizeInit = async () => {
   try {
     await sequelize.authenticate();
     initUser(sequelize);
-    initPCProvider(sequelize);
-    initPC(sequelize);
+    initPcProvider(sequelize);
+    initPc(sequelize);
     initPPAuthToken(sequelize);
-    initPCAllocation(sequelize);
+    initUsePc(sequelize);
     initPaymentHistory(sequelize);
     initSubscriptionMenu(sequelize);
     initTimeMenu(sequelize);
 
-    initPCAssociate();
-    initPCProviderAssociate();
+    initPcAssociate();
+    initPcProviderAssociate();
     initPPAuthTokenAssociate();
-    initPCAllocationAssociate();
+    initUsePcAssociate();
     initPaymentHistoryAssociate();
     await sequelize.sync();
 
@@ -54,7 +54,7 @@ export const sequelizeInit = async () => {
         }
       } as any
     })
-    await PC.update({
+    await Pc.update({
       state: 'unusable'
     }, {
       where: {}

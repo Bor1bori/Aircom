@@ -24,7 +24,7 @@ export class PaymentHistory extends Model<PaymentHistoryAttributes, PaymentHisto
   implements PaymentHistoryCreationAttributes {
     public id!: number;
     public userId!: number;
-    public menuType!: string;
+    public menuType!: 'time' | 'subscription';
     public timeMenuId?: number;
     public subscriptionMenuId?: number;
 

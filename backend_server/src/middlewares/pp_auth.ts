@@ -2,7 +2,7 @@ import { wrapper } from '@src/utils/wrapper';
 import * as yup from 'yup';
 import { SignupBody, SigninBody } from '@src/interfaces/pp_auth';
 import { jwtVerify } from '@src/utils/crypto';
-import { PCProvider } from '@src/db/models/pc_provider';
+import { PcProvider } from '@src/db/models/pc_provider';
 
 /* Validator */
 
@@ -73,7 +73,7 @@ export const verifySignin = wrapper(async (req, res, next) => {
     return res.status(401).json({ err: decoded === 1 ? 'expired token' : 'invalid token' });
   }
 
-  const pcProvider = await PCProvider.findByPk(decoded.id);
+  const pcProvider = await PcProvider.findByPk(decoded.id);
 
   if (!pcProvider) {
     throw new Error('not valid id in decoded token');

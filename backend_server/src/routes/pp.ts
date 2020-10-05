@@ -6,7 +6,7 @@ import * as ppControllers from '@src/controllers/pp';
 
 const router = express.Router();
 
-router.post('/n/pcs', ppMiddlewares.registerPCValidator, ppControllers.registerPC);
+router.post('/n/pcs', ppMiddlewares.registerPcValidator, ppControllers.registerPc);
 router.get('/current', verifySignin, ppControllers.getCurrentPPInfo);
 router.put('/current', verifySignin, updatePPValidator, ppControllers.updateCurrentPPInfo);
 router.delete('/current', verifySignin, ppControllers.deleteCurrentPP);

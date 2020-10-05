@@ -5,11 +5,11 @@ import {
   Optional,
   BelongsToGetAssociationMixin
 } from 'sequelize';
-import { PC } from './pc';
+import { Pc } from './pc';
 import { User } from './user';
 
 /* user db first settings */
-export interface PCAllocationAttributes {
+export interface UsePcAttributes {
   id: number;
   userId: number;
   pcUuid: string;
@@ -17,10 +17,10 @@ export interface PCAllocationAttributes {
   endTime?: Date;
 }
 
-interface PCAllocationCreationAttributes extends Optional<Optional<PCAllocationAttributes, 'id'>, 'startTime'> {}
+interface UsePcCreationAttributes extends Optional<Optional<UsePcAttributes, 'id'>, 'startTime'> {}
 
-export class PCAllocation extends Model<PCAllocationAttributes, PCAllocationCreationAttributes>
-  implements PCAllocationCreationAttributes {
+export class UsePc extends Model<UsePcAttributes, UsePcCreationAttributes>
+  implements UsePcCreationAttributes {
     public id!: number;
     public userId!: number;
     public pcUuid!: string;
@@ -30,12 +30,12 @@ export class PCAllocation extends Model<PCAllocationAttributes, PCAllocationCrea
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 
-    public getPC!: BelongsToGetAssociationMixin<PC>
+    public getPc!: BelongsToGetAssociationMixin<Pc>
     public getUser!: BelongsToGetAssociationMixin<User>
 }
 
-export const initPCAllocation = (sequelize: Sequelize) => {
-  PCAllocation.init({
+export const initUsePc = (sequelize: Sequelize) => {
+  UsePc.init({
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
@@ -58,17 +58,17 @@ export const initPCAllocation = (sequelize: Sequelize) => {
       allowNull: true
     }
   }, {
-    tableName: 'pc_allocation',
+    tableName: 'use_pc',
     sequelize
   });
 };
 
-export const initPCAllocationAssociate = () => {
-  PCAllocation.belongsTo(User, {
+export const initUsePcAssociate = () => {
+  UsePc.belongsTo(User, {
     foreignKey: 'userId',
     onDelete: 'CASCADE'
   });
-  PCAllocation.belongsTo(PC, {
+  UsePc.belongsTo(Pc, {
     foreignKey: 'pcUuid',
     onDelete: 'CASCADE'
   });

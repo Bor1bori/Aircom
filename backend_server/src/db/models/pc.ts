@@ -11,11 +11,11 @@ import {
   HasManyCreateAssociationMixin,
   Association, BelongsToGetAssociationMixin
 } from 'sequelize';
-import { PCProvider } from './pc_provider';
-import { PCAllocation } from './pc_allocation';
+import { PcProvider } from './pc_provider';
+import { UsePc } from './use_pc';
 
 /* user db first settings */
-export interface PCAttributes {
+export interface PcAttributes {
   uuid: string;
   pcProviderId: number;
   state: 'inUse' | 'usable' | 'unusable';
@@ -29,10 +29,10 @@ export interface PCAttributes {
   port7: number;
 }
 
-interface PCCreationAttributes extends Optional<PCAttributes, 'uuid'> {}
+interface PcCreationAttributes extends Optional<PcAttributes, 'uuid'> {}
 
-export class PC extends Model<PCAttributes, PCCreationAttributes>
-  implements PCCreationAttributes {
+export class Pc extends Model<PcAttributes, PcCreationAttributes>
+  implements PcCreationAttributes {
   public uuid!: string;
   public pcProviderId!: number;
   public state!: 'inUse' | 'usable' | 'unusable';
@@ -48,23 +48,23 @@ export class PC extends Model<PCAttributes, PCCreationAttributes>
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public getPcAllocations!: HasManyGetAssociationsMixin<PCAllocation>; // Note the null assertions!
-  public addPcAllocations!: HasManyAddAssociationMixin<PCAllocation, number>;
-  public hasPcAllocations!: HasManyHasAssociationMixin<PCAllocation, number>;
-  public countPcAllocations!: HasManyCountAssociationsMixin;
-  public createPcAllocations!: HasManyCreateAssociationMixin<PCAllocation>;
+  public getUsePcs!: HasManyGetAssociationsMixin<UsePc>; // Note the null assertions!
+  public addUsePcs!: HasManyAddAssociationMixin<UsePc, number>;
+  public hasUsePcs!: HasManyHasAssociationMixin<UsePc, number>;
+  public countUsePcs!: HasManyCountAssociationsMixin;
+  public createUsePcs!: HasManyCreateAssociationMixin<UsePc>;
 
-  public getPcProvider!: BelongsToGetAssociationMixin<PCProvider>
+  public getPcProvider!: BelongsToGetAssociationMixin<PcProvider>
 
-  public readonly pcAllocations?: PCAllocation[]; // Note this is optional since it's only populated when explicitly requested in code
+  public readonly usePcs?: UsePc[]; // Note this is optional since it's only populated when explicitly requested in code
 
   public static associations: {
-    pcAllocations: Association<PC, PCAllocation>;
+    usePcs: Association<Pc, UsePc>;
   };
 }
 
-export const initPC = (sequelize: Sequelize) => {
-  PC.init({
+export const initPc = (sequelize: Sequelize) => {
+  Pc.init({
     uuid: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -109,15 +109,15 @@ export const initPC = (sequelize: Sequelize) => {
   });
 };
 
-export const initPCAssociate = () => {
-  PC.belongsTo(PCProvider, {
+export const initPcAssociate = () => {
+  Pc.belongsTo(PcProvider, {
     foreignKey: 'pcProviderId',
     onDelete: 'CASCADE'
   });
 
-  PC.hasMany(PCAllocation, {
+  Pc.hasMany(UsePc, {
     sourceKey: 'uuid',
     foreignKey: 'pcUuid',
-    as: 'pcAllocations'
+    as: 'usePcs'
   });
 };

@@ -10,7 +10,7 @@ import {
   HasManyCreateAssociationMixin,
   Association, BelongsToGetAssociationMixin
 } from 'sequelize';
-import { PCAllocation } from './pc_allocation';
+import { UsePc } from './use_pc';
 import { SubscriptionMenu } from './subscription_menu';
 
 /* user db first settings */
@@ -43,17 +43,17 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public getPcAllocations!: HasManyGetAssociationsMixin<PCAllocation>; // Note the null assertions!
-  public addPcAllocations!: HasManyAddAssociationMixin<PCAllocation, number>;
-  public hasPcAllocations!: HasManyHasAssociationMixin<PCAllocation, number>;
-  public countPcAllocations!: HasManyCountAssociationsMixin;
-  public createPcAllocations!: HasManyCreateAssociationMixin<PCAllocation>;
+  public getUsePcs!: HasManyGetAssociationsMixin<UsePc>; // Note the null assertions!
+  public addUsePcs!: HasManyAddAssociationMixin<UsePc, number>;
+  public hasUsePcs!: HasManyHasAssociationMixin<UsePc, number>;
+  public countUsePcs!: HasManyCountAssociationsMixin;
+  public createUsePcs!: HasManyCreateAssociationMixin<UsePc>;
   public getSubscriptionMenu!: BelongsToGetAssociationMixin<SubscriptionMenu>
 
-  public readonly pcAllocations?: PCAllocation[]; // Note this is optional since it's only populated when explicitly requested in code
+  public readonly usePcs?: UsePc[]; // Note this is optional since it's only populated when explicitly requested in code
 
   public static associations: {
-    pcAllocations: Association<User, PCAllocation>;
+    usePcs: Association<User, UsePc>;
   };
 }
 
@@ -109,10 +109,10 @@ export const initUser = (sequelize: Sequelize) => {
 };
 
 export const initUserAssociate = () => {
-  User.hasMany(PCAllocation, {
+  User.hasMany(UsePc, {
     sourceKey: 'id',
     foreignKey: 'userId',
-    as: 'pcAllocations'
+    as: 'usePcs'
   });
   User.belongsTo(SubscriptionMenu, {
     foreignKey: 'subscriptionMenuId',

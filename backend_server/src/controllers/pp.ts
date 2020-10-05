@@ -1,10 +1,10 @@
 import { wrapper } from '@src/utils/wrapper';
-import * as PCServices from '@src/services/pc';
+import * as PcServices from '@src/services/pc';
 import * as PPServices from '@src/services/pp';
 
 /** verifySignin 미들웨어 이후에 사용 */
-export const registerPC = wrapper(async (req, res) => {
-  const pc = await PCServices.registerPC(req.body);
+export const registerPc = wrapper(async (req, res) => {
+  const pc = await PcServices.registerPc(req.body);
   if (pc === -1) {
     return res.status(401).json({
       err: 'authToken is unathorized'

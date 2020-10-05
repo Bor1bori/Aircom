@@ -1,4 +1,4 @@
-export interface RegisterPCBody {
+export interface RegisterPcBody {
   authToken: string;
   ip: string;
   port1: number;

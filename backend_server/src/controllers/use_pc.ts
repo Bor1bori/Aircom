@@ -1,18 +1,18 @@
 import { wrapper } from '@src/utils/wrapper';
 import * as pcServices from '@src/services/pc';
 
-export const allocatePC = wrapper(async (req, res) => {
+export const usePc = wrapper(async (req, res) => {
   let result = null;
 
   while (!result) {
-    const pc = await pcServices.selectPCToAllocate();
+    const pc = await pcServices.selectPcToUse();
 
     if (pc === -1) {
       return res.status(503).json({
         err: 'there are no pc can be allocated'
       });
     }
-    result = await pcServices.allocatePC(pc, req.user!);
+    result = await pcServices.usePc(pc, req.user!);
   }
   return res.status(200).json({
     ip: result.ip,
@@ -20,20 +20,20 @@ export const allocatePC = wrapper(async (req, res) => {
   });
 });
 
-export const deallocatePC = wrapper(async (req, res) => {
-  const pcAllocation = await pcServices.deallocatePCWithUser(req.user!);
+export const endUse = wrapper(async (req, res) => {
+  const endResult = await pcServices.endUseWithUser(req.user!);
 
-  if (pcAllocation === -1) {
+  if (endResult === -1) {
     return res.status(409).json({
-      err: 'no allocation to deallocate'
+      err: 'no use to end'
     });
-  } else if (pcAllocation === -2) {
+  } else if (endResult === -2) {
     return res.status(500).json({
       err: 'falied to terminate connection'
     });
   }
 
   return res.status(200).json({
-    usedTime: pcAllocation.endTime!.getTime() - pcAllocation.startTime.getTime()
+    usedTime: endResult.endTime!.getTime() - endResult.startTime.getTime()
   });
 });
