@@ -26,6 +26,7 @@
     "next-images": "^1.4.1",
     "next-redux-wrapper": "^6.0.2",
     "react": "^16.13.1",
+    "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.1.21",
     "react-no-ssr": "^1.1.0",
