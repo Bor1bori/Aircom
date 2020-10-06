@@ -6,7 +6,6 @@ import { initPPAuthToken, initPPAuthTokenAssociate, PPAuthToken } from './models
 import { initUsePc, initUsePcAssociate } from './models/use_pc';
 import { initPaymentHistory, initPaymentHistoryAssociate } from './models/payment_history';
 import { initSubscriptionMenu } from './models/subscription_menu';
-import { initTimeMenu } from './models/time_menu';
 
 import createDebug from 'debug';
 
@@ -38,7 +37,6 @@ export const sequelizeInit = async () => {
     initUsePc(sequelize);
     initPaymentHistory(sequelize);
     initSubscriptionMenu(sequelize);
-    initTimeMenu(sequelize);
 
     initPcAssociate();
     initPcProviderAssociate();

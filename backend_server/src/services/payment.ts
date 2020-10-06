@@ -1,24 +1,19 @@
 import { PaymentHistory } from '@src/db/models/payment_history';
 import { Subscribe } from '@src/db/models/subscribe';
 import { SubscriptionMenu } from '@src/db/models/subscription_menu';
-import { TimeMenu } from '@src/db/models/time_menu';
 import { User } from '@src/db/models/user';
-import { Op } from 'sequelize/types';
+import { Op } from 'sequelize';
 
 /**
  * @description 사용시간 충전
  * @param user
- * @param timeMenuId
+ * @param hours
  */
-export const chargeTime = async (user: User, timeMenuId: number) => {
-  const foundMenu = await TimeMenu.findByPk(timeMenuId);
-  if (!foundMenu) {
-    return null;
-  }
-  user.remainTime += foundMenu.time;
+export const chargeTime = async (user: User, hours: number) => {
+  user.remainTime += 1000 * 60 * 60 * hours;
   await user.save();
 
-  return await logPayment(user, 'time', timeMenuId);
+  return await logPayment(user, 'time', hours);
 };
 
 /**
@@ -55,12 +50,18 @@ export const subscribe = async (user: User, subscriptionMenuId: number) => {
  * @param menuType
  * @param menuId
  */
-const logPayment = async (user: User, menuType: 'time' | 'subscription', menuId: number) => {
-  return await PaymentHistory.create({
-    userId: user.id,
-    menuType,
-    [menuType + 'MenuId']: menuId
-  });
+const logPayment = async (user: User, menuType: 'time' | 'subscription', value: number) => {
+  if (menuType === 'time') {
+    return await PaymentHistory.create({
+      userId: user.id,
+      hours: value
+    });
+  } else {
+    return await PaymentHistory.create({
+      userId: user.id,
+      subscriptionMenuId: value
+    });
+  }
 };
 
 /**
