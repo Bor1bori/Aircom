@@ -83,26 +83,26 @@ export const initPc = (sequelize: Sequelize) => {
       allowNull: false
     },
     port1: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER.UNSIGNED
     },
     port2: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER.UNSIGNED
     },
     port3: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER.UNSIGNED
     },
     port4: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER.UNSIGNED
     },
     port5: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER.UNSIGNED
     },
     port6: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER.UNSIGNED
     },
     port7: {
-      type: DataTypes.INTEGER.UNSIGNED,
-    },
+      type: DataTypes.INTEGER.UNSIGNED
+    }
   }, {
     tableName: 'pc',
     sequelize
