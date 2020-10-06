@@ -8,6 +8,7 @@ import { initPaymentHistory, initPaymentHistoryAssociate } from './models/paymen
 import { initSubscriptionMenu } from './models/subscription_menu';
 
 import createDebug from 'debug';
+import { initSubscribe, initSubscribeAssociate } from './models/subscribe';
 
 const debug = createDebug('app');
 
@@ -37,12 +38,14 @@ export const sequelizeInit = async () => {
     initUsePc(sequelize);
     initPaymentHistory(sequelize);
     initSubscriptionMenu(sequelize);
+    initSubscribe(sequelize);
 
     initPcAssociate();
     initPcProviderAssociate();
     initPPAuthTokenAssociate();
     initUsePcAssociate();
     initPaymentHistoryAssociate();
+    initSubscribeAssociate();
     await sequelize.sync();
 
     await PPAuthToken.destroy({
@@ -51,7 +54,7 @@ export const sequelizeInit = async () => {
           [Op.lte]: new Date(new Date().getTime() - 1000 * 60 * 5)
         }
       } as any
-    })
+    });
     await Pc.update({
       state: 'unusable'
     }, {
