@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class EditAccountInfo extends Activity {
     private RadioButton mFemale;
     private Button mEditButton;
     private ServiceAPI service;
+    private ImageView mBackArrow;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,14 @@ public class EditAccountInfo extends Activity {
             @Override
             public void onClick(View view) {
                 attemptEditInfo();
+            }
+        });
+
+        mBackArrow = (ImageView)findViewById(R.id.backArrow);
+        mBackArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class SignUp extends Activity {
     private EditText mBirthDate;
     private TextView mGender;
     private CheckBox mCheckBox;
+    private ImageView mBackArrow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +59,13 @@ public class SignUp extends Activity {
         mBirthDate = (EditText) findViewById(R.id.birthDateForSignUp);
         mGender = (TextView)findViewById(R.id.genderTextView);
         mCheckBox = (CheckBox)findViewById(R.id.checkButton);
+        mBackArrow = (ImageView)findViewById(R.id.backArrow);
+        mBackArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         service = RetrofitClient.getClient().create(ServiceAPI.class);
         signUpButton.setOnClickListener(new View.OnClickListener() {

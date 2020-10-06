@@ -59,6 +59,8 @@ public class PCInactiveFragment extends Fragment {
                 //System.out.println("ip: "+response.body().getIp()+",
                 // port: "+response.body().getPort());
                 //hostAddress = response.body().getIp();
+                //NvHTTP.HTTP_PORT = response.body().getPort();
+                //NvHTTP.HTTPS_PORT = response.body().getPort();
             }
 
             @Override

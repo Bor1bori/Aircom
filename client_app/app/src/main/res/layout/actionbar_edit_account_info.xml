@@ -2,7 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+        <ImageView
+            android:id="@+id/backArrow"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/ic_baseline_arrow_back_24"
+            android:gravity="left"
+            />
+    </RelativeLayout>
     <TextView
         android:id="@+id/actionbarSinUp"
         android:text="내 정보 수정"

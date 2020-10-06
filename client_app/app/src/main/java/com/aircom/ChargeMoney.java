@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ public class ChargeMoney extends Activity {
     private TextView mCurrentLeftTime;
     private TextView mAfterLeftTime;
     private TextView mTotalPrice;
+    private ImageView mBackArrow;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,14 @@ public class ChargeMoney extends Activity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 setChangedText();
+            }
+        });
+
+        mBackArrow = (ImageView)findViewById(R.id.backArrow);
+        mBackArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }

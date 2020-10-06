@@ -63,8 +63,8 @@ public class NvHTTP {
     private String uniqueId;
     private PairingManager pm;
 
-    public static final int HTTPS_PORT = 47984;
-    public static final int HTTP_PORT = 47989;
+    public static int HTTPS_PORT = 47984;
+    public static int HTTP_PORT = 47989;
     public static final int CONNECTION_TIMEOUT = 3000;
     public static final int READ_TIMEOUT = 5000;
 
