@@ -15,10 +15,10 @@ public interface ServiceAPI {
     @POST("/auth/signup")
     Call<SignUpResponse> userJoin(@Body SignUpData data);
 
-    @POST("/pc-allocations")
+    @POST("/use-pcs")
     Call<PcAllocationResponse> allocationRequest(@Header("loginToken") String loginToken);
 
-    @DELETE("/pc-allocations/current")
+    @DELETE("/use-pcs/current")
     Call<PcDeallocationResponse> withdrawRequest(@Header("loginToken") String loginToken);
 
     @GET("/users/current")
