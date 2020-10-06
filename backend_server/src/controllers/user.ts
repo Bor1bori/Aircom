@@ -1,5 +1,6 @@
 import { wrapper } from '@src/utils/wrapper';
 import * as UserServices from '@src/services/user';
+import * as PaymentServices from '@src/services/charge';
 /**
  * verifySignin 이후에 사용해야함.
  */
@@ -28,4 +29,34 @@ export const deleteCurrentUser = wrapper(async (req, res) => {
     console.log(err);
   }
   res.status(200).json(null);
+});
+
+export const getRemainTime = wrapper(async (req, res) => {
+  const subscription = await PaymentServices.getActiveSubscription(req.user!);
+  const remainTime = req.user!.remainTime;
+
+  return res.status(200).json({
+    subscription,
+    remainTime
+  });
+});
+
+export const getSubscription = wrapper(async (req, res) => {
+  const subscription = await PaymentServices.getActiveSubscription(req.user!);
+  if (subscription) {
+    return res.status(200).json({
+      subscription
+    });
+  } else {
+    return res.status(404).json({
+      err: 'not subscribe now'
+    });
+  }
+});
+
+export const getUsePcs = wrapper(async (req, res) => {
+  const usePcs = await UserServices.getUsePcs(req.user!.id);
+  return res.status(200).json({
+    usePcs
+  });
 });

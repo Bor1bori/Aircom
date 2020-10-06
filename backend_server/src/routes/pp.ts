@@ -11,4 +11,7 @@ router.get('/current', verifySignin, ppControllers.getCurrentPPInfo);
 router.put('/current', verifySignin, updatePPValidator, ppControllers.updateCurrentPPInfo);
 router.delete('/current', verifySignin, ppControllers.deleteCurrentPP);
 
+router.get('/current/pcs', verifySignin, ppControllers.getPcs);
+router.get('/current/use-pcs', verifySignin, ppControllers.getUsePcs);
+
 export default router;

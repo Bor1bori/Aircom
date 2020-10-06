@@ -41,3 +41,19 @@ export const deleteCurrentPP = wrapper(async (req, res) => {
   await req.pcProvider!.destroy();
   res.status(200).json(null);
 });
+
+export const getPcs = wrapper(async (req, res) => {
+  const pcs = await PPServices.getPcs(req.pcProvider!.id);
+
+  return res.status(200).json({
+    pcs
+  });
+});
+
+export const getUsePcs = wrapper(async (req, res) => {
+  const usePcs = await PPServices.getUsePcs(req.pcProvider!.id);
+
+  return res.status(200).json({
+    usePcs
+  });
+});
