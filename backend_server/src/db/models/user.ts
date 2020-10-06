@@ -10,7 +10,7 @@ import {
   HasManyCreateAssociationMixin,
   Association
 } from 'sequelize';
-import { PCAllocation } from './pc_allocation';
+import { UsePc } from './use_pc';
 
 /* user db first settings */
 export interface UserAttributes {
@@ -20,10 +20,11 @@ export interface UserAttributes {
   birthdate?: Date
   gender?: string;
   signinType: 'email' | 'googleoauth';
-  signinID?: string;
+  signinId?: string;
+  remainTime: number;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+interface UserCreationAttributes extends Optional<Optional<UserAttributes, 'id'>, 'remainTime'> {}
 
 export class User extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes {
@@ -33,21 +34,22 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public birthdate?: Date;
   public gender?: string;
   public signinType!: 'email' | 'googleoauth';
-  public signinID?: string;
+  public signinId?: string;
+  public remainTime!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public getPcAllocations!: HasManyGetAssociationsMixin<PCAllocation>; // Note the null assertions!
-  public addPcAllocations!: HasManyAddAssociationMixin<PCAllocation, number>;
-  public hasPcAllocations!: HasManyHasAssociationMixin<PCAllocation, number>;
-  public countPcAllocations!: HasManyCountAssociationsMixin;
-  public createPcAllocations!: HasManyCreateAssociationMixin<PCAllocation>;
+  public getUsePcs!: HasManyGetAssociationsMixin<UsePc>; // Note the null assertions!
+  public addUsePcs!: HasManyAddAssociationMixin<UsePc, number>;
+  public hasUsePcs!: HasManyHasAssociationMixin<UsePc, number>;
+  public countUsePcs!: HasManyCountAssociationsMixin;
+  public createUsePcs!: HasManyCreateAssociationMixin<UsePc>;
 
-  public readonly pcAllocations?: PCAllocation[]; // Note this is optional since it's only populated when explicitly requested in code
+  public readonly usePcs?: UsePc[]; // Note this is optional since it's only populated when explicitly requested in code
 
   public static associations: {
-    pcAllocations: Association<User, PCAllocation>;
+    usePcs: Association<User, UsePc>;
   };
 }
 
@@ -78,9 +80,13 @@ export const initUser = (sequelize: Sequelize) => {
       type: DataTypes.ENUM('email', 'googleoauth'),
       allowNull: false
     },
-    signinID: { // TODO: 이거 인덱싱해서 빨리 찾을 수 있도록 하면 좋을듯
+    signinId: { // TODO: 이거 인덱싱해서 빨리 찾을 수 있도록 하면 좋을듯
       type: DataTypes.STRING(),
       allowNull: true
+    },
+    remainTime: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      defaultValue: 0
     }
   }, {
     tableName: 'user',
@@ -89,15 +95,15 @@ export const initUser = (sequelize: Sequelize) => {
 
   const queryInterface = sequelize.getQueryInterface();
   queryInterface.addConstraint('user', {
-    fields: ['signinType', 'signinID'],
+    fields: ['signinType', 'signinId'],
     type: 'unique'
   });
 };
 
 export const initUserAssociate = () => {
-  User.hasMany(PCAllocation, {
+  User.hasMany(UsePc, {
     sourceKey: 'id',
     foreignKey: 'userId',
-    as: 'pcAllocations'
+    as: 'usePcs'
   });
 };

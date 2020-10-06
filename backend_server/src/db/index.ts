@@ -1,10 +1,14 @@
-import { Sequelize } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import { initUser } from './models/user';
-import { initPCProvider, initPCProviderAssociate } from './models/pc_provider';
-import { initPC, initPCAssociate, PC } from './models/pc';
-import { initPPAuthToken, initPPAuthTokenAssociate } from './models/pp_authtoken';
-import { initPCAllocation, initPCAllocationAssociate } from './models/pc_allocation';
+import { initPcProvider, initPcProviderAssociate } from './models/pc_provider';
+import { initPc, initPcAssociate, Pc } from './models/pc';
+import { initPPAuthToken, initPPAuthTokenAssociate, PPAuthToken } from './models/pp_authtoken';
+import { initUsePc, initUsePcAssociate } from './models/use_pc';
+import { initPaymentHistory, initPaymentHistoryAssociate } from './models/payment_history';
+import { initSubscriptionMenu } from './models/subscription_menu';
+
 import createDebug from 'debug';
+import { initSubscribe, initSubscribeAssociate } from './models/subscribe';
 
 const debug = createDebug('app');
 
@@ -28,20 +32,30 @@ export const sequelizeInit = async () => {
   try {
     await sequelize.authenticate();
     initUser(sequelize);
-    initPCProvider(sequelize);
-    initPC(sequelize);
+    initPcProvider(sequelize);
+    initPc(sequelize);
     initPPAuthToken(sequelize);
-    initPCAllocation(sequelize);
+    initUsePc(sequelize);
+    initPaymentHistory(sequelize);
+    initSubscriptionMenu(sequelize);
+    initSubscribe(sequelize);
 
-    initPCAssociate();
-    initPCProviderAssociate();
+    initPcAssociate();
+    initPcProviderAssociate();
     initPPAuthTokenAssociate();
-    initPCAllocationAssociate();
+    initUsePcAssociate();
+    initPaymentHistoryAssociate();
+    initSubscribeAssociate();
     await sequelize.sync();
 
-    // TODO: PPAUthToken 유효기간 지난 것들 삭제하기.
-    // TODO: PC들 상태 다 unusable로 변경하기.
-    await PC.update({
+    await PPAuthToken.destroy({
+      where: {
+        createdAt: {
+          [Op.lte]: new Date(new Date().getTime() - 1000 * 60 * 5)
+        }
+      } as any
+    });
+    await Pc.update({
       state: 'unusable'
     }, {
       where: {}

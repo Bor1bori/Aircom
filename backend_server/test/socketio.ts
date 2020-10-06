@@ -10,15 +10,6 @@ socket.on('connect', () => {
   });
 });
 
-socket.on('allocate', (data: any, ack: any) => {
-  console.log(data);
-  ack({
-    success: true,
-    ip: '192.168.0.1',
-    ports: [1, 2, 3, 4, 5]
-  });
-});
-
 socket.on('ask_state', (data: any, ack: any) => {
   console.log(data);
   ack({
