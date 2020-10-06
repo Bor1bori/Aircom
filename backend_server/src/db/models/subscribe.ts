@@ -12,7 +12,7 @@ import { User } from './user';
 export interface SubscribeAttributes {
   id: number;
   userId: number;
-  subscripionMenuId: number;
+  subscriptionMenuId: number;
 
   startDate: Date;
   endDate?: Date;
@@ -24,7 +24,7 @@ export class Subscribe extends Model<SubscribeAttributes, SubscribeCreationAttri
   implements SubscribeCreationAttributes {
     public id!: number;
     public userId!: number;
-    public subscripionMenuId!: number;
+    public subscriptionMenuId!: number;
 
     public startDate!: Date;
     public endDate?: Date;
@@ -47,7 +47,7 @@ export const initSubscribe = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
-    subscripionMenuId: {
+    subscriptionMenuId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
@@ -68,10 +68,12 @@ export const initSubscribe = (sequelize: Sequelize) => {
 export const initSubscribeAssociate = () => {
   Subscribe.belongsTo(User, {
     foreignKey: 'userId',
+    as: 'user',
     onDelete: 'CASCADE'
   });
   Subscribe.belongsTo(SubscriptionMenu, {
-    foreignKey: 'subscripionMenuId',
+    foreignKey: 'subscriptionMenuId',
+    as: 'subscriptionMenu',
     onDelete: 'CASCADE'
   });
 };
