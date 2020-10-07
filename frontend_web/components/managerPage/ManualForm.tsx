@@ -6,15 +6,14 @@ import axios from "axios";
 const Manual = () => {
     const loginToken = useSelector((state: RootState) => state.ppAuth.ppLoginToken);
     const [ppAuthToken, setPpAuthToken] = useState("");
-    const copyLoginToken = (e: any) => {
+    const copyAuthToken = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         const token = document.createElement("textarea");
         document.body.appendChild(token);
-        token.value = loginToken;
+        token.value = ppAuthToken;
         token.select();
         document.execCommand("copy");
         document.body.removeChild(token);
-        alert("토큰이 복사되었습니다");
     }
     const getPpAuthToken = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/pp-auth/auth-token`,
@@ -37,7 +36,7 @@ const Manual = () => {
                 <p>2. 다운로드 받은 파일을 설치 후, aircom 런쳐를 실행합니다.</p>
                 <p>3. PC 연결 버튼을 눌러 사용자의 PC를 aircom과 연결해줍니다.</p>
                 <p>4. 토큰 값을 입력해줍니다. (토큰 값 복사하기: &nbsp;
-                    <a onClick={copyLoginToken}>{ppAuthToken})</a>
+                    <a onClick={copyAuthToken}>{ppAuthToken}</a>)
                 </p>
                 <button>Host 프로그램 다운로드</button>
                 <p className="videoHeader">동영상으로 쉽게 따라해보세요.</p>
