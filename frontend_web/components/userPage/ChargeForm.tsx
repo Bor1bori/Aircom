@@ -1,14 +1,88 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const Charge = () => {
-    const [hour, setHour] = useState(1);
-    const [productName, setProductName] = useState("");
-    const [totalPrice, setTotalPrice] = useState("");
-    const [timeSelected, setTimeSelected] = useState(false);
-    const [agreement, setAgreement] = useState(false);
+    const loginToken = useSelector((state: RootState) => state.auth.loginToken);
+    const [chargeInfo, setChargeInfo] = useState({
+        hour: 1,
+        productName: "",
+        totalPrice: "",
+        timeSelected: false,
+        agreement: false,
+        remainTime: 0,
+        totalTime: 0,
+        duration: "",
+        itemSelected: false,
+    })
+    const chargeService = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        if (chargeInfo.agreement == false) {
+            alert("약관에 동의해주세요");
+            return;
+        }
+        if (chargeInfo.productName == "시간제") {
+            axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/charge/time`,
+                { hours: chargeInfo.hour },
+                { headers: { loginToken: loginToken } })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+        else if (chargeInfo.productName == "정액제 - 기본형") {
+            axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/charge/subscription`,
+                { subscriptionMenuId: 1 },
+                { headers: { loginToken: loginToken } })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+        else if (chargeInfo.productName == "정액제 - 프로형") {
+            axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/charge/subscription`,
+                { subscriptionMenuId: 2 },
+                { headers: { loginToken: loginToken } })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+        else {
+            alert("요금제를 선택해주세요");
+            return;
+        }
+        alert("결제가 완료되었습니다");
+    }
+    const getSubscriptionInfo = () => {
+        axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users/current/remain-time`,
+            { headers: { loginToken: loginToken } })
+            .then((res) => {
+                const hour = res.data.remainTime / 3600000;
+                const date = new Date();
+                date.setDate(date.getDate() + 30);
+                const dueDate = date.getMonth() + 1 + "월 " + date.getDate() + "일 "
+                    + date.getHours() + "시 " + date.getMinutes() + "분";
+                setChargeInfo({ ...chargeInfo, remainTime: hour, duration: dueDate });
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    };
     useEffect(() => {
-        timeSelected && setTotalPrice(String(300 * hour) + "원");
-    }, [hour]);
+        chargeInfo.timeSelected &&
+            setChargeInfo({ ...chargeInfo, totalPrice: 300 * chargeInfo.hour + "원" })
+    }, [chargeInfo.hour]);
+    useEffect(() => {
+        getSubscriptionInfo();
+    }, [loginToken]);
     return (
         <div className="primaryContainer">
             <h1>시간 충전하기</h1>
@@ -20,9 +94,14 @@ const Charge = () => {
                         name="product"
                         value="basic"
                         onClick={() => {
-                            setProductName("정액제 - 기본형");
-                            setTotalPrice("9,900원");
-                            setTimeSelected(false);
+                            setChargeInfo({
+                                ...chargeInfo,
+                                productName: "정액제 - 기본형",
+                                totalPrice: "9,900원",
+                                timeSelected: false,
+                                itemSelected: true,
+                                totalTime: chargeInfo.remainTime + 72,
+                            })
                         }} />
                     <label htmlFor="basic">
                         <div className="name">정액제 - 기본형
@@ -36,9 +115,14 @@ const Charge = () => {
                         name="product"
                         value="pro"
                         onClick={() => {
-                            setProductName("정액제 - 프로형");
-                            setTotalPrice("19,900원");
-                            setTimeSelected(false);
+                            setChargeInfo({
+                                ...chargeInfo,
+                                productName: "정액제 - 프로형",
+                                totalPrice: "19,900원",
+                                timeSelected: false,
+                                itemSelected: true,
+                                totalTime: chargeInfo.remainTime + 160,
+                            })
                         }} />
                     <label htmlFor="pro">
                         <div className="name">정액제 - 프로형
@@ -52,9 +136,14 @@ const Charge = () => {
                         name="product"
                         value="time"
                         onClick={() => {
-                            setProductName("시간제");
-                            setTotalPrice(String(300 * hour) + "원");
-                            setTimeSelected(true);
+                            setChargeInfo({
+                                ...chargeInfo,
+                                productName: "시간제",
+                                totalPrice: 300 * chargeInfo.hour + "원",
+                                timeSelected: true,
+                                itemSelected: true,
+                                totalTime: chargeInfo.remainTime + chargeInfo.hour,
+                            })
                         }} />
                     <label htmlFor="time">
                         <div className="name">시간제
@@ -65,13 +154,21 @@ const Charge = () => {
                             <div className="calculateHour">
                                 <button
                                     id="minusButton"
-                                    onClick={() => setHour(hour == 0 ? 0 : hour - 1)}>
+                                    onClick={() =>
+                                        setChargeInfo({
+                                            ...chargeInfo,
+                                            hour: chargeInfo.hour == 0 ? 0 : chargeInfo.hour - 1
+                                        })}>
                                     -
                                 </button>
-                                <div id="hour">{hour}</div>
+                                <div id="hour">{chargeInfo.hour}</div>
                                 <button
                                     id="plusButton"
-                                    onClick={() => setHour(hour + 1)}>
+                                    onClick={() =>
+                                        setChargeInfo({
+                                            ...chargeInfo,
+                                            hour: chargeInfo.hour + 1
+                                        })}>
                                     +
                                 </button>
                             </div>
@@ -85,23 +182,26 @@ const Charge = () => {
                     <h2>결제 정보</h2>
                     <div className="chargeDetails">
                         <div className="title">상품명</div>
-                        <div className="value">{productName}</div>
+                        <div className="value">{chargeInfo.productName}</div>
                     </div>
                     <div className="chargeDetails">
                         <div className="title">사용기간</div>
-                        <div className="value">{productName}</div>
+                        <div className="value">{chargeInfo.itemSelected
+                            && chargeInfo.duration}</div>
                     </div>
                     <div className="chargeDetails">
                         <div className="title">현재 잔여시간</div>
-                        <div className="value">{productName}</div>
+                        <div className="value">{chargeInfo.itemSelected
+                            && chargeInfo.remainTime + "시간"}</div>
                     </div>
                     <div className="chargeDetails">
                         <div className="title">충전 후 잔여시간</div>
-                        <div className="value">{productName}</div>
+                        <div className="value">{chargeInfo.itemSelected
+                            && chargeInfo.totalTime + "시간"}</div>
                     </div>
                     <div className="chargeDetails">
                         <div className="title">총 결제금액</div>
-                        <div className="value">{totalPrice}</div>
+                        <div className="value">{chargeInfo.totalPrice}</div>
                     </div>
                     <div className="agreement">
                         <p>약관 동의</p>
@@ -109,13 +209,18 @@ const Charge = () => {
                             <p>위 상품 정보 및 거래 조건을 확인하였으며, 구매<br />진행에 동의합니다. (필수)</p>
                             <img
                                 id="checkForAgree"
-                                src={agreement ?
+                                src={chargeInfo.agreement ?
                                     require("../../public/images/check_active.png")
                                     : require("../../public/images/check_inactive.png")}
-                                onClick={() => setAgreement(agreement ? false : true)} />
+                                onClick={() =>
+                                    setChargeInfo({
+                                        ...chargeInfo,
+                                        agreement: chargeInfo.agreement ? false : true
+                                    })
+                                } />
                         </div>
                     </div>
-                    <button>결제하기</button>
+                    <button onClick={chargeService}>결제하기</button>
                 </div>
             </div>
             <style jsx>{`
