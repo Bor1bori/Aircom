@@ -33,20 +33,9 @@ const Charge = () => {
                     console.log(err);
                 })
         }
-        else if (chargeInfo.productName == "정액제 - 기본형") {
+        else if (chargeInfo.productName == "정액제 - 기본형" || chargeInfo.productName == "정액제 - 프로형") {
             axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/charge/subscription`,
-                { subscriptionMenuId: 1 },
-                { headers: { loginToken: loginToken } })
-                .then((res) => {
-                    console.log(res);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
-        else if (chargeInfo.productName == "정액제 - 프로형") {
-            axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/charge/subscription`,
-                { subscriptionMenuId: 2 },
+                { subscriptionMenuId: chargeInfo.productName == "정액제 - 기본형" ? 1 : 2},
                 { headers: { loginToken: loginToken } })
                 .then((res) => {
                     console.log(res);
