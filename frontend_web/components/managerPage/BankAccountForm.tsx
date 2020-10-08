@@ -5,17 +5,17 @@ const AccountManage = () => {
         {
             no: "1",
             bank: "우리은행",
-            account: "111111-111-1111111",
+            account: "348592-243-21",
         },
         {
             no: "2",
             bank: "카카오 뱅크",
-            account: "111111-111-111111",
+            account: "3333-05-7312465",
         },
         {
             no: "3",
             bank: "신한은행",
-            account: "111111-111-111111",
+            account: "110-316-122100",
         }
     ]
     const accountNum = data.length;
