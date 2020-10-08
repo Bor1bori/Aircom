@@ -1,13 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { AreaChart, Area, XAxis, YAxis } from 'recharts';
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const LeftTime = () => {
-    const providedTime = 72;
-    const usedTime = 19;
-    const leftTime = providedTime - usedTime;
-    const width = (leftTime / providedTime) * 360;
-    const productName = "정액제 - 프로형 / 월 최대 160시간 사용";
+    const loginToken = useSelector((state: RootState) => state.auth.loginToken);
+    const [providedTime, setProvidedTime] = useState(0);
+    const [remainTime, setRemainTime] = useState(0);
+    const usedTime = providedTime - remainTime;
+    const width = (remainTime / providedTime) * 360;
+    const [productName, setProductName] = useState("");
+    const getSubscriptionInfo = () => {
+        axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users/current/remain-time`,
+            { headers: { loginToken: loginToken } })
+            .then((res) => {
+                console.log(res);
+                if (res.data.subscription != null) {
+                    const time = res.data.subscription.subscription.monthlyUsableTime * 1;
+                    const hour = time / 3600000;
+                    setProductName(res.data.subscription.subscription.name + " / 월 최대 "
+                        + hour + "시간 사용");
+                    setRemainTime(res.data.remainTime / 3600000);
+                    setProvidedTime(hour);
+                }
+                else {
+                    setRemainTime(res.data.remainTime / 3600000);
+                    setProvidedTime(30);
+                    setProductName("시간제 - 1시간 기준");
+                }
+            }
+            )
+            .catch((err) => {
+                console.log(err);
+            }
+            )
+    };
+    useEffect(() => {
+        getSubscriptionInfo()
+    }, [loginToken]);
     const data = [
         {
             "name": "18일",
@@ -40,16 +72,18 @@ const LeftTime = () => {
     ]
     return (
         <div className="primaryContainer">
-            <div className="secondaryContainer">
+            {productName != "" && <div className="secondaryContainer">
                 <div className="usage">
                     <h2>내 사용량</h2>
                     <div id="leftTime"></div>
-                    <div id="usedTime" style={{ width: width }}></div>
+                    <div id="usedTime"
+                        className={usedTime <= 0 ? "remainFull" : ""}
+                        style={{ width: usedTime <= 0 ? 360 : width }}></div>
                     <div className="details">
-                        <p id="left">잔여 <strong>{leftTime} 시간</strong></p>
-                        <p id="used">사용 {usedTime} 시간</p>
-                        <p>&nbsp;|&nbsp;</p>
-                        <p id="provided">제공 <strong>{providedTime} 시간</strong></p>
+                        <p id="left">잔여 <strong>{remainTime} 시간</strong></p>
+                        {productName != "시간제 - 1시간 기준" && <p>&nbsp;|&nbsp;</p>}
+                        {productName != "시간제 - 1시간 기준" &&
+                            <p id="provided">제공 <strong>{providedTime} 시간</strong></p>}
                     </div>
                 </div>
                 <div className="product">
@@ -59,8 +93,8 @@ const LeftTime = () => {
                         <a>충전하러 가기</a>
                     </Link>
                 </div>
-            </div>
-            <div className="dailyUsage">
+            </div>}
+            {productName != "" && <div className="dailyUsage">
                 <h2>일일 사용량</h2>
                 <div className="chart">
                     <AreaChart width={730} height={250} data={data}
@@ -72,12 +106,12 @@ const LeftTime = () => {
                             </linearGradient>
                         </defs>
                         <XAxis dataKey="name" tick={{ fontSize: 16 }} />
-                        <YAxis tick={{ fontSize: 16 }} unit={"시간"}/>
+                        <YAxis tick={{ fontSize: 16 }} unit={"시간"} />
                         <Area type="monotone" dataKey="hour" stroke="#0052cc"
                             fillOpacity={1} fill="url(#color)" />
                     </AreaChart>
                 </div>
-            </div>
+            </div>}
             <style jsx>{`
                 .usage, .product {
                     width: 400px;
@@ -106,6 +140,10 @@ const LeftTime = () => {
                 }
                 .secondaryContainer {
                     display: flex;
+                }
+                .remainFull {
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px;
                 }
                 h2 {
                     font-size: 24px;
@@ -137,10 +175,9 @@ const LeftTime = () => {
                     padding-right: 20px;
                 }
                 #left {
-                    margin-right: auto;
-                }
-                #left, #used {
+                    margin-left: auto;
                     color: #0052cc;
+                    white-space: nowrap;
                 }
                 #productName {
                     font-size: 20px;
