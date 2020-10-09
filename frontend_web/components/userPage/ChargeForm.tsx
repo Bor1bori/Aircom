@@ -67,7 +67,8 @@ const Charge = () => {
     };
     useEffect(() => {
         chargeInfo.timeSelected &&
-            setChargeInfo({ ...chargeInfo, totalPrice: 300 * chargeInfo.hour + "원" })
+            setChargeInfo({ ...chargeInfo, totalPrice: 300 * chargeInfo.hour + "원",
+            totalTime: chargeInfo.remainTime + chargeInfo.hour })
     }, [chargeInfo.hour]);
     useEffect(() => {
         getSubscriptionInfo();
