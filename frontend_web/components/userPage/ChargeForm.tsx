@@ -15,7 +15,8 @@ const Charge = () => {
         totalTime: 0,
         duration: "",
         itemSelected: false,
-    })
+    });
+    const [dueDate, setDueDate] = useState("");
     const chargeService = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (chargeInfo.agreement == false) {
@@ -56,15 +57,11 @@ const Charge = () => {
             .then((res) => {
                 const hour = Math.round(res.data.remainTime / 3600000);
                 const date = new Date();
-                if (res.data.subscription == null) {
-                    setChargeInfo({ ...chargeInfo, remainTime: hour, duration: "-" });
-                }
-                else {
-                    date.setDate(date.getDate() + 30);
-                    const dueDate = date.getMonth() + 1 + "월 " + date.getDate() + "일 "
-                        + date.getHours() + "시 " + date.getMinutes() + "분";
-                    setChargeInfo({ ...chargeInfo, remainTime: hour, duration: dueDate });
-                }
+                date.setDate(date.getDate() + 30);
+                const due = date.getMonth() + 1 + "월 " + date.getDate() + "일 "
+                    + date.getHours() + "시 " + date.getMinutes() + "분";
+                setDueDate(due);
+                setChargeInfo({...chargeInfo, remainTime: hour});
             })
             .catch((err) => {
                 console.log(err);
@@ -96,6 +93,7 @@ const Charge = () => {
                                 timeSelected: false,
                                 itemSelected: true,
                                 totalTime: chargeInfo.remainTime + 72,
+                                duration: dueDate
                             })
                         }} />
                     <label htmlFor="basic">
@@ -117,6 +115,7 @@ const Charge = () => {
                                 timeSelected: false,
                                 itemSelected: true,
                                 totalTime: chargeInfo.remainTime + 160,
+                                duration: dueDate
                             })
                         }} />
                     <label htmlFor="pro">
@@ -138,6 +137,7 @@ const Charge = () => {
                                 timeSelected: true,
                                 itemSelected: true,
                                 totalTime: chargeInfo.remainTime + chargeInfo.hour,
+                                duration: "-",
                             })
                         }} />
                     <label htmlFor="time">
