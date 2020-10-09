@@ -1,45 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { AreaChart, Area, XAxis, YAxis } from 'recharts';
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import CountUp from 'react-countup';
 
 const Profit = () => {
-    const data = [
-        {
-            "name": "18일",
-            "hour": 15,
-        },
-        {
-            "name": "19일",
-            "hour": 30,
-        },
-        {
-            "name": "20일",
-            "hour": 20,
-        },
-        {
-            "name": "21일",
-            "hour": 25,
-        },
-        {
-            "name": "22일",
-            "hour": 40,
-        },
-        {
-            "name": "23일",
-            "hour": 30,
-        },
-        {
-            "name": "24일",
-            "hour": 60,
-        }
-    ]
+    const ppLoginToken = useSelector((state: RootState) => state.ppAuth.ppLoginToken);
+    const [pcData, setPcData] = useState([]);
+    const [graphData, setGraphData] = useState([{
+        month: 0,
+        date: 0,
+        hour: 0,
+    }]);
+    const [totalHour, setTotalHour] = useState(0);
+    const getPcHistory = () => {
+        axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/pc-providers/current/use-pcs`,
+            { headers: { ppLoginToken: ppLoginToken } })
+            .then((res) => {
+                console.log(res.data.usePcs);
+                setPcData(res.data.usePcs);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    };
+    const setData = () => {
+        const data: ObjectInterface.GraphData[] = [];
+        let hour = 0;
+        pcData.forEach(value => {
+            const date1 = new Date(value.endTime);
+            const date2 = new Date(value.startTime);
+            if (value.endTime != null) {
+                const diff = (date1.getTime() - date2.getTime()) / 3600000;
+                const element = {
+                    month: 0,
+                    date: 0,
+                    hour: 0,
+                };
+                element.date = date2.getDate();
+                element.hour = diff;
+                element.month = date2.getMonth() + 1;
+                hour += element.hour;
+                console.log(hour);
+                let isPushed = false;
+                data.forEach(item => {
+                    if (item.date == element.date && item.month == element.month) {
+                        item.hour += element.hour;
+                        isPushed = true;
+                    }
+                })
+                if (!isPushed) {
+                    data.push(element);
+                }
+            }
+        });
+        data.sort(function (x: ObjectInterface.GraphData, y: ObjectInterface.GraphData) {
+            return x.month < y.month ? -1 : x.month > y.month ? 1 : 0;
+        });
+        data.sort(function (x: ObjectInterface.GraphData, y: ObjectInterface.GraphData) {
+            return x.date < y.date ? -1 : x.date > y.date ? 1 : 0;
+        });
+        setGraphData(data);
+        setTotalHour(Math.round(hour));
+    }
+    useEffect(() => {
+        getPcHistory();
+    }, [ppLoginToken]);
+    useEffect(() => {
+        setData();
+    }, [pcData]);
     return (
         <div className="primaryContainer">
             <div className="monthlyProfit">
                 <h2>이번 달 수익</h2>
-                <h2>3,245,000원</h2>
+                <p className="profit">
+                    <strong>
+                        <CountUp end={totalHour * 1000}
+                            duration={1.5} />원
+                    </strong>
+                </p>
                 <div className="chart">
-                    <AreaChart width={730} height={230} data={data}
+                    {graphData[0] && <AreaChart width={730} height={230} data={graphData}
                         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                         <defs>
                             <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
@@ -47,11 +90,11 @@ const Profit = () => {
                                 <stop offset="95%" stopColor="#0052cc" stopOpacity={0} />
                             </linearGradient>
                         </defs>
-                        <XAxis dataKey="name" tick={{ fontSize: 16 }} />
-                        <YAxis tick={{ fontSize: 16 }} />
+                        <XAxis dataKey="date" tick={{ fontSize: 14 }} unit={"일"} />
+                        <YAxis tick={{ fontSize: 14 }} unit={"시간"} />
                         <Area type="monotone" dataKey="hour" stroke="#0052cc"
                             fillOpacity={1} fill="url(#color)" />
-                    </AreaChart>
+                    </AreaChart>}
                 </div>
             </div>
             <div className="secondaryContainer">
@@ -134,6 +177,9 @@ const Profit = () => {
                 }
                 .chart {
                     padding-left: 60px;
+                }
+                .profit {
+                    font-size: 30px;
                 }
             `}</style>
         </div>
