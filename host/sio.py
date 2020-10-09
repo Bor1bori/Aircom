@@ -1,9 +1,6 @@
 import socketio
 from config import Config
 
-CONF_DIRECTORY = "conf.ini"
-config = Config(CONF_DIRECTORY)
-
 class SIOEvent(socketio.ClientNamespace):
     uuid = ""
     def __init__(self, namespace, uuid):
@@ -14,7 +11,6 @@ class SIOEvent(socketio.ClientNamespace):
         print('signin 결과: ', data)
 
     def on_connect(self): # connect 될 경우 호출됨
-        print(self.uuid)
         print('Connected!')
         self.emit('signin', {
             'uuid': self.uuid
