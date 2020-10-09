@@ -15,7 +15,8 @@ const Nav = () => {
         <div className="nav">
             <section id="account">
                 <label htmlFor="email">사용자 계정</label><br />
-                <p className={userEmail.length <= 18 ? "shortEmail" : "longEmail"}>
+                <p className={userEmail.length <= 18 ? "shortEmail" 
+                    : userEmail.length <= 22 ? "middleEmail" : "longEmail"}>
                     {userEmail}
                 </p>
             </section>
@@ -121,8 +122,11 @@ const Nav = () => {
                     font-size: 16px;
                     white-space: nowrap;
                 }
-                .longEmail {
+                .middleEmail {
                     font-size: 14px;
+                }
+                .longEmail {
+                    font-size: 12px;
                 }
                 @media(max-width: 1000px){
                     .nav{

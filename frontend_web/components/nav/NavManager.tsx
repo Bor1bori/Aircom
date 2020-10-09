@@ -15,7 +15,8 @@ const Nav = () => {
             <section id="account">
                 <label htmlFor="email">관리자 계정</label><br />
                 {console.log(ppUserEmail)}
-                <p className={ppUserEmail.length <= 18 ? "shortEmail" : "longEmail"}>
+                <p className={ppUserEmail.length <= 18 ? "shortEmail" 
+                    : ppUserEmail.length <= 22 ? "middleEmail" : "longEmail"}>
                     {ppUserEmail}
                 </p>
             </section>
@@ -125,15 +126,18 @@ const Nav = () => {
                     margin-bottom: -9px;
                 }
                 .bottom{
-                    margin-top: 50px;
+                    margin-top: 30px;
                 }
                 p {
                     margin-top: 5px;
                     font-size: 16px;
                     white-space: nowrap;
                 }
-                .longEmail {
+                .middleEmail {
                     font-size: 14px;
+                }
+                .longEmail {
+                    font-size: 12px;
                 }
                 #logout {
                     cursor: pointer;

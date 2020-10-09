@@ -1,79 +1,89 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const Enrollment = () => {
-    const data = [
-        {
-            no: "1",
-            uuid: "abcdefg",
-            privateIp: "192.168.0.1",
-            publicIp: "123.123.123.123",
-            status: "사용중"
-        },
-        {
-            no: "2",
-            uuid: "abcdefg",
-            privateIp: "192.168.0.1",
-            publicIp: "123.123.123.123",
-            status: "사용중"
-        },
-        {
-            no: "3",
-            uuid: "abcdefg",
-            privateIp: "192.168.0.1",
-            publicIp: "123.123.123.123",
-            status: "사용중"
-        }
-    ]
-    const pcNum = data.length;
+    const ppLoginToken = useSelector((state: RootState) => state.ppAuth.ppLoginToken);
+    const [pcData, setPcData] = useState([]);
+    const [pcNum, setPcNum] = useState(-1);
+
+    const getPcList = () => {
+        axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/pc-providers/current/pcs`,
+            { headers: { ppLoginToken: ppLoginToken } })
+            .then((res) => {
+                console.log(res.data.pcs);
+                setPcData(res.data.pcs);
+                setPcNum(res.data.pcs.length);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
     const setList = () => {
         const noList = document.getElementById("noList");
         const uuidList = document.getElementById("uuidList");
         const privateIpList = document.getElementById("privateIpList");
-        const publicIpList = document.getElementById("publicIpList");
+        const portsList = document.getElementById("portsList");
         const statusList = document.getElementById("statusList");
-        for (let i = 0; i < data.length; i++) {
-            let no = data[i].no;
-            let uuid = data[i].uuid;
-            let privateIp = data[i].privateIp;
-            let publicIp = data[i].publicIp;
-            let status = data[i].status;
+        console.log("hi", pcData.length)
+        for (let i = 0; i < pcData.length; i++) {
+            let no = i + 1 + "";
+            let uuid = pcData[i].uuid;
+            let privateIp = pcData[i].ip;
+            const portNum1 = pcData[i].port1 + ", " + pcData[i].port2 + ", " + pcData[i].port3 + ",";
+            const portNum2 = pcData[i].port4 + ", " + pcData[i].port5 + ", " + pcData[i].port6 + ","; 
+            const portNum3 = pcData[i].port7;
+            let status = pcData[i].state == "unusable" ? "사용중" : "대기중";
             let noLi = document.createElement('li');
             noLi.appendChild(document.createTextNode(no));
             let uuidLi = document.createElement('li');
             uuidLi.appendChild(document.createTextNode(uuid));
             let privateIpLi = document.createElement('li');
             privateIpLi.appendChild(document.createTextNode(privateIp));
-            let publicIpLi = document.createElement('li');
-            publicIpLi.appendChild(document.createTextNode(publicIp));
+            let portsLi = document.createElement('li');
+            portsLi.appendChild(document.createTextNode(portNum1));
+            portsLi.appendChild(document.createElement('br'));
+            portsLi.appendChild(document.createTextNode(portNum2));
+            portsLi.appendChild(document.createElement('br'));
+            portsLi.appendChild(document.createTextNode(portNum3));
             let statusLi = document.createElement('li');
             statusLi.appendChild(document.createTextNode(status));
-            const array = [noLi, uuidLi, privateIpLi, publicIpLi, statusLi];
-            array.forEach((item)=>{
+            const array = [noLi, uuidLi, privateIpLi, statusLi];
+            array.forEach((item) => {
                 item.style.paddingTop = "30px";
                 item.style.fontSize = "18px";
+                item.style.paddingBottom = "30px";
+                item.style.marginLeft = "10px";
             })
-            statusLi.style.color = "#0052cc";
+            portsLi.style.paddingTop = "12px";
+            portsLi.style.paddingBottom = "8px";
+            portsLi.style.marginLeft = "10px";
+            status == "사용중" ? statusLi.style.color = "#0052cc" : statusLi.style.color = "#b1b1b1";
             noList.appendChild(noLi);
             uuidList.appendChild(uuidLi);
             privateIpList.appendChild(privateIpLi);
-            publicIpList.appendChild(publicIpLi);
+            portsList.appendChild(portsLi);
             statusList.appendChild(statusLi);
         }
     }
 
     useEffect(() => {
+        getPcList();
+    }, [ppLoginToken]);
+    useEffect(() => {
         setList();
-    }, []);
+    }, [pcData])
     return (
         <div className="container">
-            <h1>등록된 PC 관리 (총 {pcNum}대)</h1>
-            <div className="standard">
+            {pcNum != -1 && <h1>등록된 PC 관리 (총 {pcNum}대)</h1>}
+            {pcNum != -1 && <div className="standard">
                 <div className="no">No</div>
                 <div className="uuid">uuid</div>
                 <div className="privateIp">private IP</div>
-                <div className="publicIp">public IP</div>
+                <div className="ports">ports</div>
                 <div className="status">status</div>
-            </div>
+            </div>}
             <div className="list">
                 <div className="no">
                     <ul id="noList"></ul>
@@ -84,8 +94,8 @@ const Enrollment = () => {
                 <div className="privateIp">
                     <ul id="privateIpList"></ul>
                 </div>
-                <div className="publicIp">
-                    <ul id="publicIpList"></ul>
+                <div className="ports">
+                    <ul id="portsList"></ul>
                 </div>
                 <div className="status">
                     <ul id="statusList"></ul>
@@ -112,7 +122,7 @@ const Enrollment = () => {
                 display: flex;
                 align-items: center;
                 box-sizing: border-box;
-                padding-left: 60px;
+                padding-left: 40px;
             }
             .standard div {
                 color: #ffffff;
@@ -122,22 +132,25 @@ const Enrollment = () => {
                 align-items: center;
             }
             .no {
-                width: 60px;  
+                width: 40px;  
             }
             .uuid {
-                width: 440px;
+                width: 400px;
             }
-            .privateIp, .publicIp {
+            .privateIp {
                 width: 160px;
             }
+            .ports {
+                width: 240px;
+            }
             .status {
-                width: 120px;
+                width: 100px;
             }
             .list {
                 width: 1000px;
                 height: 100vh;
                 display: flex;
-                padding-left: 60px;
+                padding-left: 40px;
                 box-sizing: border-box;
             }
             .list div {

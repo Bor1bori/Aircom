@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { useRouter } from "next/router";
-
 
 const ModifyAccountInfo = () => {
     const loginToken = useSelector((state: RootState) => state.ppAuth.ppLoginToken);
@@ -14,7 +12,6 @@ const ModifyAccountInfo = () => {
         gender: "",
         birthdate: "",
     });
-    const router = useRouter();
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUpdateInput({
@@ -47,6 +44,7 @@ const ModifyAccountInfo = () => {
                 headers: {ppLoginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
+                    alert("정보가 수정되었습니다")
                 })
                 .catch((err) => {
                     console.log(err);
@@ -58,6 +56,7 @@ const ModifyAccountInfo = () => {
                 headers: {ppLoginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
+                    alert("정보가 수정되었습니다")
                 })
                 .catch((err) => {
                     console.log(err);
@@ -71,7 +70,8 @@ const ModifyAccountInfo = () => {
                 headers: {ppLoginToken: loginToken}})
                 .then((res) => {
                     console.log(res);
-                    router.push("/");
+                    alert("탈퇴되었습니다");
+                    window.location.href = '/';
                 })
                 .catch((err) => {
                     console.log(err);

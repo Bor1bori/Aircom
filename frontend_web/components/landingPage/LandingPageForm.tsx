@@ -41,7 +41,7 @@ const LandingPageForm = () => {
                     </div>
                 <style jsx>{`
                 img {
-                    width: 100%;
+                    width: 100vw;
                     height: 100vh;
                     opacity: 0.5;
                 }
