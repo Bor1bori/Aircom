@@ -2,7 +2,7 @@ import socket
 import pywinauto
 from pywinauto.application import Application
 from api_sender import APISender
-import sio
+from sio import SIO
 from config import Config
 
 CONF_DIRECTORY = "conf.ini"
@@ -25,10 +25,4 @@ if __name__== "__main__" :
             print("authorized failed")
             exit()
 
-    sio.init(BACKEND_URL)
-
-    #sender.register("1234", host_ip)
-    '''
-    sender = APISender(BACKEND_URL)
-    sender.shield_connect()
-    '''
+    SIO(BACKEND_URL, uuid)
