@@ -15,7 +15,9 @@ if __name__== "__main__" :
     uuid = config.getValue('id', 'uuid')
     if (not uuid):
         auth_token = input("홈페이지에서 발급받은 인증코드를 입력하세요 : ")
-        uuid = sender.register(auth_token, "192.168.0.1", 8080)
+        ip = input("공인 ip를 입력하세요 : ")
+        ports = input("포트포워딩된 포트를 입력하세요(7개, 공백으로 구분) : ").split()
+        uuid = sender.register(auth_token, ip, ports)
         if uuid:
             print("등록 완료!")
             config.setValue("id", "uuid", uuid)

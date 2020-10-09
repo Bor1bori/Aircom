@@ -9,8 +9,14 @@ class APISender:
     def __init__(self, backend_url):
         self.backend_url = backend_url
 
-    def register(self, auth_token, host_ip, port):
-        post_data = {"authToken" : auth_token, "ip" : host_ip, "port": port}
+    def register(self, auth_token, host_ip, ports):
+        post_data = {
+            "authToken" : auth_token,
+            "ip" : host_ip,
+            }
+        for i in range(len(ports)):
+            post_data["port" + str(i + 1)] = ports[i]
+        print(post_data)
         res = requests.post(self.backend_url + "/pc-providers/n/pcs", data = post_data)
         if res.status_code == 200:
             self.uuid = json.loads(res.text)["uuid"]
@@ -21,14 +27,4 @@ class APISender:
             print("404 not found")
        
         #TODO 401, 404 등 에러 처리
-        #TODO uuid 리턴 
-    def shield_connect(self):
-        shield_connect_windows_app = Application().connect(path = "nvcontainer.exe")
-        pyautogui.click(1443, 953)
-        pyautogui.typewrite('1111')
-        time.sleep(1)
-        pyautogui.click(1500, 990)
-
-        
-
         
