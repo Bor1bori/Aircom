@@ -207,4 +207,6 @@
     <string name="name">이름</string>
     <string name="pc">PC 연결하기</string>
     <string name="connecting_to_pc">PC 연결 중</string>
+    <string name="bascic_price">9900원</string>
+    <string name="pro_price">19900원</string>
 </resources>

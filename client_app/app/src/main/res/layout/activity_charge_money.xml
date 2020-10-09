@@ -194,6 +194,7 @@
                     android:textSize="16dp"
                     android:layout_marginTop="30dp"/>
                 <Button
+                    android:id="@+id/plusButton"
                     android:layout_width="30dp"
                     android:layout_height="32dp"
                     android:background="@drawable/plus_button"
@@ -241,7 +242,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/applesd"
                     android:gravity="right"
-                    android:text="xxx"
+                    android:text=""
                     android:textSize="16dp"/>
             </LinearLayout>
             <LinearLayout
@@ -262,7 +263,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/applesd"
                     android:gravity="right"
-                    android:text="xxx"
+                    android:text=""
                     android:textSize="16dp"/>
             </LinearLayout>
             <LinearLayout
@@ -283,7 +284,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/applesd"
                     android:gravity="right"
-                    android:text="xxx"
+                    android:text=""
                     android:textSize="16dp"/>
             </LinearLayout>
             <LinearLayout
@@ -304,7 +305,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/applesd"
                     android:gravity="right"
-                    android:text="xxx"
+                    android:text=""
                     android:textSize="16dp"/>
             </LinearLayout>
             <LinearLayout
@@ -325,7 +326,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/applesd"
                     android:gravity="right"
-                    android:text="xxx"
+                    android:text=""
                     android:textSize="16dp"/>
             </LinearLayout>
             <TextView
