@@ -19,6 +19,9 @@ import com.aircom.AddComputerAutomatically;
 import com.aircom.R;
 import com.aircom.data.PcAllocationResponse;
 import com.aircom.data.SharedPreference;
+import com.aircom.nvstream.http.NvHTTP;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +51,6 @@ public class PCInactiveFragment extends Fragment {
     // Returns true if the event should be eaten
     public boolean handleDoneEvent() {
         System.out.println("login token: "+SharedPreference.getLoginToken(getActivity()));
-        AddComputerAutomatically.hostAddress = "1.231.39.92";
         AddComputerAutomatically.service.allocationRequest(SharedPreference.getLoginToken
                 (getActivity())).enqueue(new Callback<PcAllocationResponse>() {
             @Override
@@ -56,20 +58,32 @@ public class PCInactiveFragment extends Fragment {
                                    Response<PcAllocationResponse> response) {
                 System.out.println("status code: "+response.code());
                 System.out.println("response body: "+response.body());
-                //System.out.println("ip: "+response.body().getIp()+",
-                // port: "+response.body().getPort());
-                //hostAddress = response.body().getIp();
-                //NvHTTP.HTTP_PORT = response.body().getPort();
-                //NvHTTP.HTTPS_PORT = response.body().getPort();
+                if (response.code() == 200) {
+                    System.out.println("ip: "+response.body().getIp() + "port: " +
+                            response.body().getPort());
+                    AddComputerAutomatically.hostAddress = response.body().getIp();
+                    //NvHTTP.HTTP_PORT = response.body().getPort();
+                    //NvHTTP.HTTPS_PORT = response.body().getPort();
+                    AddComputerAutomatically.computersToAdd.add(AddComputerAutomatically.hostAddress);
+                }
+                else if (response.code() == 503) {
+                    Toast.makeText(getActivity(), "현재 할당가능한 PC가 없습니다",
+                            Toast.LENGTH_SHORT).show();
+                    setConnectionViewInactive();
+                }
+                else {
+                    Toast.makeText(getActivity(), "에러 발생", Toast.LENGTH_SHORT).show();
+                    setConnectionViewInactive();
+                }
             }
 
             @Override
             public void onFailure(Call<PcAllocationResponse> call, Throwable t) {
                 System.out.println("error: "+t.getMessage());
-                Toast.makeText(getActivity(), "PC 할당 에러 발생", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "에러 발생", Toast.LENGTH_SHORT).show();
+                setConnectionViewInactive();
             }
         });
-        AddComputerAutomatically.computersToAdd.add( AddComputerAutomatically.hostAddress);
         return false;
 
     }
