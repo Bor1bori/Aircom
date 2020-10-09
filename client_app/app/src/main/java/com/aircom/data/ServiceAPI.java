@@ -29,4 +29,13 @@ public interface ServiceAPI {
 
     @DELETE("/users/current")
     Call<DeleteAccountResponse> deleteAccountRequest(@Header("loginToken") String loginToken);
+
+    @GET("/users/current/remain-time")
+    Call<SubscriptionResponse> subscriptionInfoRequest(@Header("loginToken") String loginToken);
+
+    @POST("/charge/time")
+    Call<Void> chargeTimeRequest(@Header("loginToken") String loginToken, @Body ChargeTimeData chargeTimeData);
+
+    @POST("charge/subscription")
+    Call<Void> chargeSubRequest(@Header("loginToken") String loginToken, @Body ChargeSubData chargeSubData);
 }
