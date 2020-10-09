@@ -34,7 +34,8 @@ const Enrollment = () => {
             const portNum1 = pcData[i].port1 + ", " + pcData[i].port2 + ", " + pcData[i].port3 + ",";
             const portNum2 = pcData[i].port4 + ", " + pcData[i].port5 + ", " + pcData[i].port6 + ","; 
             const portNum3 = pcData[i].port7;
-            let status = pcData[i].state == "unusable" ? "사용중" : "대기중";
+            let status = pcData[i].state == "inUse" ? "사용중" :
+                pcData[i].state == "usable" ? "대기중" : "사용불가";
             let noLi = document.createElement('li');
             noLi.appendChild(document.createTextNode(no));
             let uuidLi = document.createElement('li');
