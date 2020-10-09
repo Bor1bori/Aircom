@@ -31,8 +31,8 @@ const Enrollment = () => {
             let no = i + 1 + "";
             let uuid = pcData[i].uuid;
             let privateIp = pcData[i].ip;
-            const portNum1 = pcData[i].port1 + ", " + pcData[i].port2 + ", " + pcData[i].port3 + ", ";
-            const portNum2 = pcData[i].port4 + ", " + pcData[i].port5 + ", " + pcData[i].port6 + ", "; 
+            const portNum1 = pcData[i].port1 + ", " + pcData[i].port2 + ", " + pcData[i].port3 + ",";
+            const portNum2 = pcData[i].port4 + ", " + pcData[i].port5 + ", " + pcData[i].port6 + ","; 
             const portNum3 = pcData[i].port7;
             let status = pcData[i].state == "unusable" ? "사용중" : "대기중";
             let noLi = document.createElement('li');
@@ -54,9 +54,11 @@ const Enrollment = () => {
                 item.style.paddingTop = "30px";
                 item.style.fontSize = "18px";
                 item.style.paddingBottom = "30px";
+                item.style.marginLeft = "10px";
             })
             portsLi.style.paddingTop = "12px";
             portsLi.style.paddingBottom = "8px";
+            portsLi.style.marginLeft = "10px";
             status == "사용중" ? statusLi.style.color = "#0052cc" : statusLi.style.color = "#b1b1b1";
             noList.appendChild(noLi);
             uuidList.appendChild(uuidLi);
@@ -120,7 +122,7 @@ const Enrollment = () => {
                 display: flex;
                 align-items: center;
                 box-sizing: border-box;
-                padding-left: 60px;
+                padding-left: 40px;
             }
             .standard div {
                 color: #ffffff;
@@ -130,25 +132,25 @@ const Enrollment = () => {
                 align-items: center;
             }
             .no {
-                width: 20px;  
+                width: 40px;  
             }
             .uuid {
-                width: 380px;
+                width: 400px;
             }
             .privateIp {
                 width: 160px;
             }
             .ports {
-                width: 260px;
+                width: 240px;
             }
             .status {
-                width: 120px;
+                width: 100px;
             }
             .list {
                 width: 1000px;
                 height: 100vh;
                 display: flex;
-                padding-left: 60px;
+                padding-left: 40px;
                 box-sizing: border-box;
             }
             .list div {

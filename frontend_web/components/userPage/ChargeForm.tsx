@@ -54,7 +54,7 @@ const Charge = () => {
         axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users/current/remain-time`,
             { headers: { loginToken: loginToken } })
             .then((res) => {
-                const hour = res.data.remainTime / 3600000;
+                const hour = Math.round(res.data.remainTime / 3600000);
                 const date = new Date();
                 date.setDate(date.getDate() + 30);
                 const dueDate = date.getMonth() + 1 + "월 " + date.getDate() + "일 "

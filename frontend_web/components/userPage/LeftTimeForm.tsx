@@ -28,11 +28,11 @@ const LeftTime = () => {
                     const hour = time / 3600000;
                     setProductName(res.data.subscription.subscription.name + " / 월 최대 "
                         + hour + "시간 사용");
-                    setRemainTime(res.data.remainTime / 3600000);
+                    setRemainTime(Math.round(res.data.remainTime / 3600000));
                     setProvidedTime(hour);
                 }
                 else {
-                    setRemainTime(res.data.remainTime / 3600000);
+                    setRemainTime(Math.round(res.data.remainTime / 3600000));
                     setProvidedTime(30);
                     setProductName("시간제 - 1시간 기준");
                 }
@@ -58,24 +58,26 @@ const LeftTime = () => {
         pcData.forEach(value => {
             const date1 = new Date(value.endTime);
             const date2 = new Date(value.startTime);
-            const diff = (date1.getTime() - date2.getTime()) / 3600000;
-            const element = {
-                month: 0,
-                date: 0,
-                hour: 0,
-            };
-            element.date = date2.getDate();
-            element.hour = diff;
-            element.month = date2.getMonth() + 1;
-            let isPushed = false;
-            data.forEach(item => {
-                if (item.date == element.date && item.month == element.month) {
-                    item.hour += element.hour;
-                    isPushed = true;
+            if (value.endTime != null) {
+                const diff = (date1.getTime() - date2.getTime()) / 3600000;
+                const element = {
+                    month: 0,
+                    date: 0,
+                    hour: 0,
+                };
+                element.date = date2.getDate();
+                element.hour = diff;
+                element.month = date2.getMonth() + 1;
+                let isPushed = false;
+                data.forEach(item => {
+                    if (item.date == element.date && item.month == element.month) {
+                        item.hour += element.hour;
+                        isPushed = true;
+                    }
+                })
+                if (!isPushed) {
+                    data.push(element);
                 }
-            })
-            if (!isPushed) {
-                data.push(element);
             }
         });
         data.sort(function (x: ObjectInterface.GraphData, y: ObjectInterface.GraphData) {
