@@ -2,6 +2,8 @@ package com.aircom.preferences;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
@@ -86,6 +88,8 @@ public class SeekBarPreference extends DialogPreference
         layout.addView(valueText, params);
 
         seekBar = new SeekBar(context);
+        seekBar.getThumb().setColorFilter(Color.parseColor("#0052cc"), PorterDuff.Mode.SRC_IN);
+        seekBar.getProgressDrawable().setColorFilter(Color.parseColor("#0052cc"), PorterDuff.Mode.SRC_IN);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int value, boolean b) {
