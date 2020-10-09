@@ -52,7 +52,7 @@ const LeftTime = () => {
             .catch((err) => {
                 console.log(err);
             })
-    }
+    };
     const setData = () => {
         const data: ObjectInterface.GraphData[] = [];
         pcData.forEach(value => {
@@ -84,7 +84,6 @@ const LeftTime = () => {
         data.sort(function (x: ObjectInterface.GraphData, y: ObjectInterface.GraphData) {
             return x.date < y.date ? -1 : x.date > y.date ? 1 : 0;
         });
-
         setGraphData(data);
     }
     useEffect(() => {
@@ -122,7 +121,7 @@ const LeftTime = () => {
             <div className="dailyUsage">
                 <h2>일일 사용량</h2>
                 <div className="chart">
-                    {productName != "" && <AreaChart width={730} height={250} data={graphData}
+                    {graphData[0] && <AreaChart width={730} height={250} data={graphData}
                         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                         <defs>
                             <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">

@@ -3,17 +3,14 @@ import React, { useEffect } from "react";
 const AccountManage = () => {
     const data = [
         {
-            no: "1",
             bank: "우리은행",
             account: "348592-243-21",
         },
         {
-            no: "2",
             bank: "카카오 뱅크",
             account: "3333-05-7312465",
         },
         {
-            no: "3",
             bank: "신한은행",
             account: "110-316-122100",
         }
@@ -25,7 +22,7 @@ const AccountManage = () => {
         const accountList = document.getElementById("accountList");
         const manageList = document.getElementById("manageList");
         for (let i = 0; i < data.length; i++) {
-            let no = data[i].no;
+            let no = i + 1 + "";
             let bank = data[i].bank;
             let account = data[i].account;
             let noLi = document.createElement('li');

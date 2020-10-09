@@ -28,12 +28,12 @@ const Enrollment = () => {
         const statusList = document.getElementById("statusList");
         console.log("hi", pcData.length)
         for (let i = 0; i < pcData.length; i++) {
-            let no = i + 1;
+            let no = i + 1 + "";
             let uuid = pcData[i].uuid;
             let privateIp = pcData[i].ip;
-            const portNums = [pcData[i].port1, pcData[i].port2, pcData[i].port3,
-            pcData[i].port4, pcData[i].port5, pcData[i].port6, pcData[i].port7]
-            let ports = portNums;
+            const portNum1 = pcData[i].port1 + ", " + pcData[i].port2 + ", " + pcData[i].port3 + ", ";
+            const portNum2 = pcData[i].port4 + ", " + pcData[i].port5 + ", " + pcData[i].port6 + ", "; 
+            const portNum3 = pcData[i].port7;
             let status = pcData[i].state == "unusable" ? "사용중" : "대기중";
             let noLi = document.createElement('li');
             noLi.appendChild(document.createTextNode(no));
@@ -42,14 +42,21 @@ const Enrollment = () => {
             let privateIpLi = document.createElement('li');
             privateIpLi.appendChild(document.createTextNode(privateIp));
             let portsLi = document.createElement('li');
-            portsLi.appendChild(document.createTextNode(ports));
+            portsLi.appendChild(document.createTextNode(portNum1));
+            portsLi.appendChild(document.createElement('br'));
+            portsLi.appendChild(document.createTextNode(portNum2));
+            portsLi.appendChild(document.createElement('br'));
+            portsLi.appendChild(document.createTextNode(portNum3));
             let statusLi = document.createElement('li');
             statusLi.appendChild(document.createTextNode(status));
-            const array = [noLi, uuidLi, privateIpLi, portsLi, statusLi];
+            const array = [noLi, uuidLi, privateIpLi, statusLi];
             array.forEach((item) => {
                 item.style.paddingTop = "30px";
                 item.style.fontSize = "18px";
+                item.style.paddingBottom = "30px";
             })
+            portsLi.style.paddingTop = "12px";
+            portsLi.style.paddingBottom = "8px";
             status == "사용중" ? statusLi.style.color = "#0052cc" : statusLi.style.color = "#b1b1b1";
             noList.appendChild(noLi);
             uuidList.appendChild(uuidLi);
@@ -123,17 +130,16 @@ const Enrollment = () => {
                 align-items: center;
             }
             .no {
-                width: 60px;  
+                width: 20px;  
             }
             .uuid {
-                width: 360px;
+                width: 380px;
             }
             .privateIp {
                 width: 160px;
             }
             .ports {
-                width: 240px;
-                white-space: nowrap;
+                width: 260px;
             }
             .status {
                 width: 120px;
