@@ -56,10 +56,15 @@ const Charge = () => {
             .then((res) => {
                 const hour = Math.round(res.data.remainTime / 3600000);
                 const date = new Date();
-                date.setDate(date.getDate() + 30);
-                const dueDate = date.getMonth() + 1 + "월 " + date.getDate() + "일 "
-                    + date.getHours() + "시 " + date.getMinutes() + "분";
-                setChargeInfo({ ...chargeInfo, remainTime: hour, duration: dueDate });
+                if (res.data.subscription == null) {
+                    setChargeInfo({ ...chargeInfo, remainTime: hour, duration: "-" });
+                }
+                else {
+                    date.setDate(date.getDate() + 30);
+                    const dueDate = date.getMonth() + 1 + "월 " + date.getDate() + "일 "
+                        + date.getHours() + "시 " + date.getMinutes() + "분";
+                    setChargeInfo({ ...chargeInfo, remainTime: hour, duration: dueDate });
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -147,7 +152,7 @@ const Charge = () => {
                                     onClick={() =>
                                         setChargeInfo({
                                             ...chargeInfo,
-                                            hour: chargeInfo.hour == 0 ? 0 : chargeInfo.hour - 1
+                                            hour: chargeInfo.hour == 1 ? 1 : chargeInfo.hour - 1
                                         })}>
                                     -
                                 </button>
