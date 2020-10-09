@@ -4,43 +4,40 @@ from config import Config
 CONF_DIRECTORY = "conf.ini"
 config = Config(CONF_DIRECTORY)
 
-sio = socketio.Client()
+class SIOEvent(socketio.ClientNamespace):
+    uuid = ""
+    def __init__(self, namespace, uuid):
+        super().__init__(namespace)
+        self.uuid = uuid
 
-def init(back_url):
-    sio.connect(back_url)
+    def signinCallback(self, data):
+        print('signin 결과: ', data)
 
-def signinCallback(data):
-    print('signin 결과: ', data)
+    def on_connect(self): # connect 될 경우 호출됨
+        print(self.uuid)
+        print('Connected!')
+        self.emit('signin', {
+            'uuid': self.uuid
+        }, callback=self.signinCallback)
 
-@sio.event
-def connect(): # connect 될 경우 호출됨
-    uuid = config.getValue('id', 'uuid') # TODO config에서 받아오는거 말고 sio init에서 uuid 값 저장하도록 변경..
-    print(uuid)
-    print('Connected!')
-    sio.emit('signin', {
-        'uuid': uuid
-    }, callback=signinCallback)
+    def on_ask_state(self, data):
+        # TODO: p2p 연결 상태 확인해서 p2p_state에 저장
+        p2p_state = 'inUse'
+        return {
+            'state': p2p_state
+        }
+    
+    def on_assure_termination(self, data):
+        # TODO: P2P 연결이 되어있는 상태면 연결 종료시키기
+        return {
+            'success': True
+        }
 
-@sio.on('allocate')
-def on_allocate(data): # 반대쪽(Server)에서 allocate event를 emit할 경우 이 함수로 전달됨.
-    # TODO: UDP 홀펀칭 통해 ip, ports 받아오기.
-    return {
-        'success': True,
-        'ip': '192.168.0.1',
-        'ports': [1, 2, 3, 4, 5]   
-    }
+class SIO():
+    sio = socketio.Client()
+    def __init__(self, back_url, uuid):
+        self.sio.register_namespace(SIOEvent('', uuid))
+        self.sio.connect(back_url)
+        self.sio.wait()
 
-@sio.on('ask_state')
-def on_ask_state(data):
-    # TODO: p2p 연결 상태 확인해서 p2p_state에 저장
-    p2p_state = 'inUse'
-    return {
-        'state': p2p_state
-    }
 
-@sio.on('assure_termination')
-def on_assure_termination(data):
-    # TODO: P2P 연결이 되어있는 상태면 연결 종료시키기
-    return {
-        'success': True
-    }
