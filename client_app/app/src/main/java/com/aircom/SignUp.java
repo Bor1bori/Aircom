@@ -115,11 +115,6 @@ public class SignUp extends Activity {
             focusView = mPassword;
             cancel = true;
         }
-        else if (isPasswordInvalid(password)) {
-            mPassword.setError("8자 이상의 비밀번호를 입력해주세요.");
-            focusView = mPassword;
-            cancel = true;
-        }
 
         // 이메일의 유효성 검사
         if (email.isEmpty()) {
@@ -209,10 +204,6 @@ public class SignUp extends Activity {
     }
     private boolean isEmailInValid(String email) {
         return !email.contains("@");
-    }
-
-    private boolean isPasswordInvalid(String password) {
-        return password.length() < 8;
     }
 
     public void startSignIn(final SignInData data) {
