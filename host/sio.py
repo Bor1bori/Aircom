@@ -1,8 +1,12 @@
 import socketio
+from config import Config
+
+CONF_DIRECTORY = "conf.ini"
+config = Config(CONF_DIRECTORY)
 
 sio = socketio.Client()
 
-def init(back_url = 'http://localhost:3000'):
+def init(back_url):
     sio.connect(back_url)
 
 def signinCallback(data):
@@ -10,10 +14,11 @@ def signinCallback(data):
 
 @sio.event
 def connect(): # connect 될 경우 호출됨
+    uuid = config.getValue('id', 'uuid') # TODO config에서 받아오는거 말고 sio init에서 uuid 값 저장하도록 변경..
+    print(uuid)
     print('Connected!')
-    # TODO: uuid 실제 값을 쓰기.
     sio.emit('signin', {
-        'uuid': '0fa822bf-d254-4cc3-9bbe-d26cab243c99'
+        'uuid': uuid
     }, callback=signinCallback)
 
 @sio.on('allocate')
