@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,12 +24,16 @@ import com.aircom.data.AccountInfoResponse;
 import com.aircom.data.RetrofitClient;
 import com.aircom.data.ServiceAPI;
 import com.aircom.data.SharedPreference;
+import com.aircom.data.SubTotalData;
+import com.aircom.data.SubscriptionData;
+import com.aircom.data.SubscriptionResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyPageFragment extends Fragment {
+    private String loginType;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -35,12 +41,11 @@ public class MyPageFragment extends Fragment {
         final ListView listview;
         final MyPageListViewAdapter adapter;
         final View root = inflater.inflate(R.layout.fragment_my_page, container, false);
-        final String[] loginType = new String[1];
 
-        setLoginType(loginType);
+        setLoginType();
 
         // Adapter 생성
-        adapter = new MyPageListViewAdapter();
+        adapter = new MyPageListViewAdapter(getActivity());
         listview = root.findViewById(R.id.myPageListView);
         listview.setAdapter(adapter);
 
@@ -50,20 +55,20 @@ public class MyPageFragment extends Fragment {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                getItemClickEvent(i, loginType);
+                getItemClickEvent(i);
             }
         });
         return root;
     }
 
-    private void setLoginType(final String[] loginType) {
+    private void setLoginType() {
         ServiceAPI service = RetrofitClient.getClient().create(ServiceAPI.class);
         service.accountInfoRequest(SharedPreference.getLoginToken(getActivity()))
                 .enqueue(new Callback<AccountInfoResponse>() {
                     @Override
                     public void onResponse(Call<AccountInfoResponse> call,
                                            Response<AccountInfoResponse> response) {
-                        loginType[0] = response.body().getSignInType();
+                        loginType = response.body().getSignInType();
                     }
 
                     @Override
@@ -82,9 +87,9 @@ public class MyPageFragment extends Fragment {
         adapter.addItem("로그아웃");
     }
 
-    private void getItemClickEvent(int i, String[] loginType){
+    private void getItemClickEvent(int i){
         if (i==0) {
-            if (loginType[0].equals("email")) {
+            if (loginType.equals("email")) {
                 Intent intent = new Intent(getActivity(), EditAccountInfo.class);
                 startActivity(intent);
             }
