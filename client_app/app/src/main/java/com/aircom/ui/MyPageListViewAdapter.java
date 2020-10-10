@@ -2,6 +2,7 @@ package com.aircom.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +15,30 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.aircom.R;
+import com.aircom.data.RetrofitClient;
+import com.aircom.data.ServiceAPI;
+import com.aircom.data.SharedPreference;
+import com.aircom.data.SubTotalData;
+import com.aircom.data.SubscribeData;
+import com.aircom.data.SubscriptionResponse;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyPageListViewAdapter extends BaseAdapter{
     private static final int ITEM_VIEW_TYPE_ACCOUNT = 0 ;
     private static final int ITEM_VIEW_TYPE_CHARGE_LOGOUT = 1 ;
     private static final int ITEM_VIEW_TYPE_USAGE = 2 ;
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
+    private TextView mLeftTime;
+    private TextView mProvidedTime;
+    private Context context;
 
-    public MyPageListViewAdapter() {
-
+    public MyPageListViewAdapter(Context context) {
+        this.context = context;
     }
     @Override
     public int getCount() {
@@ -79,6 +93,9 @@ public class MyPageListViewAdapter extends BaseAdapter{
                 case ITEM_VIEW_TYPE_USAGE:
                     view = inflater.inflate(R.layout.listview_mypage_usage,
                             viewGroup, false);
+                    mLeftTime = (TextView)view.findViewById(R.id.leftTime);
+                    mProvidedTime = (TextView)view.findViewById(R.id.providedTime);
+                    setRemainTime();
                     break;
             }
 
@@ -106,5 +123,63 @@ public class MyPageListViewAdapter extends BaseAdapter{
         ListViewItem item = new ListViewItem() ;
         item.setType(ITEM_VIEW_TYPE_USAGE);
         listViewItemList.add(item) ;
+    }
+
+    private void setRemainTime() {
+        ServiceAPI service = RetrofitClient.getClient().create(ServiceAPI.class);
+        service.subscriptionInfoRequest(SharedPreference.getLoginToken(context))
+                .enqueue(new Callback<SubscriptionResponse>() {
+                    @Override
+                    public void onResponse(Call<SubscriptionResponse> call,
+                                           Response<SubscriptionResponse> response) {
+                        if (response.code() == 200) {
+                            int remainTime = response.body().getRemainTime() / 3600000;
+
+                            SubscriptionResponse res = new SubscriptionResponse(response.body().
+                                    getSubscription(), response.body().getRemainTime());
+
+                            if (res.getSubscription() == null){
+                                String s = "남은 시간 " + remainTime + "시간";
+                                mProvidedTime.setText(s);
+                                mProvidedTime.setTextColor(Color.parseColor("#0052cc"));
+                            }
+                            else {
+                                SubTotalData data = new SubTotalData(
+                                        res.getSubscription().getSubscribeData(),
+                                        res.getSubscription().getSubscriptionData());
+                                SubscribeData data2 = new SubscribeData(
+                                        data.getSubscribeData().getId(),
+                                        data.getSubscribeData().getUserId(),
+                                        data.getSubscribeData().getSubscriptionMenuId(),
+                                        data.getSubscribeData().getStartDate(),
+                                        data.getSubscribeData().getEndDate(),
+                                        data.getSubscribeData().getCreatedAt(),
+                                        data.getSubscribeData().getUpdatedAt());
+
+                                if (data.getSubscribeData().getSubscriptionMenuId() == 1) {
+                                    String s1 = "남은 시간 " + remainTime + "시간";
+                                    String s2 = "제공 72시간";
+                                    mLeftTime.setText(s1);
+                                    mProvidedTime.setText(s2);
+                                }
+                                else if (data.getSubscribeData().getSubscriptionMenuId() == 2) {
+                                    String s1 = "남은 시간 " + remainTime + "시간";
+                                    String s2 = "제공 160시간";
+                                    mLeftTime.setText(s1);
+                                    mProvidedTime.setText(s2);
+                                }
+                            }
+                        }
+                        else {
+                            Toast.makeText(context, "일시적으로 잔여 시간을 불러올 수 없습니다",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubscriptionResponse> call, Throwable t) {
+                        System.out.println("error: "+t.getMessage());
+                    }
+                });
     }
 }
