@@ -62,8 +62,8 @@ public class PCInactiveFragment extends Fragment {
                     System.out.println("ip: "+response.body().getIp() + "port: " +
                             response.body().getPort());
                     AddComputerAutomatically.hostAddress = response.body().getIp();
-                    //NvHTTP.HTTP_PORT = response.body().getPort();
-                    //NvHTTP.HTTPS_PORT = response.body().getPort();
+                    NvHTTP.HTTP_PORT = response.body().getPort();
+                    NvHTTP.HTTPS_PORT = response.body().getPort();
                     AddComputerAutomatically.computersToAdd.add(AddComputerAutomatically.hostAddress);
                 }
                 else if (response.code() == 503) {
