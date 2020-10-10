@@ -12,6 +12,11 @@ public class SubscriptionData {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    public int getId() {
+        return id;
+    }
+
     @SerializedName("id")
     private int id;
 
