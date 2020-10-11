@@ -14,10 +14,19 @@
         android:textSize="18dp"
         android:text="내 사용량" />
     <ImageView
-        android:id="@+id/usageBar"
+        android:id="@+id/usageLeftBar"
         android:layout_width="335dp"
         android:layout_height="20dp"
-        android:background="@drawable/usagebar"
+        android:background="@drawable/usage_bar"
+        android:layout_alignLeft="@id/usageTextView"
+        android:layout_below="@id/usageTextView"
+        android:layout_marginTop="20dp"
+        android:layout_alignStart="@id/usageTextView" />
+    <ImageView
+        android:id="@+id/usageBar"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@drawable/usage_bar2"
         android:layout_alignLeft="@id/usageTextView"
         android:layout_below="@id/usageTextView"
         android:layout_marginTop="20dp"

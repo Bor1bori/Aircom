@@ -95,7 +95,9 @@ public class MyPageListViewAdapter extends BaseAdapter{
                             viewGroup, false);
                     mLeftTime = (TextView)view.findViewById(R.id.leftTime);
                     mProvidedTime = (TextView)view.findViewById(R.id.providedTime);
-                    setRemainTime();
+                    View v = view.findViewById(R.id.usageBar);
+                    ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                    setRemainTime(layoutParams, v);
                     break;
             }
 
@@ -125,7 +127,7 @@ public class MyPageListViewAdapter extends BaseAdapter{
         listViewItemList.add(item) ;
     }
 
-    private void setRemainTime() {
+    private void setRemainTime(final ViewGroup.LayoutParams layoutParams, final View v) {
         ServiceAPI service = RetrofitClient.getClient().create(ServiceAPI.class);
         service.subscriptionInfoRequest(SharedPreference.getLoginToken(context))
                 .enqueue(new Callback<SubscriptionResponse>() {
@@ -138,10 +140,21 @@ public class MyPageListViewAdapter extends BaseAdapter{
                             SubscriptionResponse res = new SubscriptionResponse(response.body().
                                     getSubscription(), response.body().getRemainTime());
 
+                            final float scale = context.getResources().getDisplayMetrics().density;
+                            float width;
                             if (res.getSubscription() == null){
                                 String s = "남은 시간 " + remainTime + "시간";
                                 mProvidedTime.setText(s);
                                 mProvidedTime.setTextColor(Color.parseColor("#0052cc"));
+                                if (remainTime >= 30) {
+                                    width = 335;
+                                }
+                                else {
+                                    width = ((float)remainTime / 30 ) * 335;
+                                    System.out.println("width: "+width);
+                                }
+                                layoutParams.width = (int) ( width * scale + 0.5f);
+                                v.setLayoutParams(layoutParams);
                             }
                             else {
                                 SubTotalData data = new SubTotalData(
@@ -161,12 +174,28 @@ public class MyPageListViewAdapter extends BaseAdapter{
                                     String s2 = "제공 72시간";
                                     mLeftTime.setText(s1);
                                     mProvidedTime.setText(s2);
+                                    if (remainTime >= 72) {
+                                        width = 335;
+                                    }
+                                    else {
+                                        width = ((float)remainTime / 72 ) * 335;
+                                    }
+                                    layoutParams.width = (int) (width * scale + 0.5f);
+                                    v.setLayoutParams(layoutParams);
                                 }
                                 else if (data.getSubscribeData().getSubscriptionMenuId() == 2) {
                                     String s1 = "남은 시간 " + remainTime + "시간";
                                     String s2 = "제공 160시간";
                                     mLeftTime.setText(s1);
                                     mProvidedTime.setText(s2);
+                                    if (remainTime >= 160) {
+                                        width = 335;
+                                    }
+                                    else {
+                                        width = ((float)remainTime / 160 ) * 335;
+                                    }
+                                    layoutParams.width = (int) (width * scale + 0.5f);
+                                    v.setLayoutParams(layoutParams);
                                 }
                             }
                         }
