@@ -59,11 +59,13 @@ public class PCInactiveFragment extends Fragment {
                 System.out.println("status code: "+response.code());
                 System.out.println("response body: "+response.body());
                 if (response.code() == 200) {
-                    System.out.println("ip: "+response.body().getIp() + "port: " +
-                            response.body().getPort());
                     AddComputerAutomatically.hostAddress = response.body().getIp();
-                    NvHTTP.HTTP_PORT = response.body().getPort();
-                    NvHTTP.HTTPS_PORT = response.body().getPort();
+                    ArrayList<Integer> ports = response.body().getPort();
+                    System.out.println(ports);
+                    System.out.println(ports.get(0));
+                    System.out.println(ports.get(1));
+                    //NvHTTP.HTTP_PORT = ports.get(0);
+                    //NvHTTP.HTTPS_PORT = ports.get(1);
                     AddComputerAutomatically.computersToAdd.add(AddComputerAutomatically.hostAddress);
                 }
                 else if (response.code() == 503) {
@@ -72,6 +74,7 @@ public class PCInactiveFragment extends Fragment {
                     setConnectionViewInactive();
                 }
                 else {
+                    System.out.println("error: "+response.code());
                     Toast.makeText(getActivity(), "에러 발생", Toast.LENGTH_SHORT).show();
                     setConnectionViewInactive();
                 }
