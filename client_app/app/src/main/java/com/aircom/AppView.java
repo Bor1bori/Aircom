@@ -163,6 +163,18 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
     public void startAppAutomatically() {
         final AppObject app = (AppObject) appGridAdapter.getItem(0);
         ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+        //앱 실행 종료
+        suspendGridUpdates = true;
+            ServerHelper.doQuit(AppView.this, computer,
+                    app.app, managerBinder, new Runnable() {
+                @Override
+                    public void run() {
+                        // Trigger a poll immediately
+                        suspendGridUpdates = false;
+                        if (poller != null) {
+                            poller.pollNow();
+                        }
+                }});
         onBackPressed();
     }
 
