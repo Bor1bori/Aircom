@@ -16,8 +16,6 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getActionBar().hide();
         setContentView(R.layout.activity_splash);
         Handler hd = new Handler();
         hd.postDelayed(new SplashHandler(), 1500);

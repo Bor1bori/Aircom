@@ -26,6 +26,11 @@
         <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
         <item name="android:fontFamily">@font/applesd</item>
         <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowTitleSize">0dp</item>
+    </style>
+
+    <style name="AppThemeNoBar" parent="Theme.AppCompat.Light">
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="PreferenceScreen" parent="Theme.AppCompat">
