@@ -4,5 +4,6 @@
     android:layout_height="match_parent"
     android:id="@+id/stream_settings"
     tools:context=".preferences.StreamSettings"
+    android:paddingBottom="?android:actionBarSize"
     android:paddingTop="?android:actionBarSize">
 </RelativeLayout>
