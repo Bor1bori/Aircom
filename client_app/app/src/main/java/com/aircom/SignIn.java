@@ -161,7 +161,7 @@ public class SignIn extends Activity {
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost
-                    ("http://myaircom.co.kr:3000/auth/oauth/google/signin");
+                    ("http://api.myaircom.co.kr/auth/oauth/google/signin");
 
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);

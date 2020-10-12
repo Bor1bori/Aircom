@@ -3,7 +3,7 @@ package com.aircom.binding.input.capture;
 import android.app.Activity;
 
 import com.aircom.LimeLog;
-import aircom.LimelightBuildProps;
+import com.aircom.LimelightBuildProps;
 import com.aircom.R;
 import com.aircom.binding.input.evdev.EvdevCaptureProviderShim;
 import com.aircom.binding.input.evdev.EvdevListener;

@@ -358,7 +358,7 @@ public class StreamSettings extends Fragment {
                 LimeLog.info("Excluding unlock FPS toggle based on OS");
                 PreferenceCategory category =
                         (PreferenceCategory) findPreference("category_advanced_settings");
-                category.removePreference(findPreference("checkbox_unlock_fps"));
+                //category.removePreference(findPreference("checkbox_unlock_fps"));
             }
             else {
                 /*findPreference(PreferenceConfiguration.UNLOCK_FPS_STRING).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -389,7 +389,7 @@ public class StreamSettings extends Fragment {
                 LimeLog.info("Excluding HDR toggle based on OS");
                 PreferenceCategory category =
                         (PreferenceCategory) findPreference("category_advanced_settings");
-                category.removePreference(findPreference("checkbox_enable_hdr"));
+                //category.removePreference(findPreference("checkbox_enable_hdr"));
             }
             else {
                 Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -410,7 +410,7 @@ public class StreamSettings extends Fragment {
                     LimeLog.info("Excluding HDR toggle based on display capabilities");
                     PreferenceCategory category =
                             (PreferenceCategory) findPreference("category_advanced_settings");
-                    category.removePreference(findPreference("checkbox_enable_hdr"));
+                    //category.removePreference(findPreference("checkbox_enable_hdr"));
                 }
             }
 
