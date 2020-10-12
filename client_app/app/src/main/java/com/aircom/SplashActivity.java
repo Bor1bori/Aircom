@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,8 +16,8 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionBar = getActionBar();
-        actionBar.hide();
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
         setContentView(R.layout.activity_splash);
         Handler hd = new Handler();
         hd.postDelayed(new SplashHandler(), 1500);

@@ -111,7 +111,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/googleSignInButton"
         android:text="계정이 없으신가요?"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:textSize="16dp"
         android:fontFamily="@font/applesd">
     </TextView>

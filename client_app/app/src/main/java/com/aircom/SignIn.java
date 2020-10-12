@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -99,8 +100,15 @@ public class SignIn extends Activity {
 
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
-        actionBar.setIcon(R.drawable.logo2);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(getLayoutInflater().inflate(R.layout.actionbar_default, null),
+                new ActionBar.LayoutParams(
+                        ActionBar.LayoutParams.WRAP_CONTENT,
+                        ActionBar.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                )
+        );
     }
 
     private boolean hasSignedInBefore() {
