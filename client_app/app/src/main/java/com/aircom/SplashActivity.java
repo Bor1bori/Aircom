@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.aircom.data.SharedPreference;
+import com.aircom.utils.ForcedTerminationService;
 
 public class SplashActivity extends Activity {
     @Override
@@ -19,6 +20,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         Handler hd = new Handler();
         hd.postDelayed(new SplashHandler(), 1500);
+        startService(new Intent(this, ForcedTerminationService.class));
     }
 
     private class SplashHandler implements Runnable {

@@ -844,6 +844,28 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
         // Destroy the capture provider
         inputCaptureProvider.destroy();
+
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
+        service.withdrawRequest(SharedPreference.
+                getLoginToken(Game.this)).
+                enqueue(new Callback<PcDeallocationResponse>() {
+                    @Override
+                    public void onResponse(Call<PcDeallocationResponse> call,
+                                           Response<PcDeallocationResponse> response) {
+                        System.out.println("status code: "+response.code());
+                        System.out.println("response body: "+response.body());
+                        PCInactiveFragment.setConnectionViewInactive();
+                       // finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<PcDeallocationResponse> call,
+                                          Throwable t) {
+                        System.out.println("error: "+t.getMessage());
+                        Toast.makeText(Game.this, "PC 사용 중단 에러 발생",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

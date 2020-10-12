@@ -83,6 +83,8 @@
                 <category android:name="tv.ouya.intent.category.APP" />
             </intent-filter>
         </activity>
+        <service android:name="com.aircom.utils.ForcedTerminationService"
+            android:stopWithTask="false" />
         <activity
             android:name="com.aircom.SignUp">
         </activity>
