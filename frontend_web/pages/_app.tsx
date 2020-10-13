@@ -20,7 +20,13 @@ const WrappedApp = ({ Component, pageProps }: { Component: any; pageProps: any }
             dispatch(ppSignin(managerInfo.ppLoginToken, managerInfo.managerEmail));
         }
     }
-    useEffect(setLoggedInInfo, []);
+    useEffect(() => {
+        setLoggedInInfo();
+        const httpTokens = /^http:\/\/(.*)$/.exec(window.location.href);
+        if (httpTokens) {
+            window.location.replace('https://' + httpTokens[1]);
+        }
+    }, []);
     return (
         <div>
             <Head>
