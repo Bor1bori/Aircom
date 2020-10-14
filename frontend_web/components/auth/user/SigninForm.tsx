@@ -43,8 +43,8 @@ const SignIn = () => {
             });
     };
     useEffect(() => {
-        console.log(process.env.NEXT_PUBLIC_API_HOST);
-        console.log(process.env.NEXT_PUBLIC_CLIENT_ID);
+        console.log("api host: ", process.env.NEXT_PUBLIC_API_HOST);
+        console.log("client id: ", process.env.NEXT_PUBLIC_CLIENT_ID);
     }, [])
     return (
         <div>
