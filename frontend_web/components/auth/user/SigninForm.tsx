@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { signin } from "../../../store/auth/action";
@@ -38,9 +38,14 @@ const SignIn = () => {
             })
             .catch((err) => {
                 if (err.response.status == 401) alert("이메일 혹은 비밀번호를 다시 확인해주세요");
-                if (err.response.status == 400) alert("이메일 혹은 비밀번호 형식이 올바르지 않습니다");
+                else if (err.response.status == 400) alert("이메일 혹은 비밀번호 형식이 올바르지 않습니다");
+                else alert("통신 오류 발생");
             });
     };
+    useEffect(() => {
+        console.log(process.env.NEXT_PUBLIC_API_HOST);
+        console.log(process.env.NEXT_PUBLIC_CLIENT_ID);
+    }, [])
     return (
         <div>
             <form onSubmit={onSignin}>
