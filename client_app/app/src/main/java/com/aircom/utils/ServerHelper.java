@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.aircom.AppView;
-import com.aircom.Game;
+import com.aircom.Stream;
 import com.aircom.R;
 import com.aircom.ShortcutTrampoline;
 import com.aircom.binding.PlatformBinding;
@@ -39,26 +39,26 @@ public class ServerHelper {
         Intent i = new Intent(parent, ShortcutTrampoline.class);
         i.putExtra(AppView.NAME_EXTRA, computer.name);
         i.putExtra(AppView.UUID_EXTRA, computer.uuid);
-        i.putExtra(Game.EXTRA_APP_NAME, app.getAppName());
-        i.putExtra(Game.EXTRA_APP_ID, ""+app.getAppId());
-        i.putExtra(Game.EXTRA_APP_HDR, app.isHdrSupported());
+        i.putExtra(Stream.EXTRA_APP_NAME, app.getAppName());
+        i.putExtra(Stream.EXTRA_APP_ID, ""+app.getAppId());
+        i.putExtra(Stream.EXTRA_APP_HDR, app.isHdrSupported());
         i.setAction(Intent.ACTION_DEFAULT);
         return i;
     }
 
     public static Intent createStartIntent(Activity parent, NvApp app, ComputerDetails computer,
                                            ComputerManagerService.ComputerManagerBinder managerBinder) {
-        Intent intent = new Intent(parent, Game.class);
-        intent.putExtra(Game.EXTRA_HOST, getCurrentAddressFromComputer(computer));
-        intent.putExtra(Game.EXTRA_APP_NAME, app.getAppName());
-        intent.putExtra(Game.EXTRA_APP_ID, app.getAppId());
-        intent.putExtra(Game.EXTRA_APP_HDR, app.isHdrSupported());
-        intent.putExtra(Game.EXTRA_UNIQUEID, managerBinder.getUniqueId());
-        intent.putExtra(Game.EXTRA_PC_UUID, computer.uuid);
-        intent.putExtra(Game.EXTRA_PC_NAME, computer.name);
+        Intent intent = new Intent(parent, Stream.class);
+        intent.putExtra(Stream.EXTRA_HOST, getCurrentAddressFromComputer(computer));
+        intent.putExtra(Stream.EXTRA_APP_NAME, app.getAppName());
+        intent.putExtra(Stream.EXTRA_APP_ID, app.getAppId());
+        intent.putExtra(Stream.EXTRA_APP_HDR, app.isHdrSupported());
+        intent.putExtra(Stream.EXTRA_UNIQUEID, managerBinder.getUniqueId());
+        intent.putExtra(Stream.EXTRA_PC_UUID, computer.uuid);
+        intent.putExtra(Stream.EXTRA_PC_NAME, computer.name);
         try {
             if (computer.serverCert != null) {
-                intent.putExtra(Game.EXTRA_SERVER_CERT, computer.serverCert.getEncoded());
+                intent.putExtra(Stream.EXTRA_SERVER_CERT, computer.serverCert.getEncoded());
             }
         } catch (CertificateEncodingException e) {
             e.printStackTrace();

@@ -236,14 +236,14 @@ public class ShortcutTrampoline extends Activity {
 
         UiHelper.notifyNewRootView(this);
 
-        String appIdString = getIntent().getStringExtra(Game.EXTRA_APP_ID);
+        String appIdString = getIntent().getStringExtra(Stream.EXTRA_APP_ID);
         uuidString = getIntent().getStringExtra(AppView.UUID_EXTRA);
 
         if (validateInput(uuidString, appIdString)) {
             if (appIdString != null && !appIdString.isEmpty()) {
-                app = new NvApp(getIntent().getStringExtra(Game.EXTRA_APP_NAME),
+                app = new NvApp(getIntent().getStringExtra(Stream.EXTRA_APP_NAME),
                         Integer.parseInt(appIdString),
-                        getIntent().getBooleanExtra(Game.EXTRA_APP_HDR, false));
+                        getIntent().getBooleanExtra(Stream.EXTRA_APP_HDR, false));
             }
 
             // Bind to the computer manager service

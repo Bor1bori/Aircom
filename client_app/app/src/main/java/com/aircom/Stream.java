@@ -94,7 +94,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class Game extends Activity implements SurfaceHolder.Callback,
+public class Stream extends Activity implements SurfaceHolder.Callback,
     OnGenericMotionListener, OnTouchListener, NvConnectionListener, EvdevListener,
     OnSystemUiVisibilityChangeListener, GameGestures, StreamView.InputCallbacks,
     PerfOverlayListener
@@ -223,7 +223,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
         // Read the stream preferences
         prefConfig = PreferenceConfiguration.readPreferences(this);
-        tombstonePrefs = Game.this.getSharedPreferences("DecoderTombstone", 0);
+        tombstonePrefs = Stream.this.getSharedPreferences("DecoderTombstone", 0);
 
         if (prefConfig.stretchVideo) {
             // Allow the activity to layout under notches if the fill-screen option
@@ -280,14 +280,14 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             lowLatencyWifiLock.acquire();
         }
 
-        String host = Game.this.getIntent().getStringExtra(EXTRA_HOST);
-        String appName = Game.this.getIntent().getStringExtra(EXTRA_APP_NAME);
-        int appId = Game.this.getIntent().getIntExtra(EXTRA_APP_ID, StreamConfiguration.INVALID_APP_ID);
-        String uniqueId = Game.this.getIntent().getStringExtra(EXTRA_UNIQUEID);
-        String uuid = Game.this.getIntent().getStringExtra(EXTRA_PC_UUID);
-        String pcName = Game.this.getIntent().getStringExtra(EXTRA_PC_NAME);
-        boolean willStreamHdr = Game.this.getIntent().getBooleanExtra(EXTRA_APP_HDR, false);
-        byte[] derCertData = Game.this.getIntent().getByteArrayExtra(EXTRA_SERVER_CERT);
+        String host = Stream.this.getIntent().getStringExtra(EXTRA_HOST);
+        String appName = Stream.this.getIntent().getStringExtra(EXTRA_APP_NAME);
+        int appId = Stream.this.getIntent().getIntExtra(EXTRA_APP_ID, StreamConfiguration.INVALID_APP_ID);
+        String uniqueId = Stream.this.getIntent().getStringExtra(EXTRA_UNIQUEID);
+        String uuid = Stream.this.getIntent().getStringExtra(EXTRA_PC_UUID);
+        String pcName = Stream.this.getIntent().getStringExtra(EXTRA_PC_NAME);
+        boolean willStreamHdr = Stream.this.getIntent().getBooleanExtra(EXTRA_APP_HDR, false);
+        byte[] derCertData = Stream.this.getIntent().getByteArrayExtra(EXTRA_SERVER_CERT);
 
         X509Certificate serverCert = null;
         try {
@@ -764,12 +764,12 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 // In multi-window mode on N+, we need to drop our layout flags or we'll
                 // be drawing underneath the system UI.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode()) {
-                    Game.this.getWindow().getDecorView().setSystemUiVisibility(
+                    Stream.this.getWindow().getDecorView().setSystemUiVisibility(
                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
                 }
                 // Use immersive mode on 4.4+ or standard low profile on previous builds
                 else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    Game.this.getWindow().getDecorView().setSystemUiVisibility(
+                    Stream.this.getWindow().getDecorView().setSystemUiVisibility(
                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
                             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
@@ -778,7 +778,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                             View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
                 }
                 else {
-                    Game.this.getWindow().getDecorView().setSystemUiVisibility(
+                    Stream.this.getWindow().getDecorView().setSystemUiVisibility(
                             View.SYSTEM_UI_FLAG_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_LOW_PROFILE);
                 }
@@ -847,7 +847,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
         service = RetrofitClient.getClient().create(ServiceAPI.class);
         service.withdrawRequest(SharedPreference.
-                getLoginToken(Game.this)).
+                getLoginToken(Stream.this)).
                 enqueue(new Callback<PcDeallocationResponse>() {
                     @Override
                     public void onResponse(Call<PcDeallocationResponse> call,
@@ -862,7 +862,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                     public void onFailure(Call<PcDeallocationResponse> call,
                                           Throwable t) {
                         System.out.println("error: "+t.getMessage());
-                        Toast.makeText(Game.this, "PC 사용 중단 에러 발생",
+                        Toast.makeText(Stream.this, "PC 사용 중단 에러 발생",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -1551,10 +1551,10 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
                     // If video initialization failed and the surface is still valid, display extra information for the user
                     if (stage.contains("video") && streamView.getHolder().getSurface().isValid()) {
-                        Toast.makeText(Game.this, getResources().getText(R.string.video_decoder_init_failed), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Stream.this, getResources().getText(R.string.video_decoder_init_failed), Toast.LENGTH_LONG).show();
                     }
 
-                    Dialog.displayDialog(Game.this, getResources().getString(R.string.conn_error_title),
+                    Dialog.displayDialog(Stream.this, getResources().getString(R.string.conn_error_title),
                             getResources().getString(R.string.conn_error_msg) + " " + stage +" (error "+errorCode+")", true);
                 }
             }
@@ -1592,7 +1592,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                                 break;
                         }
 
-                        Dialog.displayDialog(Game.this, getResources().getString(R.string.conn_terminated_title),
+                        Dialog.displayDialog(Stream.this, getResources().getString(R.string.conn_terminated_title),
                                 message, true);
                     }
                     else {
@@ -1672,7 +1672,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(Game.this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(Stream.this, message, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -1683,7 +1683,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(Game.this, message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(Stream.this, message, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -1706,7 +1706,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             attemptedConnection = true;
 
             decoderRenderer.setRenderTarget(holder);
-            conn.start(PlatformBinding.getAudioRenderer(), decoderRenderer, Game.this);
+            conn.start(PlatformBinding.getAudioRenderer(), decoderRenderer, Stream.this);
         }
     }
 
@@ -1849,7 +1849,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     private void requestPcDeallocate() {
         service = RetrofitClient.getClient().create(ServiceAPI.class);
         service.withdrawRequest(SharedPreference.
-                getLoginToken(Game.this)).
+                getLoginToken(Stream.this)).
                 enqueue(new Callback<PcDeallocationResponse>() {
                     @Override
                     public void onResponse(Call<PcDeallocationResponse> call,
@@ -1864,7 +1864,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                     public void onFailure(Call<PcDeallocationResponse> call,
                                           Throwable t) {
                         System.out.println("error: "+t.getMessage());
-                        Toast.makeText(Game.this, "PC 사용 중단 에러 발생",
+                        Toast.makeText(Stream.this, "PC 사용 중단 에러 발생",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
