@@ -16,9 +16,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.aircom.AddComputerAutomatically;
+import com.aircom.ChargeMoney;
 import com.aircom.R;
 import com.aircom.data.PcAllocationResponse;
+import com.aircom.data.RetrofitClient;
+import com.aircom.data.ServiceAPI;
 import com.aircom.data.SharedPreference;
+import com.aircom.data.SubscriptionResponse;
 import com.aircom.nvstream.http.NvHTTP;
 
 import java.util.ArrayList;
@@ -28,10 +32,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PCInactiveFragment extends Fragment {
-    @Nullable
     static ImageView imageView;
     static TextView connectionTextView;
     static View root;
+    private int remainTime;
+    private ServiceAPI service;
+    @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_pc_inactive, container, false);
@@ -45,12 +51,18 @@ public class PCInactiveFragment extends Fragment {
                 handleDoneEvent();
             }
         });
+        setRemainTime();
         return root;
     }
 
     // Returns true if the event should be eaten
     public boolean handleDoneEvent() {
-        System.out.println("login token: "+SharedPreference.getLoginToken(getActivity()));
+        if (remainTime == 0) {
+            Toast.makeText(getActivity(), "잔여 시간이 없습니다. 충전을 먼저 해주세요.",
+                    Toast.LENGTH_LONG).show();
+            setConnectionViewInactive();
+            return true;
+        }
         AddComputerAutomatically.service.allocationRequest(SharedPreference.getLoginToken
                 (getActivity())).enqueue(new Callback<PcAllocationResponse>() {
             @Override
@@ -110,6 +122,25 @@ public class PCInactiveFragment extends Fragment {
                 connectionTextView.setText("PC를 연결해 주세요.");
             }
         });
+    }
+
+    private void setRemainTime() {
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
+        service.subscriptionInfoRequest(SharedPreference.getLoginToken(getActivity()))
+                .enqueue(new Callback<SubscriptionResponse>() {
+                    @Override
+                    public void onResponse(Call<SubscriptionResponse> call,
+                                           Response<SubscriptionResponse> response) {
+                        if (response.code() == 200) {
+                            remainTime = response.body().getRemainTime() / 3600000;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubscriptionResponse> call, Throwable t) {
+                        System.out.println("error: "+t.getMessage());
+                    }
+                });
     }
 
 }
