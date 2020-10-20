@@ -194,9 +194,8 @@ public class SignUp extends Activity {
 
             @Override
             public void onFailure(Call<SignUpResponse> call, Throwable t) {
-                Toast.makeText(SignUp.this, "회원가입 에러 발생",
+                Toast.makeText(SignUp.this, "네트워크 상태를 확인해주세요",
                         Toast.LENGTH_SHORT).show();
-                Log.e("회원가입 에러 발생", t.getMessage());
             }
         });
 
@@ -225,9 +224,8 @@ public class SignUp extends Activity {
 
             @Override
             public void onFailure(Call<SignInResponse> call, Throwable t) {
-                Toast.makeText(SignUp.this, "로그인 에러 발생",
+                Toast.makeText(SignUp.this, "네트워크 상태를 확인해주세요",
                         Toast.LENGTH_SHORT).show();
-                Log.e("로그인 에러 발생", t.getMessage());
             }
         });
     }

@@ -284,9 +284,8 @@ public class SignIn extends Activity {
 
             @Override
             public void onFailure(Call<SignInResponse> call, Throwable t) {
-                Toast.makeText(SignIn.this, "로그인 에러 발생",
+                Toast.makeText(SignIn.this, "네트워크 상태를 확인해주세요",
                         Toast.LENGTH_SHORT).show();
-                Log.e("로그인 에러 발생", t.getMessage());
             }
         });
     }

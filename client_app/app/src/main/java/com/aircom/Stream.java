@@ -861,8 +861,7 @@ public class Stream extends Activity implements SurfaceHolder.Callback,
                     @Override
                     public void onFailure(Call<PcDeallocationResponse> call,
                                           Throwable t) {
-                        System.out.println("error: "+t.getMessage());
-                        Toast.makeText(Stream.this, "PC 사용 중단 에러 발생",
+                        Toast.makeText(Stream.this, "네트워크 상태를 확인해주세요",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });

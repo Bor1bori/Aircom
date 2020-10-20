@@ -207,7 +207,8 @@ public class MyPageListViewAdapter extends BaseAdapter{
 
                     @Override
                     public void onFailure(Call<SubscriptionResponse> call, Throwable t) {
-                        System.out.println("error: "+t.getMessage());
+                        Toast.makeText(context, "네트워크 상태를 확인해주세요",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }

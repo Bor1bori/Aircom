@@ -158,7 +158,8 @@ public class ChargeMoney extends Activity {
 
                     @Override
                     public void onFailure(Call<SubscriptionResponse> call, Throwable t) {
-                        System.out.println("error: "+t.getMessage());
+                        Toast.makeText(ChargeMoney.this, "네트워크 상태를 확인해주세요",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -220,7 +221,7 @@ public class ChargeMoney extends Activity {
                         }
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(ChargeMoney.this, "통신 에러 발생",
+                            Toast.makeText(ChargeMoney.this, "네트워크 상태를 확인해주세요",
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -245,7 +246,7 @@ public class ChargeMoney extends Activity {
                         }
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(ChargeMoney.this, "통신 에러 발생",
+                            Toast.makeText(ChargeMoney.this, "네트워크 상태를 확인해주세요",
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -270,7 +271,7 @@ public class ChargeMoney extends Activity {
                         }
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(ChargeMoney.this, "통신 에러 발생",
+                            Toast.makeText(ChargeMoney.this, "네트워크 상태를 확인해주세요",
                                     Toast.LENGTH_SHORT).show();
                         }
                     });

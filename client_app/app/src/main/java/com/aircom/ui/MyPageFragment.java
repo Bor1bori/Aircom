@@ -73,7 +73,8 @@ public class MyPageFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<AccountInfoResponse> call, Throwable t) {
-                        System.out.println("error: "+t.getMessage());
+                        Toast.makeText(getActivity(), "네트워크 상태를 확인해주세요",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }

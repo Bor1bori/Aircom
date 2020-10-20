@@ -174,7 +174,7 @@ public class EditAccountInfo extends Activity {
             }
             @Override
             public void onFailure(Call<EditInfoResponse> call, Throwable t) {
-                Toast.makeText(EditAccountInfo.this, "정보 수정 실패",
+                Toast.makeText(EditAccountInfo.this, "네트워크 상태를 확인해주세요",
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -197,7 +197,7 @@ public class EditAccountInfo extends Activity {
 
             @Override
             public void onFailure(Call<DeleteAccountResponse> call, Throwable t) {
-                Toast.makeText(EditAccountInfo.this, "탈퇴 요청 실패",
+                Toast.makeText(EditAccountInfo.this, "네트워크 상태를 확인해주세요",
                         Toast.LENGTH_SHORT).show();
             }
         });

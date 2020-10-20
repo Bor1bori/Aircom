@@ -89,7 +89,7 @@ public class DeleteAccount extends Activity {
 
                     @Override
                     public void onFailure(Call<DeleteAccountResponse> call, Throwable t) {
-                        Toast.makeText(DeleteAccount.this, "탈퇴 요청 실패",
+                        Toast.makeText(DeleteAccount.this, "네트워크 상태를 확인해주세요",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });

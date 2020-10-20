@@ -94,8 +94,8 @@ public class PCInactiveFragment extends Fragment {
 
             @Override
             public void onFailure(Call<PcAllocationResponse> call, Throwable t) {
-                System.out.println("error: "+t.getMessage());
-                Toast.makeText(getActivity(), "에러 발생", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "네트워크 상태를 확인해주세요",
+                        Toast.LENGTH_SHORT).show();
                 setConnectionViewInactive();
             }
         });
@@ -138,7 +138,8 @@ public class PCInactiveFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<SubscriptionResponse> call, Throwable t) {
-                        System.out.println("error: "+t.getMessage());
+                        Toast.makeText(getActivity(), "네트워크 상태를 확인해주세요",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
