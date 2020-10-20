@@ -55,7 +55,7 @@
         <CheckBoxPreference
             android:key="checkbox_touchscreen_trackpad"
             android:title="터치 스크린을 트랙패드로 활용하기"
-            android:defaultValue="true" />
+            android:defaultValue="false" />
         <!--
         <CheckBoxPreference
             android:key="checkbox_multi_controller"

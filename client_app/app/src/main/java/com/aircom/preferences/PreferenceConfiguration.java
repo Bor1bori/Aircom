@@ -129,7 +129,7 @@ public class PreferenceConfiguration {
         }
         else {
             // Should be unreachable
-            return RES_720P;
+            return RES_1080P;
         }
     }
 
