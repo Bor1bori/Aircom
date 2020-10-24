@@ -164,17 +164,20 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         final AppObject app = (AppObject) appGridAdapter.getItem(0);
         ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
         //앱 실행 종료
-        suspendGridUpdates = true;
+        new Thread(new Runnable() { @Override public void run() {
+            suspendGridUpdates = true;
             ServerHelper.doQuit(AppView.this, computer,
                     app.app, managerBinder, new Runnable() {
-                @Override
-                    public void run() {
-                        // Trigger a poll immediately
-                        suspendGridUpdates = false;
-                        if (poller != null) {
-                            poller.pollNow();
+                        @Override
+                        public void run() {
+                            // Trigger a poll immediately
+                            suspendGridUpdates = false;
+                            if (poller != null) {
+                                poller.pollNow();
+                            }
                         }
-                }});
+                    }); }
+        }).start();
         onBackPressed();
     }
 
@@ -318,6 +321,7 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         
 
         uuidString = getIntent().getStringExtra(UUID_EXTRA);
+        System.out.println("uuid: "+uuidString);
 
         String computerName = getIntent().getStringExtra(NAME_EXTRA);
 
