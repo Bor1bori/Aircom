@@ -14,8 +14,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.aircom.binding.PlatformBinding;
 import com.aircom.computers.ComputerManagerListener;
 import com.aircom.computers.ComputerManagerService;
+import com.aircom.data.PcDeallocationResponse;
 import com.aircom.data.RetrofitClient;
 import com.aircom.data.ServiceAPI;
+import com.aircom.data.SharedPreference;
 import com.aircom.nvstream.http.ComputerDetails;
 import com.aircom.nvstream.http.NvHTTP;
 import com.aircom.nvstream.http.PairingManager;
@@ -48,6 +50,10 @@ import android.app.Fragment;
 
 
 import org.xmlpull.v1.XmlPullParserException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddComputerAutomatically extends Activity {
     public boolean runningPolling, freezeUpdates, inForeground;
@@ -139,10 +145,13 @@ public class AddComputerAutomatically extends Activity {
         if (wrongSiteLocal) {
             Dialog.displayDialog(this, getResources().getString(R.string.conn_error_title), getResources().getString(R.string.addpc_wrong_sitelocal), false);
             PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
+
         }
         else if (!success) {
             Dialog.displayDialog(this, getResources().getString(R.string.conn_error_title), getResources().getString(R.string.addpc_fail), false);
             PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
         }
         else {
             AddComputerAutomatically.this.runOnUiThread(new Runnable() {
@@ -152,7 +161,7 @@ public class AddComputerAutomatically extends Activity {
 
                     if (!isFinishing()) {
                         // 만약 pc가 pairing 되지 않은 상태라면
-                        if (details.pairState!= PairingManager.PairState.PAIRED){
+                        if (details.pairState != PairingManager.PairState.PAIRED) {
                             doPair(details);
                             return;
                         }
@@ -288,6 +297,29 @@ public class AddComputerAutomatically extends Activity {
         );
     }
 
+    private void requestPcDeallocate() {
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
+        service.withdrawRequest(SharedPreference.
+                getLoginToken(AddComputerAutomatically.this)).
+                enqueue(new Callback<PcDeallocationResponse>() {
+                    @Override
+                    public void onResponse(Call<PcDeallocationResponse> call,
+                                           Response<PcDeallocationResponse> response) {
+                        System.out.println("status code: "+response.code());
+                        System.out.println("response body: "+response.body());
+                        PCInactiveFragment.setConnectionViewInactive();
+                        // finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<PcDeallocationResponse> call,
+                                          Throwable t) {
+                        Toast.makeText(AddComputerAutomatically.this, "네트워크 상태를 확인해주세요",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     public void doPair(final ComputerDetails computer) {
         if (computer.state == ComputerDetails.State.OFFLINE ||
                 ServerHelper.getCurrentAddressFromComputer(computer) == null) {
@@ -327,9 +359,9 @@ public class AddComputerAutomatically extends Activity {
                         final String pinStr = "1111";//PairingManager.generatePinString();
 
                         // Spin the dialog off in a thread because it blocks
-                        //여기서 인증번호 받아 서버에 전달
-                        Dialog.displayDialog(AddComputerAutomatically.this, getResources().getString(R.string.pair_pairing_title),
-                                getResources().getString(R.string.pair_pairing_msg)+" "+pinStr, false);
+
+                        //Dialog.displayDialog(AddComputerAutomatically.this, getResources().getString(R.string.pair_pairing_title),
+                         //       getResources().getString(R.string.pair_pairing_msg)+" "+pinStr, false);
 
                         PairingManager pm = httpConn.getPairingManager();
 
