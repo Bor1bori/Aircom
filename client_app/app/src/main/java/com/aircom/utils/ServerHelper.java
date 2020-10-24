@@ -81,7 +81,7 @@ public class ServerHelper {
                               final NvApp app,
                               final ComputerManagerService.ComputerManagerBinder managerBinder,
                               final Runnable onComplete) {
-        Toast.makeText(parent, parent.getResources().getString(R.string.applist_quit_app) + " " + app.getAppName() + "...", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(parent, parent.getResources().getString(R.string.applist_quit_app) + " " + app.getAppName() + "...", Toast.LENGTH_SHORT).show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -121,7 +121,7 @@ public class ServerHelper {
                 parent.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(parent, toastMessage, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(parent, toastMessage, Toast.LENGTH_LONG).show();
                     }
                 });
             }
