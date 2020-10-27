@@ -143,11 +143,13 @@ public class MyPageListViewAdapter extends BaseAdapter{
                             remainTime = response.body().getRemainTime() / 3600000;
                             res = new SubscriptionResponse(response.body().
                                     getSubscription(), response.body().getRemainTime());
-                            response.body().getSubscription().getSubscribeData();
-                            data = new SubTotalData(
-                                    res.getSubscription().getSubscribeData(),
-                                    res.getSubscription().getSubscriptionData());
-                            subscriptionMenuId = data.getSubscribeData().subscriptionMenuId;
+                            if (res.getSubscription() != null) {
+                                res.getSubscription().getSubscribeData();
+                                data = new SubTotalData(
+                                        res.getSubscription().getSubscribeData(),
+                                        res.getSubscription().getSubscriptionData());
+                                subscriptionMenuId = data.getSubscribeData().subscriptionMenuId;
+                            }
                             setUsageBar(layoutParams, v);
                         }
                         else {
