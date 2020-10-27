@@ -1,7 +1,5 @@
-import requests, json
-from pywinauto import Application
-import pyautogui
-import time
+import requests
+import json
 
 class APISender:
     backend_url = ""
@@ -27,4 +25,4 @@ class APISender:
             print("404 not found")
        
         #TODO 401, 404 등 에러 처리
-        
+
