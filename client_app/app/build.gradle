@@ -9,8 +9,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 30
 
-        versionName "9.6.4"
-        versionCode = 237
+        versionName "1.0.1"
+        versionCode = 1
     }
 
     flavorDimensions "root"
@@ -46,6 +46,7 @@ android {
     lintOptions {
         disable 'MissingTranslation'
         lintConfig file("lint.xml")
+        checkReleaseBuilds false
     }
 
     bundle {
@@ -101,9 +102,10 @@ android {
             // is to please change the applicationId before you publish.
             //
             // TL;DR: Leave the following line alone!
-            applicationIdSuffix ".unofficial"
+            //applicationIdSuffix ".unofficial"
 
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
