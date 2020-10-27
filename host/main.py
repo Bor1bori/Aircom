@@ -1,11 +1,11 @@
-import socket
-import pywinauto
-from pywinauto.application import Application
 from api_sender import APISender
 from sio import SIO
 from config import Config
+from pathlib import Path
+from state_manager import StateManager
+import threading
 
-CONF_DIRECTORY = "conf.ini"
+CONF_DIRECTORY = str(Path.home()) + "\\aircom\\conf.ini"
 BACKEND_URL = "http://api.myaircom.co.kr"
 
 config = Config(CONF_DIRECTORY)
@@ -24,5 +24,7 @@ if __name__== "__main__" :
         else:
             print("authorized failed")
             exit()
-
-    SIO(BACKEND_URL, uuid)
+    state_mgr = StateManager()
+    mgr_thread = threading.Thread(target=state_mgr.manage_run)
+    mgr_thread.start()
+    SIO(BACKEND_URL, uuid, state_mgr)
