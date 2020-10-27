@@ -1,5 +1,6 @@
 import os
 import configparser
+import errno
 
 # util class
 class Empty:
@@ -20,6 +21,13 @@ class Config:
         self.config.optionxform = lambda option: option    # prevent the key value being lowercase
         self.config.read(self.filename)
         print("Load Config : %s" % self.filename)
+
+        if not os.path.exists(os.path.dirname(configFilename)):
+            try :
+                os.mkdir(os.path.dirname(configFilename))
+            except OSError as exc:
+                if exc.errno != errno.EEXIST:
+                    raise
 
         # set sections
         for section in self.config.sections():
