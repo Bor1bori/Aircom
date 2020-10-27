@@ -31,13 +31,15 @@ export const subscribe = async (user: User, subscriptionMenuId: number) => {
     endDate: new Date()
   }, {
     where: {
+      userId: user.id,
       endDate: null
     }
   });
   // 새로 구독
   await Subscribe.create({
     userId: user.id,
-    subscriptionMenuId: foundMenu.id
+    subscriptionMenuId: foundMenu.id,
+    endDate: undefined
   });
   user.remainTime += foundMenu.monthlyUsableTime;
   await user.save();

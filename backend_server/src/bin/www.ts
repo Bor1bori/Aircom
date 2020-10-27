@@ -25,7 +25,10 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
-const io = socketIO(server, { pingTimeout: 60000 });
+const io = socketIO(server, {
+  pingTimeout: 1000,
+  pingInterval: 500
+});
 /**
  * Listen on provided port, on all network interfaces.
  */
