@@ -118,7 +118,7 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                     // This must be done _before_ startComputerUpdates()
                     // so the initial serverinfo response can update the running
                     // icon.
-                    populateAppGridWithCache();
+                    //populateAppGridWithCache();
 
                     // Start updates
                     startComputerUpdates();
@@ -321,19 +321,13 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
         
 
         uuidString = getIntent().getStringExtra(UUID_EXTRA);
-        System.out.println("uuid: "+uuidString);
 
-        String computerName = getIntent().getStringExtra(NAME_EXTRA);
-
-        TextView label = findViewById(R.id.appListText);
-        //setTitle(computerName);
-        //label.setText(computerName);
         // Bind to the computer manager service
         bindService(new Intent(this, ComputerManagerService.class), serviceConnection,
                 Service.BIND_AUTO_CREATE);
     }
 
-    private void populateAppGridWithCache() {
+    /*private void populateAppGridWithCache() {
         try {
             // Try to load from cache
             lastRawApplist = CacheHelper.readInputStreamToString(CacheHelper.openCacheFileForInput(getCacheDir(), "applist", uuidString));
@@ -349,7 +343,7 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
             // We'll need to load from the network
             loadAppsBlocking();
         }
-    }
+    }*/
 
     private void loadAppsBlocking() {
         blockingLoadSpinner = SpinnerDialog.displayDialog(this, getResources().getString(R.string.applist_refresh_title),
