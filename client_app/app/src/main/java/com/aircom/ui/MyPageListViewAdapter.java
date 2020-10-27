@@ -20,6 +20,7 @@ import com.aircom.data.ServiceAPI;
 import com.aircom.data.SharedPreference;
 import com.aircom.data.SubTotalData;
 import com.aircom.data.SubscribeData;
+import com.aircom.data.SubscriptionData;
 import com.aircom.data.SubscriptionResponse;
 
 import java.util.ArrayList;
@@ -36,6 +37,10 @@ public class MyPageListViewAdapter extends BaseAdapter{
     private TextView mLeftTime;
     private TextView mProvidedTime;
     private Context context;
+    private SubscriptionResponse res;
+    private SubTotalData data;
+    private int subscriptionMenuId;
+    private int remainTime;
 
     public MyPageListViewAdapter(Context context) {
         this.context = context;
@@ -135,69 +140,15 @@ public class MyPageListViewAdapter extends BaseAdapter{
                     public void onResponse(Call<SubscriptionResponse> call,
                                            Response<SubscriptionResponse> response) {
                         if (response.code() == 200) {
-                            int remainTime = response.body().getRemainTime() / 3600000;
-
-                            SubscriptionResponse res = new SubscriptionResponse(response.body().
+                            remainTime = response.body().getRemainTime() / 3600000;
+                            res = new SubscriptionResponse(response.body().
                                     getSubscription(), response.body().getRemainTime());
-
-                            final float scale = context.getResources().getDisplayMetrics().density;
-                            float width;
-                            if (res.getSubscription() == null){
-                                String s = "남은 시간 " + remainTime + "시간";
-                                mProvidedTime.setText(s);
-                                mProvidedTime.setTextColor(Color.parseColor("#0052cc"));
-                                if (remainTime >= 30) {
-                                    width = 335;
-                                }
-                                else {
-                                    width = ((float)remainTime / 30 ) * 335;
-                                    System.out.println("width: "+width);
-                                }
-                                layoutParams.width = (int) ( width * scale + 0.5f);
-                                v.setLayoutParams(layoutParams);
-                            }
-                            else {
-                                SubTotalData data = new SubTotalData(
-                                        res.getSubscription().getSubscribeData(),
-                                        res.getSubscription().getSubscriptionData());
-                                SubscribeData data2 = new SubscribeData(
-                                        data.getSubscribeData().getId(),
-                                        data.getSubscribeData().getUserId(),
-                                        data.getSubscribeData().getSubscriptionMenuId(),
-                                        data.getSubscribeData().getStartDate(),
-                                        data.getSubscribeData().getEndDate(),
-                                        data.getSubscribeData().getCreatedAt(),
-                                        data.getSubscribeData().getUpdatedAt());
-
-                                if (data.getSubscribeData().getSubscriptionMenuId() == 1) {
-                                    String s1 = "남은 시간 " + remainTime + "시간";
-                                    String s2 = "제공 72시간";
-                                    mLeftTime.setText(s1);
-                                    mProvidedTime.setText(s2);
-                                    if (remainTime >= 72) {
-                                        width = 335;
-                                    }
-                                    else {
-                                        width = ((float)remainTime / 72 ) * 335;
-                                    }
-                                    layoutParams.width = (int) (width * scale + 0.5f);
-                                    v.setLayoutParams(layoutParams);
-                                }
-                                else if (data.getSubscribeData().getSubscriptionMenuId() == 2) {
-                                    String s1 = "남은 시간 " + remainTime + "시간";
-                                    String s2 = "제공 160시간";
-                                    mLeftTime.setText(s1);
-                                    mProvidedTime.setText(s2);
-                                    if (remainTime >= 160) {
-                                        width = 335;
-                                    }
-                                    else {
-                                        width = ((float)remainTime / 160 ) * 335;
-                                    }
-                                    layoutParams.width = (int) (width * scale + 0.5f);
-                                    v.setLayoutParams(layoutParams);
-                                }
-                            }
+                            response.body().getSubscription().getSubscribeData();
+                            data = new SubTotalData(
+                                    res.getSubscription().getSubscribeData(),
+                                    res.getSubscription().getSubscriptionData());
+                            subscriptionMenuId = data.getSubscribeData().subscriptionMenuId;
+                            setUsageBar(layoutParams, v);
                         }
                         else {
                             Toast.makeText(context, "일시적으로 잔여 시간을 불러올 수 없습니다",
@@ -211,5 +162,54 @@ public class MyPageListViewAdapter extends BaseAdapter{
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void setUsageBar(final ViewGroup.LayoutParams layoutParams, final View v) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        float width;
+        if (res.getSubscription() == null) {
+            String s = "남은 시간 " + remainTime + "시간";
+            mProvidedTime.setText(s);
+            mProvidedTime.setTextColor(Color.parseColor("#0052cc"));
+            if (remainTime >= 30) {
+                width = 335;
+            }
+            else {
+                width = ((float)remainTime / 30 ) * 335;
+                System.out.println("width: "+width);
+            }
+            layoutParams.width = (int) ( width * scale + 0.5f);
+            v.setLayoutParams(layoutParams);
+        }
+        else {
+            if (subscriptionMenuId == 1) {
+                String s1 = "남은 시간 " + remainTime + "시간";
+                String s2 = "제공 72시간";
+                mLeftTime.setText(s1);
+                mProvidedTime.setText(s2);
+                if (remainTime >= 72) {
+                    width = 335;
+                }
+                else {
+                    width = ((float)remainTime / 72 ) * 335;
+                }
+                layoutParams.width = (int) (width * scale + 0.5f);
+                v.setLayoutParams(layoutParams);
+            }
+            else if (subscriptionMenuId == 2) {
+                String s1 = "남은 시간 " + remainTime + "시간";
+                String s2 = "제공 160시간";
+                mLeftTime.setText(s1);
+                mProvidedTime.setText(s2);
+                if (remainTime >= 160) {
+                    width = 335;
+                }
+                else {
+                    width = ((float)remainTime / 160 ) * 335;
+                }
+                layoutParams.width = (int) (width * scale + 0.5f);
+                v.setLayoutParams(layoutParams);
+            }
+        }
     }
 }

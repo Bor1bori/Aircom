@@ -27,7 +27,7 @@ public class SubscribeData {
     }
 
     @SerializedName("subscriptionMenuId")
-    private int subscriptionMenuId;
+    public int subscriptionMenuId;
 
     @SerializedName("startDate")
     private String startDate;
