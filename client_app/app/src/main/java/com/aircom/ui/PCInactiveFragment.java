@@ -24,6 +24,7 @@ import com.aircom.data.ServiceAPI;
 import com.aircom.data.SharedPreference;
 import com.aircom.data.SubscriptionResponse;
 import com.aircom.nvstream.http.NvHTTP;
+import com.aircom.nvstream.wol.WakeOnLanSender;
 
 import java.util.ArrayList;
 
@@ -73,11 +74,13 @@ public class PCInactiveFragment extends Fragment {
                 if (response.code() == 200) {
                     AddComputerAutomatically.hostAddress = response.body().getIp();
                     ArrayList<Integer> ports = response.body().getPort();
-                    System.out.println(ports);
-                    System.out.println(ports.get(0));
-                    System.out.println(ports.get(1));
-                    //NvHTTP.HTTP_PORT = ports.get(0);
-                    //NvHTTP.HTTPS_PORT = ports.get(1);
+                    NvHTTP.HTTPS_PORT = ports.get(0); //47984
+                    NvHTTP.HTTP_PORT = ports.get(1); //47989
+                    WakeOnLanSender.PORT_47998 = ports.get(2);
+                    WakeOnLanSender.PORT_47999 = ports.get(3);
+                    WakeOnLanSender.PORT_48000 = ports.get(4);
+                    WakeOnLanSender.PORT_48002 = ports.get(5);
+                    WakeOnLanSender.PORT_48010 = ports.get(6);
                     AddComputerAutomatically.computersToAdd.add(AddComputerAutomatically.hostAddress);
                 }
                 else if (response.code() == 503) {
