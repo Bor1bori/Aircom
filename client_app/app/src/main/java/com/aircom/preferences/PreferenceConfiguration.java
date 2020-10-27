@@ -44,7 +44,7 @@ public class PreferenceConfiguration {
     private static final String TOUCHSCREEN_TRACKPAD_PREF_STRING = "checkbox_touchscreen_trackpad";
     private static final String LATENCY_TOAST_PREF_STRING = "checkbox_enable_post_stream_toast";
 
-    static final String DEFAULT_RESOLUTION = "1280x720";
+    static final String DEFAULT_RESOLUTION = "1920x1080";
     static final String DEFAULT_FPS = "60";
     private static final boolean DEFAULT_STRETCH = false;
     private static final boolean DEFAULT_SOPS = true;
@@ -69,7 +69,7 @@ public class PreferenceConfiguration {
     private static final boolean DEFAULT_VIBRATE_OSC = true;
     private static final boolean DEFAULT_VIBRATE_FALLBACK = false;
     private static final boolean DEFAULT_FLIP_FACE_BUTTONS = false;
-    private static final boolean DEFAULT_TOUCHSCREEN_TRACKPAD = true;
+    private static final boolean DEFAULT_TOUCHSCREEN_TRACKPAD = false;
     private static final String DEFAULT_AUDIO_CONFIG = "2"; // Stereo
     private static final boolean DEFAULT_LATENCY_TOAST = false;
 
@@ -147,9 +147,9 @@ public class PreferenceConfiguration {
                 return RES_360P;
             case 480:
                 return RES_480P;
-            default:
             case 720:
                 return RES_720P;
+            default:
             case 1080:
                 return RES_1080P;
             case 1440:
