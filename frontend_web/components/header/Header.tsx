@@ -26,7 +26,10 @@ const Header = () => {
                     </Link>
             }
             <button>
-                다운로드
+                <a href="https://drive.google.com/file/d/1VfGTtAG3_xPPAZrTfiMkfly2qzYhrIBq/view?usp=sharing"
+                    target="_blank">
+                    다운로드
+                </a>
             </button>
             <style jsx>{`
                     *{
@@ -39,6 +42,9 @@ const Header = () => {
                         background-color: #ffffff;
                         display: flex;
                         align-items: center;
+                    }
+                    button a {
+                        color :#0052cc;
                     }
                     a {
                         font-weight: normal;
