@@ -4,6 +4,13 @@
 #include <android/log.h>
 
 #include <arpa/inet.h>
+#include <Port.h>
+int TCP_47984;
+int TCP_47989;
+int UDP_47998;
+int UDP_47999;
+int UDP_48000;
+int BOTH_48010;
 
 JNIEXPORT void JNICALL
 Java_com_aircom_nvstream_jni_MoonBridge_sendMouseMove(JNIEnv *env, jclass clazz, jshort deltaX, jshort deltaY) {
@@ -129,4 +136,15 @@ Java_com_aircom_nvstream_jni_MoonBridge_getProtocolFromPortFlagIndex(JNIEnv *env
 JNIEXPORT jint JNICALL
 Java_com_aircom_nvstream_jni_MoonBridge_getPortFlagsFromStage(JNIEnv *env, jclass clazz, jint stage) {
     return LiGetPortFlagsFromStage(stage);
+}
+
+JNIEXPORT void JNICALL
+Java_com_aircom_nvstream_jni_MoonBridge_setCustomPort(JNIEnv *env, jclass clazz,
+        jint port1, jint port2, jint port3, jint port4, jint port5, jint port6, jint port7) {
+    TCP_47984 = port1;
+    TCP_47989 = port2;
+    UDP_47998 = port3;
+    UDP_47999 = port4;
+    UDP_48000 = port5;
+    BOTH_48010 = port7;
 }
