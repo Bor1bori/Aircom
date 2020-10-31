@@ -58,16 +58,15 @@
             android:title="터치 스크린을 트랙패드로 활용하기"
             android:defaultValue="false" />
         <!--
+                <CheckBoxPreference
+            android:key="checkbox_mouse_nav_buttons"
+            android:title="마우스 우클릭 허용"
+            android:defaultValue="true" />
         <CheckBoxPreference
             android:key="checkbox_multi_controller"
             android:title="@string/title_checkbox_multi_controller"
             android:summary="@string/summary_checkbox_multi_controller"
             android:defaultValue="true" />
-        <CheckBoxPreference
-            android:key="checkbox_mouse_nav_buttons"
-            android:title="@string/title_checkbox_mouse_nav_buttons"
-            android:summary="@string/summary_checkbox_mouse_nav_buttons"
-            android:defaultValue="false" />
         <CheckBoxPreference
             android:key="checkbox_usb_driver"
             android:title="@string/title_checkbox_xb1_driver"
@@ -153,8 +152,8 @@
         android:layout="@layout/preference_style_title">
         <CheckBoxPreference
             android:key="checkbox_enable_pip"
-            android:title="멀티태스킹 허용"
-            android:defaultValue="false" />
+            android:title="백그라운드 실행 허용"
+            android:defaultValue="true" />
         <!--
         <ListPreference
             android:key="list_languages"
