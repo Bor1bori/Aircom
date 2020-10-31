@@ -60,7 +60,7 @@ public class PreferenceConfiguration {
     private static final boolean ONLY_L3_R3_DEFAULT = false;
     private static final boolean DEFAULT_DISABLE_FRAME_DROP = false;
     private static final boolean DEFAULT_ENABLE_HDR = false;
-    private static final boolean DEFAULT_ENABLE_PIP = false;
+    private static final boolean DEFAULT_ENABLE_PIP = true;
     private static final boolean DEFAULT_ENABLE_PERF_OVERLAY = false;
     private static final boolean DEFAULT_BIND_ALL_USB = false;
     private static final boolean DEFAULT_MOUSE_EMULATION = true;
