@@ -57,10 +57,10 @@ const Profit = () => {
             }
         });
         data.sort(function (x: ObjectInterface.GraphData, y: ObjectInterface.GraphData) {
-            return x.month < y.month ? -1 : x.month > y.month ? 1 : 0;
+            return x.date < y.date ? -1 : x.date > y.date ? 1 : 0;
         });
         data.sort(function (x: ObjectInterface.GraphData, y: ObjectInterface.GraphData) {
-            return x.date < y.date ? -1 : x.date > y.date ? 1 : 0;
+            return x.month < y.month ? -1 : x.month > y.month ? 1 : 0;
         });
         setGraphData(data);
         setTotalHour(Math.round(hour));
