@@ -72,6 +72,8 @@ const LandingPageForm = () => {
                     top: 60%;
                 }
                 .container {
+                    width: 100vw;
+                    height: 100vh;
                     display: flex;
                     justify-content: center;
                     position: relative;
@@ -134,10 +136,23 @@ const LandingPageForm = () => {
                     h2 {
                         font-size: 1.5rem;
                     }
+                    .container {
+                        max-width: 100%;
+                        padding: 0;
+                        margin: 0;
+                    }
                 }
-                @media(max-height: 400px){
+                @media(max-width: 500px){
                     h2, .dot1, .dot2, .dot3 {
                         display: none;
+                    }
+                    .container {
+                        max-width: 100%;
+                        padding: 0;
+                        margin: 0;
+                    }
+                    h1 {
+                        font-size: 2rem;
                     }
                 }
             `}</style>
