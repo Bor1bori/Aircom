@@ -73,7 +73,8 @@
             android:configChanges="mcc|mnc|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection">
         </activity>
         <activity
-            android:name="com.aircom.SplashActivity">
+            android:name="com.aircom.SplashActivity"
+            android:theme="@style/AppThemeNoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -82,11 +83,22 @@
                 <category android:name="tv.ouya.intent.category.APP" />
             </intent-filter>
         </activity>
+        <service android:name="com.aircom.utils.ForcedTerminationService"
+            android:stopWithTask="false" />
         <activity
             android:name="com.aircom.SignUp">
         </activity>
         <activity
             android:name="com.aircom.SignIn">
+        </activity>
+        <activity
+            android:name="com.aircom.EditAccountInfo">
+        </activity>
+        <activity
+            android:name="com.aircom.DeleteAccount">
+        </activity>
+        <activity
+            android:name="com.aircom.ChargeMoney">
         </activity>
         <!-- Small hack to support launcher shortcuts without relaunching over and over again when the back button is pressed -->
         <activity
@@ -108,13 +120,6 @@
                 android:value="com.aircom.PcView" />
         </activity>
         <activity
-            android:name="com.aircom.preferences.StreamSettings"
-            android:resizeableActivity="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.aircom.PcView" />
-        </activity>
-        <activity
             android:name="com.aircom.AddComputerAutomatically"
             android:resizeableActivity="true"
             android:windowSoftInputMode="stateVisible">
@@ -124,7 +129,7 @@
         </activity>
         <!-- This will fall back to sensorLandscape at runtime on Android 4.2 and below -->
         <activity
-            android:name="com.aircom.Game"
+            android:name="com.aircom.Stream"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection"
             android:screenOrientation="userLandscape"
             android:noHistory="true"

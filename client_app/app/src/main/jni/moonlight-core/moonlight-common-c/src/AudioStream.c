@@ -3,6 +3,7 @@
 #include "PlatformThreads.h"
 #include "LinkedBlockingQueue.h"
 #include "RtpReorderQueue.h"
+#include "Port.h"
 
 static SOCKET rtpSocket = INVALID_SOCKET;
 
@@ -71,7 +72,7 @@ static void UdpPingThreadProc(void* context) {
     SOCK_RET err;
 
     memcpy(&saddr, &RemoteAddr, sizeof(saddr));
-    saddr.sin6_port = htons(RTP_PORT);
+    saddr.sin6_port = htons(UDP_48000);
 
     // Send PING every second until we get data back then every 5 seconds after that.
     while (!PltIsThreadInterrupted(&udpPingThread)) {

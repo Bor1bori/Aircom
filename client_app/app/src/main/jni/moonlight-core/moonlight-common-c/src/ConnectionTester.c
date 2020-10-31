@@ -1,4 +1,5 @@
 #include "Limelight-internal.h"
+#include <Port.h>
 
 #define TEST_PORT_TIMEOUT_SEC 3
 
@@ -39,21 +40,21 @@ unsigned short LiGetPortFromPortFlagIndex(int portFlagIndex)
     {
         // TCP ports
         case ML_PORT_INDEX_TCP_47984:
-            return 47984;
+            return TCP_47984;
         case ML_PORT_INDEX_TCP_47989:
-            return 47989;
+            return TCP_47989;
         case ML_PORT_INDEX_TCP_48010:
-            return 48010;
+            return BOTH_48010;
 
         // UDP ports
         case ML_PORT_INDEX_UDP_47998:
-            return 47998;
+            return UDP_47998;
         case ML_PORT_INDEX_UDP_47999:
-            return 47999;
+            return UDP_47999;
         case ML_PORT_INDEX_UDP_48000:
-            return 48000;
+            return UDP_48000;
         case ML_PORT_INDEX_UDP_48010:
-            return 48010;
+            return BOTH_48010;
 
         default:
             LC_ASSERT(0);

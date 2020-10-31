@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_label" translatable="false">Moonlight</string>
-    <string name="app_label_root" translatable="false">Moonlight (Root)</string>
+    <string name="app_label" translatable="false">Aircom</string>
+    <string name="app_label_root" translatable="false">Aircom</string>
 
     <!-- Shortcut strings -->
     <string name="scut_deleted_pc">PC deleted</string>
@@ -207,4 +207,6 @@
     <string name="name">이름</string>
     <string name="pc">PC 연결하기</string>
     <string name="connecting_to_pc">PC 연결 중</string>
+    <string name="bascic_price">9900원</string>
+    <string name="pro_price">19900원</string>
 </resources>
