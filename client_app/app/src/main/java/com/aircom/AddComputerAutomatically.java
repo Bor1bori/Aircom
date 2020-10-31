@@ -323,15 +323,27 @@ public class AddComputerAutomatically extends Activity {
     public void doPair(final ComputerDetails computer) {
         if (computer.state == ComputerDetails.State.OFFLINE ||
                 ServerHelper.getCurrentAddressFromComputer(computer) == null) {
-            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_offline), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_offline), Toast.LENGTH_SHORT).show();
+            PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
+            Toast.makeText(AddComputerAutomatically.this, "PC 할당에 오류가 생겼습니다. " +
+                    "1-2분 후 다시 연결하기 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
             return;
         }
         if (computer.runningGameId != 0) {
-            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_ingame), Toast.LENGTH_LONG).show();
+            //Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_ingame), Toast.LENGTH_LONG).show();
+            PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
+            Toast.makeText(AddComputerAutomatically.this, "PC 할당에 오류가 생겼습니다. " +
+                    "1-2분 후 다시 연결하기 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
             return;
         }
         if (managerBinder == null) {
-            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.error_manager_not_running), Toast.LENGTH_LONG).show();
+            //Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.error_manager_not_running), Toast.LENGTH_LONG).show();
+            PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
+            Toast.makeText(AddComputerAutomatically.this, "PC 할당에 오류가 생겼습니다. " +
+                    "1-2분 후 다시 연결하기 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
             return;
         }
 
