@@ -1,6 +1,7 @@
 #include "Limelight-internal.h"
 #include "PlatformSockets.h"
 #include "PlatformThreads.h"
+#include "Port.h"
 
 #include "ByteBuffer.h"
 
@@ -798,7 +799,7 @@ int startControlStream(void) {
         ENetEvent event;
         
         enet_address_set_address(&address, (struct sockaddr *)&RemoteAddr, RemoteAddrLen);
-        enet_address_set_port(&address, 47999);
+        enet_address_set_port(&address, UDP_47999);
 
         // Create a client that can use 1 outgoing connection and 1 channel
         client = enet_host_create(address.address.ss_family, NULL, 1, 1, 0, 0);
