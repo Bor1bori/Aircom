@@ -26,7 +26,7 @@ const Header = () => {
                     </Link>
             }
             <button>
-                <a href="https://drive.google.com/file/d/1VfGTtAG3_xPPAZrTfiMkfly2qzYhrIBq/view?usp=sharing"
+                <a href="https://drive.google.com/file/d/1sbPvznE84yC7RgFZ9gt98q-qR_hWq0GB/view?usp=sharing"
                     target="_blank">
                     다운로드
                 </a>
@@ -76,8 +76,42 @@ const Header = () => {
                         margin-left: 8.5%;
                         margin-right: 57%;
                     }
-                    @media(max-width: 800px){
-                        button {display: none;}
+                    @media(max-width: 1000px){
+                        img {
+                            width: 100px;
+                            height: 24px;
+                        }
+                    }
+                    @media(max-width: 900px){
+                        img {
+                            margin-right: 45%;
+                        }
+                    }
+                    @media(max-width: 700px){
+                        img {
+                            margin-right: 35%;
+                        }
+                        * {
+                            font-size: 1.5rem;
+                        }
+                        button {
+                            width: 105px;
+                            height: 35px;
+                        }
+                    }
+                    @media(max-width: 500px){
+                        img {
+                            margin-right: 30%;
+                            width: 75px;
+                            height: 18px;
+                        }
+                        * {
+                            font-size: 1.2rem;
+                        }
+                        button {
+                            width: 90px;
+                            height: 30px;
+                        }
                     }
                  `}
             </style>
