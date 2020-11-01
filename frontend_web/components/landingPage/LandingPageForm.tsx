@@ -3,10 +3,10 @@ import React, { useState } from "react";
 const LandingPageForm = () => {
     const h1 = ["태블릿, 스마트폰만 있다면", "언제 어디서나 경험하는 고사양의 PC 환경",
         "자주 쓰지 않더라도", "필요한 만큼만 쓰고 지불하는 합리적 가격",
-        "선명한 화질과 함께하는", "실제 고사양 PC를 눈 앞에서 쓰는 듯한 경험"];
+        "선명한 화질과 함께", "실제 PC를 눈 앞에서 쓰는 듯한 경험"];
     const h2 = ["무거운 노트북은 이제 그만, 언제 어디서나 가볍게 즐기는 윈도우 PC",
-        "값비싼 PC 구매 없이도 즐길 수 있는 고사양 윈도우 PC",
-        "FHD 이상 해상도로 누리는 보다 선명한 화면"];
+        "값비싼 PC 구매 없이도 사용할 수 있는 고사양 윈도우 PC",
+        "FHD 이상 해상도로 누리는 보다 생생한 화면"];
     const [index, setIndex] = useState(0);
     return (
             <div className="container">
