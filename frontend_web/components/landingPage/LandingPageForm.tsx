@@ -148,8 +148,8 @@ const LandingPageForm = () => {
                     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
                     background-color: #ffffff;
                     position: absolute;
-                    right: 50px;
-                    bottom: 130px;
+                    right: 3%;
+                    bottom: 17%;
                     display: flex;
                     font-size: 1.5rem;
                     align-items: center;
