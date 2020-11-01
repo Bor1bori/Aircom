@@ -9,37 +9,49 @@ const LandingPageForm = () => {
         "FHD 이상 해상도로 누리는 보다 생생한 화면"];
     const [index, setIndex] = useState(0);
     return (
-            <div className="container">
-                {index == 0 && <img src={require("../../public/images/slide-1.png")} alt="" />}
-                {index == 1 && <img src={require("../../public/images/slide-2.png")} alt="" />}
-                {index == 2 && <img src={require("../../public/images/slide-3.png")} alt="" />}
-                <h1>{h1[2 * index]}<br />{h1[2 * index + 1]}</h1>
-                <h2>{h2[index]}</h2>
-                <a className="prev"
-                    onClick={() => setIndex(index == 0 ? 2 : index - 1)}>
-                    &#10094;
+        <div className="container">
+            {index == 0 && <img src={require("../../public/images/slide-1.png")}
+                alt="woman using phone and laptop" />}
+            {index == 1 && <img src={require("../../public/images/slide-2.png")}
+                alt="man using laptop" />}
+            {index == 2 && <img src={require("../../public/images/slide-3.png")}
+                alt="woman using phone and laptop" />}
+            <h1>{h1[2 * index]}<br />{h1[2 * index + 1]}</h1>
+            <h2>{h2[index]}</h2>
+            <a className="prev"
+                onClick={() => setIndex(index == 0 ? 2 : index - 1)}>
+                &#10094;
                     </a>
-                <a className="next"
-                    onClick={() => setIndex(index == 2 ? 0 : index + 1)}>
-                    &#10095;
+            <a className="next"
+                onClick={() => setIndex(index == 2 ? 0 : index + 1)}>
+                &#10095;
                     </a>
-                <div className="dot1"
-                    style={index == 0 ?
-                        { backgroundColor: "#ffffff" } :
-                        { backgroundColor: "#bbbbbb" }}>
-                </div>
-                <div className="dot2"
-                    style={index == 1 ?
-                        { backgroundColor: "#ffffff" } :
-                        { backgroundColor: "#bbbbbb" }}>
+            <div className="dot1"
+                style={index == 0 ?
+                    { backgroundColor: "#ffffff" } :
+                    { backgroundColor: "#bbbbbb" }}>
+            </div>
+            <div className="dot2"
+                style={index == 1 ?
+                    { backgroundColor: "#ffffff" } :
+                    { backgroundColor: "#bbbbbb" }}>
 
-                </div>
-                <div className="dot3"
-                    style={index == 2 ?
-                        { backgroundColor: "#ffffff" } :
-                        { backgroundColor: "#bbbbbb" }}>
+            </div>
+            <div className="dot3"
+                style={index == 2 ?
+                    { backgroundColor: "#ffffff" } :
+                    { backgroundColor: "#bbbbbb" }}>
+            </div>
+            <a href="mailto:vineyard.soma@gmail.com">
+                <div className="contact">
+                    <div id="contactText">문의하기</div>
+                    <div className="icon">
+                        <img src={require("../../public/images/chat.png")}
+                            alt="chat icon" />
                     </div>
-                <style jsx>{`
+                </div>
+            </a>
+            <style jsx>{`
                 img {
                     width: 100vw;
                     height: 100vh;
@@ -128,7 +140,49 @@ const LandingPageForm = () => {
                     bottom: 20%;
                     right: 47%
                 }
+
+                .contact {
+                    width: 160px;
+                    height: 60px;
+                    border-radius: 30px;
+                    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+                    background-color: #ffffff;
+                    position: absolute;
+                    right: 50px;
+                    bottom: 130px;
+                    display: flex;
+                    font-size: 1.5rem;
+                    align-items: center;
+                    cursor: pointer;   
+                    white-space: nowrap;
+                }
+
+                .icon {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 30px;
+                    background-color: #0052cc;
+                    position: absolute;
+                    right: 0px;   
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;           
+                }
+
+                .icon img{
+                    width: 32px;
+                    height: 32px;
+                    position: absolute;
+                    opacity: 1;
+                }
+
+                #contactText {
+                    width: 100px;
+                }
                   
+                a {
+                    color: #000000;
+                }
                 @media(max-width: 800px){
                     h1, .prev, .next {
                         font-size: 3rem;
@@ -140,6 +194,22 @@ const LandingPageForm = () => {
                         max-width: 100%;
                         padding: 0;
                         margin: 0;
+                    }
+                    .contact {
+                        width: 128px;
+                        height: 48px;
+                        font-size: 1.2rem;
+                    }
+                    .icon {
+                        width: 48px;
+                        height: 48px;        
+                    }
+                    .icon img{
+                        width: 22px;
+                        height: 22px;
+                    }
+                    #contactText {
+                        width: 80px;
                     }
                 }
                 @media(max-width: 500px){
@@ -154,9 +224,12 @@ const LandingPageForm = () => {
                     h1 {
                         font-size: 2rem;
                     }
+                    .contact {
+                        display: none;
+                    }
                 }
             `}</style>
-            </div>
+        </div>
     );
 };
 
