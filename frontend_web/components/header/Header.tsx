@@ -26,7 +26,7 @@ const Header = () => {
                     </Link>
             }
             <button>
-                <a href="https://drive.google.com/file/d/1sbPvznE84yC7RgFZ9gt98q-qR_hWq0GB/view?usp=sharing"
+                <a href="https://play.google.com/store/apps/details?id=com.aircom.root"
                     target="_blank">
                     다운로드
                 </a>
