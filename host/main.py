@@ -28,3 +28,11 @@ if __name__== "__main__" :
     mgr_thread = threading.Thread(target=state_mgr.manage_run)
     mgr_thread.start()
     SIO(BACKEND_URL, uuid, state_mgr)
+
+    #WOL 설정
+    '''
+    pm1 = PowerManager()
+    pm1.WOL_comp("70:4D:7B:6E:0E:9E")
+    pm1.connect_db()
+    pm1.disconnect_db()
+    '''
