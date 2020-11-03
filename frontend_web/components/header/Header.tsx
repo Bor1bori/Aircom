@@ -75,6 +75,7 @@ const Header = () => {
                         height: 30px;
                         margin-left: 8.5%;
                         margin-right: 57%;
+                        cursor: pointer;
                     }
                     @media(max-width: 1000px){
                         img {
