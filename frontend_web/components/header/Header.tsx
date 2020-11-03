@@ -25,12 +25,12 @@ const Header = () => {
                         <a>관리 페이지</a>
                     </Link>
             }
-            <button>
-                <a href="https://play.google.com/store/apps/details?id=com.aircom.root"
-                    target="_blank">
+            <a href="https://play.google.com/store/apps/details?id=com.aircom.root"
+                target="_blank">
+                <button>
                     다운로드
-                </a>
-            </button>
+                </button>
+            </a>
             <style jsx>{`
                     *{
                         font-size: 1.8rem;
@@ -69,6 +69,7 @@ const Header = () => {
                         background-color: #ffffff;
                         margin-right: 8.5%;
                         white-space: nowrap;
+                        cursor: pointer;
                     }
                     img {
                         width: 125px;
@@ -116,7 +117,7 @@ const Header = () => {
                     }
                  `}
             </style>
-        </div>
+        </div >
     );
 };
 
