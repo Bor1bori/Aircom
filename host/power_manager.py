@@ -12,7 +12,7 @@ class PowerManager:
     def get_com_info(self):
         return self.mac, self.internal_ip
     
-    def WOL_com(self, MAC_addr):
+    def WOL_com(MAC_addr):
         sep = MAC_addr[2]
         MAC_addr = MAC_addr.replace(sep, '')
 
@@ -38,7 +38,6 @@ class PowerManager:
         self.pm_db_cursor = self.pm_db.cursor()
 
         create_table_query = '''create table if not exists power_pc (
-        id int(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
         mac varchar(255),
         ip varchar(255),
         onoff tinyint(1),
@@ -49,15 +48,36 @@ class PowerManager:
         self.pm_db.commit()
 
         curtime = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
-        insert_data_power_pc = '''insert into power_pc (mac, ip, onoff, recenttime)
-        value ('%s', '%s', 1, '%s')''' % (self.mac, self.internal_ip, curtime)
-        self.pm_db_cursor.execute(insert_data_power_pc)
+        insert_data_power_pc_query = '''
+        insert into power_pc (mac, ip, onoff, recenttime)
+        select '%s', '%s', 1, '%s'
+        where not exists (select * from power_pc where ip = '%s') limit 1;
+        ''' % (self.mac, self.internal_ip, curtime, self.internal_ip)
+        self.pm_db_cursor.execute(insert_data_power_pc_query)
         self.pm_db.commit()
-        return insert_data_power_pc
+        
 
-    def update_db():
-        num = 1
-
+    def update_db(self):
+        curtime = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+        update_db_query = '''update power_pc set recenttime = '%s' where mac = '%s' ''' % (curtime, self.mac)
+        self.pm_db_cursor.execute(update_db_query)
+        self.pm_db.commit()
+        
+    def check_db(self):
+        get_db_query = '''select * from power_pc'''
+        self.pm_db_cursor.execute(get_db_query)
+        pm_db_data = self.pm_db_cursor.fetchall()
+        com_to_wol = []
+        for com_data in pm_db_data:
+            if com_data[2] == 0:
+                continue
+            else:
+                time_diff = (datetime.today() - com_data[3]).total_seconds() / 60
+                if time_diff > 2:
+                    com_to_wol.append(com_data)
+        for wol_com_data in com_to_wol:
+            WOL_com(wol_com_data[0])
+    
     def disconnect_db(self):
         self.pm_db.close()
 
