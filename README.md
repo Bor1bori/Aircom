@@ -1,7 +1,10 @@
 # 프로젝트 Aircom
 <img src="https://github.com/Bor1bori/images/blob/master/24.png?raw=true" height="100">
   
-**팀 Vineyard**
+**팀 Vineyard**  
+
+[Android app](https://play.google.com/store/apps/details?id=com.aircom.root)  
+[Homepage](https://myaircom.co.kr)
 
 ## 프로젝트 설명
 PC를 테블릿이나 모바일 폰에서 사용할 수 있도록 PC방의 유휴자원을 제공해주는 원격 PC 서비스  
