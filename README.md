@@ -33,4 +33,4 @@ PC를 테블릿이나 모바일 폰에서 사용할 수 있도록 PC방의 유�
 P2P 연결    
 <img src="https://github.com/Bor1bori/images/blob/master/21.png?raw=true" height="300">  
 상태관리  
-<img src="https://github.com/Bor1bori/images/blob/master/21.png?raw=true" height="300">  
+<img src="https://github.com/Bor1bori/images/blob/master/22.png?raw=true" height="300">  
