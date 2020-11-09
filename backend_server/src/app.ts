@@ -2,10 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
-import { sequelizeInit } from '@src/db';
 import indexRouter from '@src/routes/index';
-
-sequelizeInit();
 
 const app = express();
 

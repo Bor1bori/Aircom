@@ -1,49 +1,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AddComputerAutomatically" >
+    <FrameLayout
+        android:id="@+id/fragmentLocation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/bottom_navigation"
+        android:background="#0D616161"/>
 
-    <Button
-        android:id="@+id/addPcButton"
-        android:layout_width="260dp"
-        android:minHeight="0dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="300dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/roundedbutton"
-        android:textSize="16dp"
-        android:fontFamily="@font/applesd"
-        android:text="PC 연결하기"
-        android:textColor="#ffffff" />
-
-    <Button
-        android:id="@+id/settingsButton"
-        android:layout_width="125dp"
-        android:layout_height="45dp"
-        android:layout_below="@id/addPcButton"
-        android:layout_alignLeft="@id/addPcButton"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/edittext"
-        android:fontFamily="@font/applesd"
-        android:text="설정"
-        android:textColor="#b1b1b1"
-        android:textSize="16dp" />
-    <Button
-        android:id="@+id/signOutButton"
-        android:layout_width="125dp"
-        android:layout_height="45dp"
-        android:layout_below="@id/addPcButton"
-        android:layout_alignRight="@id/addPcButton"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/edittext"
-        android:fontFamily="@font/applesd"
-        android:text="로그아웃"
-        android:textColor="#b1b1b1"
-        android:textSize="16dp" />
-
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="23dp"
+        app:menu="@menu/menu_home" />
 </RelativeLayout>

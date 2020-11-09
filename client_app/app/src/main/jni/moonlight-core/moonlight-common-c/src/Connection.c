@@ -1,5 +1,6 @@
 #include "Limelight-internal.h"
 #include "Platform.h"
+#include "Port.h"
 
 static int stage = STAGE_NONE;
 static ConnListenerConnectionTerminated originalTerminationCallback;
@@ -253,7 +254,7 @@ int LiStartConnection(PSERVER_INFORMATION serverInfo, PSTREAM_CONFIGURATION stre
 
     Limelog("Resolving host name...");
     ListenerCallbacks.stageStarting(STAGE_NAME_RESOLUTION);
-    err = resolveHostName(serverInfo->address, AF_UNSPEC, 47984, &RemoteAddr, &RemoteAddrLen);
+    err = resolveHostName(serverInfo->address, AF_UNSPEC, TCP_47984, &RemoteAddr, &RemoteAddrLen);
     if (err != 0) {
         Limelog("failed: %d\n", err);
         ListenerCallbacks.stageFailed(STAGE_NAME_RESOLUTION, err);

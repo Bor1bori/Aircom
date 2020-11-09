@@ -3,7 +3,7 @@ import {
   Model,
   DataTypes
 } from 'sequelize';
-import { PCProvider } from './pc_provider';
+import { PcProvider } from './pc_provider';
 
 /* user db first settings */
 export interface PPAuthTokenAttributes {
@@ -40,7 +40,7 @@ export const initPPAuthToken = (sequelize: Sequelize) => {
 };
 
 export const initPPAuthTokenAssociate = () => {
-  PPAuthToken.belongsTo(PCProvider, {
+  PPAuthToken.belongsTo(PcProvider, {
     foreignKey: 'pcProviderId'
   });
 };

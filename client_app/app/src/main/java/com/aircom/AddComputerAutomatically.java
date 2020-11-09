@@ -14,7 +14,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.aircom.binding.PlatformBinding;
 import com.aircom.computers.ComputerManagerListener;
 import com.aircom.computers.ComputerManagerService;
-import com.aircom.data.PCAllocationResponse;
+import com.aircom.data.PcDeallocationResponse;
 import com.aircom.data.RetrofitClient;
 import com.aircom.data.ServiceAPI;
 import com.aircom.data.SharedPreference;
@@ -22,23 +22,32 @@ import com.aircom.nvstream.http.ComputerDetails;
 import com.aircom.nvstream.http.NvHTTP;
 import com.aircom.nvstream.http.PairingManager;
 import com.aircom.preferences.StreamSettings;
+import com.aircom.ui.MyPageFragment;
+import com.aircom.ui.PCInactiveFragment;
 import com.aircom.utils.Dialog;
 import com.aircom.utils.ServerHelper;
 import com.aircom.utils.SpinnerDialog;
 import com.aircom.utils.UiHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.os.Looper;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import android.app.Fragment;
+
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -47,14 +56,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddComputerAutomatically extends Activity {
-    private String hostText;
-    private boolean runningPolling, freezeUpdates, inForeground;
-    private ComputerManagerService.ComputerManagerBinder managerBinder;
-    private final LinkedBlockingQueue<String> computersToAdd = new LinkedBlockingQueue<>();
-    private Thread addThread;
-    private ServiceAPI service;
-    private String hostAddress;
-    private final ServiceConnection serviceConnection = new ServiceConnection() {
+    public boolean runningPolling, freezeUpdates, inForeground;
+    boolean doubleBackToExitPressedOnce = false;
+    public ComputerManagerService.ComputerManagerBinder managerBinder;
+    public static final LinkedBlockingQueue<String> computersToAdd = new LinkedBlockingQueue<>();
+    public Thread addThread;
+    public static ServiceAPI service;
+    public static String hostAddress;
+    public final ServiceConnection serviceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, final IBinder binder) {
             managerBinder = ((ComputerManagerService.ComputerManagerBinder)binder);
             startAddThread();
@@ -66,7 +75,7 @@ public class AddComputerAutomatically extends Activity {
         }
     };
 
-    private boolean isWrongSubnetSiteLocalAddress(String address) {
+    public boolean isWrongSubnetSiteLocalAddress(String address) {
         try {
             InetAddress targetAddress = InetAddress.getByName(address);
             if (!(targetAddress instanceof Inet4Address) || !targetAddress.isSiteLocalAddress()) {
@@ -109,13 +118,14 @@ public class AddComputerAutomatically extends Activity {
         }
     }
 
-    private void doAddPc(String host) {
+    public void doAddPc(String host) {
         boolean wrongSiteLocal = false;
         boolean success;
         final ComputerDetails details = new ComputerDetails();
 
-        SpinnerDialog dialog = SpinnerDialog.displayDialog(this, getResources().getString(R.string.title_add_pc),
-            getResources().getString(R.string.msg_add_pc), false);
+        //페어링 알림 메세지 띄울 필요x
+        /*SpinnerDialog dialog = SpinnerDialog.displayDialog(this, getResources().getString(R.string.title_add_pc),
+            getResources().getString(R.string.msg_add_pc), false);*/
 
         try {
             details.manualAddress = host;
@@ -130,13 +140,18 @@ public class AddComputerAutomatically extends Activity {
             wrongSiteLocal = isWrongSubnetSiteLocalAddress(host);
         }
 
-        dialog.dismiss();
+        //dialog.dismiss();
 
         if (wrongSiteLocal) {
             Dialog.displayDialog(this, getResources().getString(R.string.conn_error_title), getResources().getString(R.string.addpc_wrong_sitelocal), false);
+            PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
+
         }
         else if (!success) {
             Dialog.displayDialog(this, getResources().getString(R.string.conn_error_title), getResources().getString(R.string.addpc_fail), false);
+            PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
         }
         else {
             AddComputerAutomatically.this.runOnUiThread(new Runnable() {
@@ -145,8 +160,8 @@ public class AddComputerAutomatically extends Activity {
                 Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.addpc_success), Toast.LENGTH_LONG).show();
 
                     if (!isFinishing()) {
-                        // 만약 pc가 pairing 되지 않은 상태라
-                        if (details.pairState!= PairingManager.PairState.PAIRED){
+                        // 만약 pc가 pairing 되지 않은 상태라면
+                        if (details.pairState != PairingManager.PairState.PAIRED) {
                             doPair(details);
                             return;
                         }
@@ -155,6 +170,7 @@ public class AddComputerAutomatically extends Activity {
                         intent.putExtra(AppView.UUID_EXTRA, details.uuid);
                         intent.putExtra(AppView.NEW_PAIR_EXTRA, true);
                         startActivity(intent);
+                        PCInactiveFragment.setConnectionViewInactive();
                         //AddComputerManually.this.finish();
                     }
                 }
@@ -163,7 +179,7 @@ public class AddComputerAutomatically extends Activity {
 
     }
 
-    private void startAddThread() {
+    public void startAddThread() {
         addThread = new Thread() {
             @Override
             public void run() {
@@ -184,7 +200,7 @@ public class AddComputerAutomatically extends Activity {
         addThread.start();
     }
 
-    private void joinAddThread() {
+    public void joinAddThread() {
         if (addThread != null) {
             addThread.interrupt();
 
@@ -217,83 +233,117 @@ public class AddComputerAutomatically extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        UiHelper.setLocale(this);
-
         setContentView(R.layout.activity_add_computer_automatically);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
-        actionBar.setIcon(R.drawable.logo2);
+        setInitialView();
+        setBottomNavigationView();
+        UiHelper.setLocale(this);
+        setActionBar();
         UiHelper.notifyNewRootView(this);
-
-        Button settingsButton = findViewById(R.id.settingsButton);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(AddComputerAutomatically.this, StreamSettings.class));
-            }
-        });
         service = RetrofitClient.getClient().create(ServiceAPI.class);
-
-        //this.hostText = "121.128.91.156"; //ip 주소 할당
-
-        findViewById(R.id.addPcButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleDoneEvent();
-            }
-        });
 
         // Bind to the ComputerManager service
         bindService(new Intent(AddComputerAutomatically.this,
                     ComputerManagerService.class), serviceConnection, Service.BIND_AUTO_CREATE);
     }
 
-    // Returns true if the event should be eaten
-    private boolean handleDoneEvent() {
-        System.out.println("login token: "+SharedPreference.getLoginToken(AddComputerAutomatically.this));
-        hostAddress = "1.231.39.92";
-        service.allocationRequest(SharedPreference.getLoginToken(AddComputerAutomatically.this)).enqueue(new Callback<PCAllocationResponse>() {
-            @Override
-            public void onResponse(Call<PCAllocationResponse> call, Response<PCAllocationResponse> response) {
-                System.out.println("status code: "+response.code());
-                System.out.println("response body: "+response.body());
-                //System.out.println("ip: "+response.body().getIp()+", port: "+response.body().getPort());
-                //hostAddress = response.body().getIp();
-            }
+    private void setInitialView() {
+        Fragment currentFragment = new PCInactiveFragment();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentLocation, currentFragment).commit();
+    }
 
+    private void setBottomNavigationView() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setItemIconTintList(null);
+        bottomNavigationView.setOnNavigationItemSelectedListener
+                (new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onFailure(Call<PCAllocationResponse> call, Throwable t) {
-                System.out.println("error: "+t.getMessage());
-                Toast.makeText(AddComputerAutomatically.this, "PC 할당 에러 발생", Toast.LENGTH_SHORT).show();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        Fragment newFragment = new PCInactiveFragment();
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.replace(R.id.fragmentLocation, newFragment).commit();
+                        break;
+                    case R.id.navigation_my_page:
+                        newFragment = new MyPageFragment();
+                        ft = getFragmentManager().beginTransaction();
+                        ft.replace(R.id.fragmentLocation, newFragment).commit();
+                        break;
+                    case R.id.navigation_setting:
+                        newFragment = new StreamSettings();
+                        ft = getFragmentManager().beginTransaction();
+                        ft.replace(R.id.fragmentLocation, newFragment).commit();
+                        break;
+                    default:
+                        System.out.println("invalid consequence");
+                        break;
+                }
+                return true;
             }
         });
-        if (hostAddress.length() == 0) {
-            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.addpc_enter_ip), Toast.LENGTH_LONG).show();
-            return true;
-        }
-        computersToAdd.add(hostAddress);
-        return false;
     }
 
-    @Override
-    public void onBackPressed(){
-        finishAffinity();
+    private void setActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(getLayoutInflater().inflate(R.layout.actionbar_default, null),
+                new ActionBar.LayoutParams(
+                        ActionBar.LayoutParams.WRAP_CONTENT,
+                        ActionBar.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                )
+        );
     }
 
-    private void doPair(final ComputerDetails computer) {
+    private void requestPcDeallocate() {
+        service = RetrofitClient.getClient().create(ServiceAPI.class);
+        service.withdrawRequest(SharedPreference.
+                getLoginToken(AddComputerAutomatically.this)).
+                enqueue(new Callback<PcDeallocationResponse>() {
+                    @Override
+                    public void onResponse(Call<PcDeallocationResponse> call,
+                                           Response<PcDeallocationResponse> response) {
+                        System.out.println("status code: "+response.code());
+                        System.out.println("response body: "+response.body());
+                        PCInactiveFragment.setConnectionViewInactive();
+                        // finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<PcDeallocationResponse> call,
+                                          Throwable t) {
+                        Toast.makeText(AddComputerAutomatically.this, "네트워크 상태를 확인해주세요",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void doPair(final ComputerDetails computer) {
         if (computer.state == ComputerDetails.State.OFFLINE ||
                 ServerHelper.getCurrentAddressFromComputer(computer) == null) {
-            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_offline), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_offline), Toast.LENGTH_SHORT).show();
+            PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
+            Toast.makeText(AddComputerAutomatically.this, "PC 할당에 오류가 생겼습니다. " +
+                    "1-2분 후 다시 연결하기 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
             return;
         }
         if (computer.runningGameId != 0) {
-            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_ingame), Toast.LENGTH_LONG).show();
+            //Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.pair_pc_ingame), Toast.LENGTH_LONG).show();
+            PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
+            Toast.makeText(AddComputerAutomatically.this, "PC 할당에 오류가 생겼습니다. " +
+                    "1-2분 후 다시 연결하기 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
             return;
         }
         if (managerBinder == null) {
-            Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.error_manager_not_running), Toast.LENGTH_LONG).show();
+            //Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.error_manager_not_running), Toast.LENGTH_LONG).show();
+            PCInactiveFragment.setConnectionViewInactive();
+            requestPcDeallocate();
+            Toast.makeText(AddComputerAutomatically.this, "PC 할당에 오류가 생겼습니다. " +
+                    "1-2분 후 다시 연결하기 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -321,9 +371,9 @@ public class AddComputerAutomatically extends Activity {
                         final String pinStr = "1111";//PairingManager.generatePinString();
 
                         // Spin the dialog off in a thread because it blocks
-                        //여기서 인증번호 받아 서버에 전달
-                        Dialog.displayDialog(AddComputerAutomatically.this, getResources().getString(R.string.pair_pairing_title),
-                                getResources().getString(R.string.pair_pairing_msg)+" "+pinStr, false);
+
+                        //Dialog.displayDialog(AddComputerAutomatically.this, getResources().getString(R.string.pair_pairing_title),
+                         //       getResources().getString(R.string.pair_pairing_msg)+" "+pinStr, false);
 
                         PairingManager pm = httpConn.getPairingManager();
 
@@ -393,7 +443,7 @@ public class AddComputerAutomatically extends Activity {
         }).start();
     }
 
-    private void startComputerUpdates() {
+    public void startComputerUpdates() {
         // Only allow polling to start if we're bound to CMS, polling is not already running,
         // and our activity is in the foreground.
         if (managerBinder != null && !runningPolling && inForeground) {
@@ -415,7 +465,7 @@ public class AddComputerAutomatically extends Activity {
         }
     }
 
-    private void stopComputerUpdates(boolean wait) {
+    public void stopComputerUpdates(boolean wait) {
         if (managerBinder != null) {
             if (!runningPolling) {
                 return;
@@ -432,7 +482,7 @@ public class AddComputerAutomatically extends Activity {
         }
     }
 
-    private void doUnpair(final ComputerDetails computer) {
+    public void doUnpair(final ComputerDetails computer) {
         if (computer.state == ComputerDetails.State.OFFLINE ||
                 ServerHelper.getCurrentAddressFromComputer(computer) == null) {
             Toast.makeText(AddComputerAutomatically.this, getResources().getString(R.string.error_pc_offline), Toast.LENGTH_SHORT).show();
@@ -484,5 +534,24 @@ public class AddComputerAutomatically extends Activity {
                 });
             }
         }).start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finishAffinity();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "'뒤로'버튼 한번 더 누르시면 종료됩니다.",
+                Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

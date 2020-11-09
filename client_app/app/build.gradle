@@ -9,8 +9,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 30
 
-        versionName "9.6.4"
-        versionCode = 237
+        versionName "1.0.1"
+        versionCode = 1
     }
 
     flavorDimensions "root"
@@ -46,6 +46,7 @@ android {
     lintOptions {
         disable 'MissingTranslation'
         lintConfig file("lint.xml")
+        checkReleaseBuilds false
     }
 
     bundle {
@@ -101,9 +102,10 @@ android {
             // is to please change the applicationId before you publish.
             //
             // TL;DR: Leave the following line alone!
-            applicationIdSuffix ".unofficial"
+            //applicationIdSuffix ".unofficial"
 
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -126,8 +128,9 @@ dependencies {
     implementation 'com.squareup.okio:okio:1.17.5'
     implementation 'org.jmdns:jmdns:3.5.5'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.google.android.material:material:1.3.0-alpha02'
     api 'com.google.code.gson:gson:2.8.5'
-    api 'com.squareup.retrofit2:converter-gson:2.4.0'
+    api 'com.squareup.retrofit2:converter-gson:2.6.2'
 }
 

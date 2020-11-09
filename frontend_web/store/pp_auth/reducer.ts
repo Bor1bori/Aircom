@@ -3,6 +3,7 @@ import { PPAuthActionTypes, PPAuthState, PPSIGNIN } from "./types";
 const authInitialState: PPAuthState = {
     isSignedin: false,
     ppLoginToken: "",
+    ppUserEmail: "",
 };
 
 export default function reducer(state = authInitialState, action: PPAuthActionTypes) {
@@ -11,7 +12,8 @@ export default function reducer(state = authInitialState, action: PPAuthActionTy
         console.log(1);
         return Object.assign({}, state, {
             isSignedin: true,
-            ppLoginToken: action.ppLoginToken
+            ppLoginToken: action.ppLoginToken,
+            ppUserEmail: action.ppUserEmail,
         });
     default:
         return state;

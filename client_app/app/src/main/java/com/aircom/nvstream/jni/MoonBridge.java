@@ -4,6 +4,8 @@ import com.aircom.nvstream.NvConnectionListener;
 import com.aircom.nvstream.av.audio.AudioRenderer;
 import com.aircom.nvstream.av.video.VideoDecoderRenderer;
 
+import java.util.ArrayList;
+
 public class MoonBridge {
     /* See documentation in Limelight.h for information about these functions and constants */
 
@@ -272,4 +274,7 @@ public class MoonBridge {
     public static native int getPendingVideoFrames();
 
     public static native void init();
+
+    public static native void setCustomPort(int port1, int port2, int port3, int port4,
+                                                    int port5, int port6, int port7);
 }

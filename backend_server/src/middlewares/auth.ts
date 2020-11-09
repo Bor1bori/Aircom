@@ -65,18 +65,17 @@ export const verifySignin = wrapper(async (req, res, next) => {
   if (req.get('loginToken')) {
     loginToken = req.get('loginToken');
   }
-  try {
-    const decoded = jwtVerify(loginToken);
-    const user = await User.findByPk(decoded.id);
-
-    if (!user) {
-      throw new Error('not valid id in decoded token');
-    }
-
-    // controller에서 user 이용할 수 있도록 req에 넣어줌
-    req.user = user;
-    next();
-  } catch (err) {
-    return res.status(401).json({ err });
+  const decoded = jwtVerify(loginToken);
+  if (decoded === -1 || decoded === -2) {
+    return res.status(401).json({ err: decoded === 1 ? 'expired token' : 'invalid token' });
   }
+  const user = await User.findByPk(decoded.id);
+
+  if (!user) {
+    throw new Error('not valid id in decoded token');
+  }
+
+  // controller에서 user 이용할 수 있도록 req에 넣어줌
+  req.user = user;
+  next();
 });

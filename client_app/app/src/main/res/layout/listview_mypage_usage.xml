@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingTop="23dp"
+    android:paddingBottom="19dp"
+    android:paddingRight="20dp">
+    <TextView
+        android:id="@+id/usageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/applesd"
+        android:textSize="18dp"
+        android:text="내 사용량" />
+    <ImageView
+        android:id="@+id/usageLeftBar"
+        android:layout_width="335dp"
+        android:layout_height="20dp"
+        android:background="@drawable/usage_bar"
+        android:layout_alignLeft="@id/usageTextView"
+        android:layout_below="@id/usageTextView"
+        android:layout_marginTop="20dp"
+        android:layout_alignStart="@id/usageTextView" />
+    <ImageView
+        android:id="@+id/usageBar"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@drawable/usage_bar2"
+        android:layout_alignLeft="@id/usageTextView"
+        android:layout_below="@id/usageTextView"
+        android:layout_marginTop="20dp"
+        android:layout_alignStart="@id/usageTextView" />
+    <TextView
+        android:id="@+id/leftTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="14dp"
+        android:fontFamily="@font/applesd"
+        android:textColor="#0052cc"
+        android:layout_below="@id/usageBar"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@id/usageTextView"
+        android:layout_alignStart="@id/usageTextView"
+        />
+
+    <TextView
+        android:id="@+id/providedTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="14dp"
+        android:fontFamily="@font/applesd"
+        android:layout_below="@id/usageBar"
+        android:layout_marginTop="10dp"
+        android:gravity="right"
+        />
+</RelativeLayout>

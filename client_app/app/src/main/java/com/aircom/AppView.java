@@ -118,7 +118,7 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                     // This must be done _before_ startComputerUpdates()
                     // so the initial serverinfo response can update the running
                     // icon.
-                    populateAppGridWithCache();
+                    //populateAppGridWithCache();
 
                     // Start updates
                     startComputerUpdates();
@@ -133,10 +133,8 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                             // Despite my best efforts to catch all conditions that could
                             // cause the activity to be destroyed when we try to commit
                             // I haven't been able to, so we have this try-catch block.
-                            if (appGridAdapter.getCount()!=0) {
-                                final AppObject app = (AppObject) appGridAdapter.getItem(0);
-                                ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
-                                onBackPressed();
+                            if (hasPreviouslyPaired()) {
+                                startAppAutomatically();
                             }
 
                             try {
@@ -156,6 +154,32 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
             managerBinder = null;
         }
     };
+
+    public boolean hasPreviouslyPaired() {
+        if (appGridAdapter.getCount() != 0) return true;
+        return false;
+    }
+
+    public void startAppAutomatically() {
+        final AppObject app = (AppObject) appGridAdapter.getItem(0);
+        ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
+        //앱 실행 종료
+        new Thread(new Runnable() { @Override public void run() {
+            suspendGridUpdates = true;
+            ServerHelper.doQuit(AppView.this, computer,
+                    app.app, managerBinder, new Runnable() {
+                        @Override
+                        public void run() {
+                            // Trigger a poll immediately
+                            suspendGridUpdates = false;
+                            if (poller != null) {
+                                poller.pollNow();
+                            }
+                        }
+                    }); }
+        }).start();
+        onBackPressed();
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -298,17 +322,12 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
 
         uuidString = getIntent().getStringExtra(UUID_EXTRA);
 
-        String computerName = getIntent().getStringExtra(NAME_EXTRA);
-
-        TextView label = findViewById(R.id.appListText);
-        //setTitle(computerName);
-        //label.setText(computerName);
         // Bind to the computer manager service
         bindService(new Intent(this, ComputerManagerService.class), serviceConnection,
                 Service.BIND_AUTO_CREATE);
     }
 
-    private void populateAppGridWithCache() {
+    /*private void populateAppGridWithCache() {
         try {
             // Try to load from cache
             lastRawApplist = CacheHelper.readInputStreamToString(CacheHelper.openCacheFileForInput(getCacheDir(), "applist", uuidString));
@@ -324,7 +343,7 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
             // We'll need to load from the network
             loadAppsBlocking();
         }
-    }
+    }*/
 
     private void loadAppsBlocking() {
         blockingLoadSpinner = SpinnerDialog.displayDialog(this, getResources().getString(R.string.applist_refresh_title),
@@ -451,7 +470,8 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                 ImageView appImageView = info.targetView.findViewById(R.id.grid_image);
                 Bitmap appBits = ((BitmapDrawable)appImageView.getDrawable()).getBitmap();
                 if (!shortcutHelper.createPinnedGameShortcut(computer, app.app, appBits)) {
-                    Toast.makeText(AppView.this, getResources().getString(R.string.unable_to_pin_shortcut), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AppView.this, getResources().getString(R.string.unable_to_pin_shortcut),
+                            Toast.LENGTH_LONG).show();
                 }
                 return true;
 
@@ -568,10 +588,8 @@ public class AppView extends Activity implements AdapterFragmentCallbacks {
                 if (updated) {
                     appGridAdapter.notifyDataSetChanged();
                 }
-                if (appGridAdapter.getCount()!=0) {
-                    final AppObject app = (AppObject) appGridAdapter.getItem(0);
-                    ServerHelper.doStart(AppView.this, app.app, computer, managerBinder);
-                    onBackPressed();
+                if (appGridAdapter.getCount() != 0) {
+                    startAppAutomatically();
                 }
             }
         });

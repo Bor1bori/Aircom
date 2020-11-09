@@ -2,6 +2,7 @@
 #include "PlatformSockets.h"
 #include "PlatformThreads.h"
 #include "RtpFecQueue.h"
+#include "Port.h"
 
 #define FIRST_FRAME_MAX 1500
 #define FIRST_FRAME_TIMEOUT_SEC 10
@@ -48,7 +49,7 @@ static void UdpPingThreadProc(void* context) {
     SOCK_RET err;
 
     memcpy(&saddr, &RemoteAddr, sizeof(saddr));
-    saddr.sin6_port = htons(RTP_PORT);
+    saddr.sin6_port = htons(UDP_47998);
 
     while (!PltIsThreadInterrupted(&udpPingThread)) {
         err = sendto(rtpSocket, pingData, sizeof(pingData), 0, (struct sockaddr*)&saddr, RemoteAddrLen);

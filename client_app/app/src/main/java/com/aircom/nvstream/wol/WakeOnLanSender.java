@@ -10,9 +10,14 @@ import com.aircom.LimeLog;
 import com.aircom.nvstream.http.ComputerDetails;
 
 public class WakeOnLanSender {
+    public static int PORT_47998;
+    public static int PORT_47999;
+    public static int PORT_48000;
+    public static int PORT_48002;
+    public static int PORT_48010;
     private static final int[] PORTS_TO_TRY = new int[] {
         7, 9, // Standard WOL ports
-        47998, 47999, 48000, 48002, 48010 // Ports opened by GFE
+        PORT_47998, PORT_47999, PORT_48000, PORT_48002, PORT_48010 // Ports opened by GFE
     };
     
     public static void sendWolPacket(ComputerDetails computer) throws IOException {

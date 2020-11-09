@@ -1,4 +1,5 @@
 #include "Limelight-internal.h"
+#include "Port.h"
 
 #define MAX_OPTION_NAME_LEN 128
 
@@ -415,7 +416,7 @@ static int fillSdpTail(char* buffer) {
     return sprintf(buffer,
         "t=0 0\r\n"
         "m=video %d  \r\n",
-        AppVersionQuad[0] < 4 ? 47996 : 47998);
+        AppVersionQuad[0] < 4 ? 47996 : UDP_47998);
 }
 
 // Get the SDP attributes for the stream config

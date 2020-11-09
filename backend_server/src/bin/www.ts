@@ -7,6 +7,9 @@
 import app from '../app';
 import createDebug from 'debug';
 import http from 'http';
+import socketIO from 'socket.io';
+import { socketEventsInject } from '@src/services/socketio';
+import { sequelizeInit } from '@src/db';
 
 const debug = createDebug('app');
 
@@ -22,14 +25,22 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
-
+const io = socketIO(server, {
+  pingTimeout: 1000,
+  pingInterval: 500
+});
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+async function startServer () {
+  await sequelizeInit();
+  socketEventsInject(io);
+
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}
 
 /**
  * Normalize a port into a number, string, or false.
@@ -88,3 +99,7 @@ function onListening () {
     : 'port ' + addr!.port;
   debug('Listening on ' + bind);
 }
+
+startServer();
+
+export { io };

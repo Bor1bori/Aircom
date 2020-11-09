@@ -1,5 +1,6 @@
 #include "Limelight-internal.h"
 #include "Rtsp.h"
+#include "Port.h"
 
 #include <enet/enet.h>
 
@@ -221,7 +222,7 @@ static int transactRtspMessageTcp(PRTSP_MESSAGE request, PRTSP_MESSAGE response,
     ret = 0;
     responseBuffer = NULL;
 
-    sock = connectTcpSocket(&RemoteAddr, RemoteAddrLen, 48010, RTSP_TIMEOUT_SEC);
+    sock = connectTcpSocket(&RemoteAddr, RemoteAddrLen, BOTH_48010, RTSP_TIMEOUT_SEC);
     if (sock == INVALID_SOCKET) {
         *error = LastSocketError();
         return ret;
@@ -601,7 +602,7 @@ int performRtspHandshake(void) {
 
     // Initialize global state
     useEnet = (AppVersionQuad[0] >= 5) && (AppVersionQuad[0] <= 7) && (AppVersionQuad[2] < 404);
-    sprintf(rtspTargetUrl, "rtsp%s://%s:48010", useEnet ? "ru" : "", urlAddr);
+    sprintf(rtspTargetUrl, "rtsp%s://%s:%d", useEnet ? "ru" : "", urlAddr, BOTH_48010);
     currentSeqNumber = 1;
     hasSessionId = 0;
 
@@ -631,7 +632,7 @@ int performRtspHandshake(void) {
         ENetEvent event;
         
         enet_address_set_address(&address, (struct sockaddr *)&RemoteAddr, RemoteAddrLen);
-        enet_address_set_port(&address, 48010);
+        enet_address_set_port(&address, BOTH_48010);
         
         // Create a client that can use 1 outgoing connection and 1 channel
         client = enet_host_create(RemoteAddr.ss_family, NULL, 1, 1, 0, 0);

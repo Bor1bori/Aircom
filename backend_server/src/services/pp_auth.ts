@@ -1,15 +1,15 @@
-import { PCProvider } from '@src/db/models/pc_provider';
+import { PcProvider } from '@src/db/models/pc_provider';
 import { PPAuthToken } from '@src/db/models/pp_authtoken';
 import { SignupBody, SigninBody } from '@src/interfaces/pp_auth';
 import { jwtSign, hash, getRandomAlphNum } from '@src/utils/crypto';
-import { getUserIdFromIDToken } from './googleoauth';
+import { getUserIdFromIdToken } from './googleoauth';
 
 export async function signup (ppUser: SignupBody) {
-  const foundPPUser = await PCProvider.findOne({ where: { email: ppUser.email } });
+  const foundPPUser = await PcProvider.findOne({ where: { email: ppUser.email } });
   if (foundPPUser !== null) {
     return null;
   } else {
-    return await PCProvider.create({
+    return await PcProvider.create({
       ...ppUser,
       password: hash(ppUser.password), // password는 암호화해서 저장
       signinType: 'email'
@@ -18,7 +18,7 @@ export async function signup (ppUser: SignupBody) {
 }
 
 export async function signin (ppUser: SigninBody) {
-  const foundPPUser = await PCProvider.findOne({
+  const foundPPUser = await PcProvider.findOne({
     where: {
       signinType: 'email',
       ...ppUser,
@@ -33,27 +33,27 @@ export async function signin (ppUser: SigninBody) {
 }
 
 export async function signinOrSignupViaGoogleOAuth (idToken: string) {
-  const ppUserID = await getUserIdFromIDToken(idToken);
+  const ppUserId = await getUserIdFromIdToken(idToken);
 
-  const foundPPUser = await PCProvider.findOne({
+  const foundPPUser = await PcProvider.findOne({
     where: {
       signinType: 'googleoauth',
-      signinID: ppUserID
+      signinId: ppUserId
     }
   });
 
-  let signedinID;
+  let signedinId;
   if (foundPPUser !== null) { // 가입된 유저일 경우
-    signedinID = foundPPUser.id;
+    signedinId = foundPPUser.id;
   } else {
-    const newUser = await PCProvider.create({
+    const newUser = await PcProvider.create({
       signinType: 'googleoauth',
-      signinID: ppUserID
+      signinId: ppUserId
     });
-    signedinID = newUser.id;
+    signedinId = newUser.id;
   }
 
-  return jwtSign({ id: signedinID }, 1000 * 60 * 60 * 24);
+  return jwtSign({ id: signedinId }, 1000 * 60 * 60 * 24);
 }
 
 export const getAuthToken = async (ppId: number) => {

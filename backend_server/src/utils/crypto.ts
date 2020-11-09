@@ -19,18 +19,18 @@ export const jwtSign = (obj: any, expiresIn: number): string => {
 /**
  * @description token
  * @param token decode하고 verify할 token
- * @return decoded token
- * @throws Error e.message = 'token expired' when token is expired
- * @throws Error e.message = 'invalid jwt' when token is invalid
+ * @returns decoded token
+ * @returns -1 'token expired' when token is expired
+ * @returns -2 'invalid jwt' when token is invalid
  */
 export const jwtVerify = (token: string): string | any => {
   try {
     return jwt.verify(token, privateKey);
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
-      throw new Error('token expired');
+      return -1;
     } else if (err.name === 'JsonWebTokenError') {
-      throw new Error('invalid jwt');
+      return -1;
     }
   }
 };

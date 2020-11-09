@@ -3,20 +3,21 @@
     xmlns:seekbar="http://schemas.moonlight-stream.com/apk/res/seekbar">
 
     <PreferenceCategory android:title="@string/category_basic_settings"
-        android:key="category_basic_settings">
+        android:key="category_basic_settings"
+        android:layout="@layout/preference_style_title">
         <ListPreference
             android:key="list_resolution"
             android:title="@string/title_resolution_list"
-            android:summary="@string/summary_resolution_list"
             android:entries="@array/resolution_names"
             android:entryValues="@array/resolution_values"
-            android:defaultValue="1280x720" />
+            android:layout="@layout/preference_style_item"
+            android:defaultValue="1920x1080" />
         <ListPreference
             android:key="list_fps"
             android:title="@string/title_fps_list"
-            android:summary="@string/summary_fps_list"
             android:entries="@array/fps_names"
             android:entryValues="@array/fps_values"
+            android:layout="@layout/preference_style_item"
             android:defaultValue="60" />
         <com.aircom.preferences.SeekBarPreference
             android:key="seekbar_bitrate_kbps"
@@ -24,14 +25,15 @@
             seekbar:min="500"
             seekbar:step="500"
             android:max="100000"
-            android:summary="@string/summary_seekbar_bitrate"
             android:text="@string/suffix_seekbar_bitrate"
+            android:layout="@layout/preference_style_item"
             android:title="@string/title_seekbar_bitrate" />
         <CheckBoxPreference
             android:key="checkbox_stretch_video"
             android:title="@string/title_checkbox_stretch_video"
             android:defaultValue="false" />
     </PreferenceCategory>
+    <!--
     <PreferenceCategory android:title="@string/category_audio_settings">
         <ListPreference
             android:key="list_audio_config"
@@ -40,9 +42,10 @@
             android:entries="@array/audio_config_names"
             android:entryValues="@array/audio_config_values"
             android:defaultValue="2" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/category_input_settings"
-        android:key="category_input_settings">
+    </PreferenceCategory>-->
+    <PreferenceCategory android:title="입력 설정"
+        android:key="category_input_settings"
+        android:layout="@layout/preference_style_title">
         <!--com.limelight.preferences.SeekBarPreference
             android:key="seekbar_deadzone"
             android:defaultValue="15"
@@ -51,19 +54,18 @@
             android:title="@string/title_seekbar_deadzone"/-->
         <CheckBoxPreference
             android:key="checkbox_touchscreen_trackpad"
-            android:title="@string/title_checkbox_touchscreen_trackpad"
-            android:summary="@string/summary_checkbox_touchscreen_trackpad"
+            android:title="터치 스크린을 트랙패드로 활용하기"
+            android:defaultValue="false" />
+        <!--
+                <CheckBoxPreference
+            android:key="checkbox_mouse_nav_buttons"
+            android:title="마우스 우클릭 허용"
             android:defaultValue="true" />
         <CheckBoxPreference
             android:key="checkbox_multi_controller"
             android:title="@string/title_checkbox_multi_controller"
             android:summary="@string/summary_checkbox_multi_controller"
             android:defaultValue="true" />
-        <CheckBoxPreference
-            android:key="checkbox_mouse_nav_buttons"
-            android:title="@string/title_checkbox_mouse_nav_buttons"
-            android:summary="@string/summary_checkbox_mouse_nav_buttons"
-            android:defaultValue="false" />
         <CheckBoxPreference
             android:key="checkbox_usb_driver"
             android:title="@string/title_checkbox_xb1_driver"
@@ -89,8 +91,9 @@
             android:key="checkbox_flip_face_buttons"
             android:title="@string/title_checkbox_flip_face_buttons"
             android:summary="@string/summary_checkbox_flip_face_buttons"
-            android:defaultValue="false" />
+            android:defaultValue="false" />-->
     </PreferenceCategory>
+    <!--
     <PreferenceCategory android:title="@string/category_on_screen_controls_settings"
         android:key="category_onscreen_controls">
         <CheckBoxPreference
@@ -142,14 +145,15 @@
             android:title="@string/title_checkbox_host_audio"
             android:summary="@string/summary_checkbox_host_audio"
             android:defaultValue="false" />
-    </PreferenceCategory>
+    </PreferenceCategory>-->
     <PreferenceCategory android:title="@string/category_ui_settings"
-        android:key="category_ui_settings">
+        android:key="category_ui_settings"
+        android:layout="@layout/preference_style_title">
         <CheckBoxPreference
             android:key="checkbox_enable_pip"
-            android:title="@string/title_checkbox_enable_pip"
-            android:summary="@string/summary_checkbox_enable_pip"
-            android:defaultValue="false" />
+            android:title="백그라운드 실행 허용"
+            android:defaultValue="true" />
+        <!--
         <ListPreference
             android:key="list_languages"
             android:title="@string/title_language_list"
@@ -160,19 +164,21 @@
         <com.aircom.preferences.SmallIconCheckboxPreference
             android:key="checkbox_small_icon_mode"
             android:title="@string/title_checkbox_small_icon_mode"
-            android:summary="@string/summary_checkbox_small_icon_mode" />
+            android:summary="@string/summary_checkbox_small_icon_mode" />-->
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_advanced_settings"
-        android:key="category_advanced_settings">
+        android:key="category_advanced_settings"
+        android:layout="@layout/preference_style_title">
+        <CheckBoxPreference
+            android:key="checkbox_disable_warnings"
+            android:title="@string/title_checkbox_disable_warnings"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+        <!--
         <CheckBoxPreference
             android:key="checkbox_unlock_fps"
             android:title="@string/title_unlock_fps"
             android:summary="@string/summary_unlock_fps"
-            android:defaultValue="false" />
-        <CheckBoxPreference
-            android:key="checkbox_disable_warnings"
-            android:title="@string/title_checkbox_disable_warnings"
-            android:summary="@string/summary_checkbox_disable_warnings"
             android:defaultValue="false" />
         <ListPreference
             android:key="video_format"
@@ -200,6 +206,5 @@
             android:key="checkbox_enable_post_stream_toast"
             android:title="@string/title_enable_post_stream_toast"
             android:summary="@string/summary_enable_post_stream_toast"
-            android:defaultValue="false"/>
-    </PreferenceCategory>
+            android:defaultValue="false"/>-->
 </PreferenceScreen>

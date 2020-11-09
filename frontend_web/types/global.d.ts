@@ -6,4 +6,11 @@ declare global {
             browser: boolean;
         }
     }
+    namespace ObjectInterface {
+        interface GraphData {
+            month: number;
+            date: number;
+            hour: number;
+        }
+    }
 }
