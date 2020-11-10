@@ -1591,6 +1591,7 @@ public class Stream extends Activity implements SurfaceHolder.Callback,
                                 break;
                         }
 
+                        requestPcDeallocate();
                         Dialog.displayDialog(Stream.this, getResources().getString(R.string.conn_terminated_title),
                                 message, true);
                     }
