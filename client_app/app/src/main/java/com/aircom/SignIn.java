@@ -164,12 +164,10 @@ public class SignIn extends Activity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
-            System.out.println("idToken: "+idToken);
             String userEmail = account.getEmail();
 
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost
-                    ("http://api.myaircom.co.kr/auth/oauth/google/signin");
+            HttpPost httpPost = new HttpPost("http://api.myaircom.co.kr/auth/oauth/google/signin");
 
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -177,13 +175,9 @@ public class SignIn extends Activity {
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 HttpResponse response = httpClient.execute(httpPost);
-                int statusCode = response.getStatusLine().getStatusCode();
-                //final String responseBody1 = EntityUtils.toString(response.getEntity());
-                //System.out.println("response body1: "+responseBody1);
                 String responseBody = EntityUtils.toString(response.getEntity())
                         .split(":")[1].replace("}", "");
                 responseBody = responseBody.substring(1, responseBody.length()-1);
-                System.out.println("response body: "+responseBody);
                 SharedPreference.setLoginToken(SignIn.this, responseBody);
                 SharedPreference.setUserName(SignIn.this, userEmail);
                 if (((CheckBox)findViewById(R.id.checkLogin)).isChecked()) {
@@ -197,7 +191,6 @@ public class SignIn extends Activity {
             } catch (IOException e) {
                 Log.e(TAG, "Error sending ID token to backend.", e);
             }
-
             updateUI(account);
         } catch (ApiException e) {
             Log.w(TAG, "handleSignInResult:error", e);
