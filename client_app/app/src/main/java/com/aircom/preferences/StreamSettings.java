@@ -44,16 +44,6 @@ public class StreamSettings extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        /*ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(getActivity().getLayoutInflater().inflate(R.layout.actionbar_setting, null),
-                new ActionBar.LayoutParams(
-                        ActionBar.LayoutParams.WRAP_CONTENT,
-                        ActionBar.LayoutParams.MATCH_PARENT,
-                        Gravity.CENTER
-                )
-        );*/
         final View root = inflater.inflate(R.layout.activity_stream_settings, container, false);
         previousPrefs = PreferenceConfiguration.readPreferences(getActivity());
 
@@ -63,19 +53,6 @@ public class StreamSettings extends Fragment {
         UiHelper.notifyNewRootView(getActivity());
         return root;
     }
-
-
-    /*@Override
-    public void onBackPressed() {
-        // Check for changes that require a UI reload to take effect
-        PreferenceConfiguration newPrefs = PreferenceConfiguration.readPreferences(this);
-        if (!newPrefs.language.equals(previousPrefs.language)) {
-            // Restart the PC view to apply UI changes
-            Intent intent = new Intent(this, PcView.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent, null);
-        }
-    }*/
 
     public static class SettingsFragment extends PreferenceFragment{
 
@@ -158,7 +135,7 @@ public class StreamSettings extends Fragment {
                 {
                     PreferenceCategory category =
                             (PreferenceCategory) findPreference("category_onscreen_controls");
-                    screen.removePreference(category);
+                    //screen.removePreference(category);
                 }
 
                 {
@@ -187,7 +164,7 @@ public class StreamSettings extends Fragment {
                 // The entire OSC category may have already been removed by the touchscreen check above
                 category = (PreferenceCategory) findPreference("category_onscreen_controls");
                 if (category != null) {
-                    category.removePreference(findPreference("checkbox_vibrate_osc"));
+                    //category.removePreference(findPreference("checkbox_vibrate_osc"));
                 }
             }
 
@@ -344,12 +321,12 @@ public class StreamSettings extends Fragment {
             // for earlier versions of Android to prevent AudioTrack initialization issues.
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 LimeLog.info("Excluding 7.1 surround sound option based on OS");
-                removeValue(PreferenceConfiguration.AUDIO_CONFIG_PREF_STRING, "71", new Runnable() {
+               /* removeValue(PreferenceConfiguration.AUDIO_CONFIG_PREF_STRING, "71", new Runnable() {
                     @Override
                     public void run() {
                         setValue(PreferenceConfiguration.AUDIO_CONFIG_PREF_STRING, "51");
                     }
-                });
+                });*/
             }
 
             // Android L introduces the drop duplicate behavior of releaseOutputBuffer()
